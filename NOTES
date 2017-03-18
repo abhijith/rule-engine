@@ -1,0 +1,27 @@
+* Channel
+  * Where the add is embedded (blog, news site, travel site, etc)
+
+* Ad
+  * start date and end date
+  * Limited views
+
+
+Design:
+-------
+
+* Rule
+  Template consisting of
+  - Qualifiers
+  	- Operands
+  	- Operators
+
+* Rule Evaluator
+  - Evaluates the attributes or parameters in the context of the rule
+  - Returns True | False based on the rule
+
+Questions:
+
+* Use external library?
+* Rules arbitrarily complex?
+
+
