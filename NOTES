@@ -1,14 +1,38 @@
-* Channel
-  * Where the add is embedded (blog, news site, travel site, etc)
+* Queries
+  - get-ad(channel-id, preferences)
+  - get-available-ads(channel-id, preferences)
 
-* Ad
-  * start date and end date
-  * Limited views
+
+Entities
+--------
+
+** Channel
+  * channel-type [Where the Ad is embedded (blog, news site, travel site, etc)]
+  * country
+  * language
+
+* ChannelType
+
+* Language
+
+* Country
+
+** Ad
+  * start-date
+  * end-date
+  * view-limit
+
+
+Channel-Ad
+  * channel-id
+  * Ad-id
+  * view-limit
+  * view-counter
+
 
 Associations
-
-* Channel has-many Ads
-
+------------
+* Channel has-many-and-belongs-to Ads
 
 Design:
 -------
