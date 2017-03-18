@@ -5,6 +5,10 @@
   * start date and end date
   * Limited views
 
+Associations
+
+* Channel has-many Ads
+
 
 Design:
 -------
@@ -23,5 +27,3 @@ Questions:
 
 * Use external library?
 * Rules arbitrarily complex?
-
-
