@@ -1,33 +1,42 @@
 rule = {
-  "group" => {
-    "condition"=> "AND",
-    "rules"=> [{
-                 "field"=> "global-views",
-                 "operator"=> ">=",
-                 "value"=> "1000"
-               },
-               {
-                 "group" => {
-                   "condition"=> "OR",
-                   "rules"=> [{
-                                "field"=> "preferences",
-                                "operator"=> "in",
-                                "value"=> []
-                              },
-                              {
-                                "field"=> "category",
-                                "operator"=> "in",
-                                "value"=> []
-                              },
-                              {
-                                "field"=> "user-views",
-                                "operator"=> ">=",
-                                "value"=> "1000"
-                              }]
-                 }
-               }]
+  :group => {
+    :cond  => "AND" ,
+    :rules => [
+      {
+        :attr     => "global-views",
+        :operator => ">=",
+        :value    => 1000
+      },
+      {
+        :group => {
+          :cond  => "OR",
+          :rules => [
+            {
+              :attr     => "preferences",
+              :operator => "in",
+              :value    => []
+            },
+            {
+              :field    => "category",
+              :operator => "in",
+              :value    => []
+            },
+            {
+              :field    => "user-views",
+              :operator => ">=",
+              :value    => "1000"
+            }]
+        }
+      }]
   }
 }
+
+# (AND
+#  (>= global-views 100)
+#  (OR
+#   (in preferences [])
+#   (in category [])
+#   (>= user-views 1000)))
 
 class Expr
   attr_accessor :type, :request, :advert, :op
