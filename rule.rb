@@ -1,15 +1,67 @@
-expr = {
+rule = {
+  "group" => {
+    "condition"=> "AND",
+    "rules"=> [{
+                 "field"=> "global-views",
+                 "operator"=> ">=",
+                 "value"=> "1000"
+               },
+               {
+                 "group" => {
+                   "condition"=> "OR",
+                   "rules"=> [{
+                                "field"=> "preferences",
+                                "operator"=> "in",
+                                "value"=> []
+                              },
+                              {
+                                "field"=> "category",
+                                "operator"=> "in",
+                                "value"=> []
+                              },
+                              {
+                                "field"=> "user-views",
+                                "operator"=> ">=",
+                                "value"=> "1000"
+                              }]
+                 }
+               }]
+  }
+}
+
+e1 = {
   type:    :category,
   request: [1],
   advert:  [2],
-  op:      :foo
+  op:      :debug
 }
 
-def foo(request, ads)
-  p { r: request, a: ads }
-  request == ads
+e2 = {
+  type:    :category,
+  request: [1],
+  advert:  [2],
+  op:      :m1
+}
+
+e3= {
+  type:    :category,
+  request: [1],
+  advert:  [1],
+  op:      :m1
+}
+
+def debug(r, a)
+  p({r: r, a: a})
 end
 
-def bar(request, ads)
+def m1(request, ads)
+  p request == ads
+end
 
-p Object.send(expr[:op], expr[:request], expr[:advert])
+def foo(expr)
+  Object.send(expr[:op], expr[:request], expr[:advert])
+end
+
+foo(e1)
+foo(e2)
+foo(e3)

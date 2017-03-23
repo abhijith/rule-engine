@@ -1,3 +1,5 @@
+Store atomic expressions as rows in DB?
+
 View Counter
 ------------
 * updated when the ad is finalized and returned
