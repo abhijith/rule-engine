@@ -1,3 +1,7 @@
+View Counter
+------------
+* updated when the ad is finalized and returned
+
 * Queries
   - get-ad(channel-id, preferences)
   - get-available-ads(channel-id, preferences)

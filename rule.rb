@@ -6,7 +6,10 @@ expr = {
 }
 
 def foo(request, ads)
-  { r: request, a: ads }
+  p { r: request, a: ads }
+  request == ads
 end
+
+def bar(request, ads)
 
 p Object.send(expr[:op], expr[:request], expr[:advert])
