@@ -1,6 +1,6 @@
 class Request
 
-  attr_accessor :name
+  attr_accessor :name, :category, :preferences
 
   @@coll = []
 
