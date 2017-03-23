@@ -1,48 +1,51 @@
-Store atomic expressions as rows in DB?
+Request attributes
+-------------------
+:name, :category, :preferences, :country, :language
+
+
+Advert attributes
+-----------------
+:name, :start_date, :end_date, :category, :country, :language
+
+Sample Rule:
+------------
+
+Flow
+----
+** For each expression:
+  * Prepare request attributes
+  * Prepare Ad attributes
+
+** Prepare request args
+   * Request comes in via http
+   * fields converted into Type or type error raised
+
+Request args prepared
+
+** For each ad instance:
+  * fill the rule form with advert attributes
+
+Dispatch: (apply fn request-and-ad-args)
+
+-------------
+Random ideas:
+-------------
+* Rule could be either JSON or S-expression or a DSL which is easy to read
+* rule expressions may contain fn which evaluate to value -> constitutes rule versioning
+* Git sha sum or version of each fn stored as part of the rule
+* Store atomic expressions as rows in DB?
 
 View Counter
 ------------
 * updated when the ad is finalized and returned
 
-* Queries
-  - get-ad(channel-id, preferences)
-  - get-available-ads(channel-id, preferences)
-
-
-Entities
---------
-
-** Channel
-  * channel-type [Where the Ad is embedded (blog, news site, travel site, etc)]
-  * country
-  * language
-
-** Ad
-  * start-date
-  * end-date
-  * view-limit
-  * category
-
-
-
-Associations
-------------
-* Channel has-many-through Ads
-
 Design:
 -------
 
 * Rule
-  Template consisting of
-  - Qualifiers
-  	- Operands
-  	- Operators
+ - Operands
+ - Operators
 
 * Rule Evaluator
   - Evaluates the attributes or parameters in the context of the rule
   - Returns True | False based on the rule
-
-Questions:
-
-* Use external library?
-* Rules arbitrarily complex?
