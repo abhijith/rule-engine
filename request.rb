@@ -1,11 +1,8 @@
 class Request
 
-  attr_accessor :name, :category, :preferences
+  attr_accessor :name, :category, :preferences, :country, :language
 
   @@coll = []
-
-  def initialize
-  end
 
   def to_s
   end

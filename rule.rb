@@ -31,14 +31,6 @@ rule = {
 
 class Expr
   attr_accessor :type, :request, :advert, :op
-
-  def initialize
-    @type    = nil
-    @request = nil
-    @advert  = nil
-    @op      = nil
-  end
-
 end
 
 e1 = {

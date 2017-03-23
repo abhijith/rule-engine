@@ -1,11 +1,8 @@
 class Advert
 
-  attr_accessor :name, :start_date, :end_date, :category
+  attr_accessor :name, :start_date, :end_date, :category, :country, :language
 
   @@coll = []
-
-  def initialize
-  end
 
   def to_s
   end
