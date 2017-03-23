@@ -1,4 +1,4 @@
-class Channel
+class Request
 
   attr_accessor :name
 

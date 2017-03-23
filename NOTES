@@ -11,28 +11,17 @@ Entities
   * country
   * language
 
-* ChannelType
-
-* Language
-
-* Country
-
 ** Ad
   * start-date
   * end-date
   * view-limit
+  * category
 
-
-Channel-Ad
-  * channel-id
-  * Ad-id
-  * view-limit
-  * view-counter
 
 
 Associations
 ------------
-* Channel has-many-and-belongs-to Ads
+* Channel has-many-through Ads
 
 Design:
 -------
