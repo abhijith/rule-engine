@@ -43,7 +43,7 @@ e2 = {
   op:      :m1
 }
 
-e3= {
+e3 = {
   type:    :category,
   request: [1],
   advert:  [1],
