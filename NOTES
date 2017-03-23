@@ -5,47 +5,49 @@ Request attributes
 
 Advert attributes
 -----------------
-:name, :start_date, :end_date, :category, :country, :language
-
-Sample Rule:
-------------
-
-Flow
-----
-** For each expression:
-  * Prepare request attributes
-  * Prepare Ad attributes
-
-** Prepare request args
-   * Request comes in via http
-   * fields converted into Type or type error raised
-
-Request args prepared
-
-** For each ad instance:
-  * fill the rule form with advert attributes
-
-Dispatch: (apply fn request-and-ad-args)
-
--------------
-Random ideas:
--------------
-* Rule could be either JSON or S-expression or a DSL which is easy to read
-* rule expressions may contain fn which evaluate to value -> constitutes rule versioning
-* Git sha sum or version of each fn stored as part of the rule
-* Store atomic expressions as rows in DB?
-
-View Counter
-------------
-* updated when the ad is finalized and returned
+:name, :start-date, :end-date, :category, :country, :language
 
 Design:
 -------
-
 * Rule
  - Operands
  - Operators
 
 * Rule Evaluator
-  - Evaluates the attributes or parameters in the context of the rule
-  - Returns True | False based on the rule
+  * bind request to rule
+  * bind ad to rule
+  * evaluate / interpret
+  * returns true | false
+
+* All Ads which eval to true are picked
+
+
+Example:
+--------
+
+(:request-language is-member :ad-language)
+AND
+(:request-category equal-to :ad-category)
+OR
+(:request-category is-a :ad-category)
+
+Operands:
+	request-category, :ad-category, :request-language, :ad-language
+
+Operators or functions:
+	is-member, equal-to, is-a
+
+Dispatch: apply fn request-attrs ad-attrs
+
+
+Flow
+----
+* Request comes in via http possibly
+* Prepare request attributes
+* Prepare Ad attributes for an Ad
+* Fill the form with both request and ad attributes
+* Evaluate rule
+
+- Do this for each Ad to get all eligible ads
+- Update counters and other book keeping information (if any)
+- Response complete
