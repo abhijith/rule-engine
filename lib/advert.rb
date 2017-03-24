@@ -4,6 +4,10 @@ class Advert
 
   @@coll = []
 
+  def initialize(cat: nil)
+    @category = cat
+  end
+
   def to_s
   end
 

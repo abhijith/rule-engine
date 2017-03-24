@@ -1,4 +1,7 @@
 require 'set'
+require_relative 'lib/expr'
+require_relative 'lib/channel'
+require_relative 'lib/advert'
 
 # Example 1
 # ---------
@@ -36,23 +39,19 @@ require 'set'
 # user an ad they are interested on, even if that's not in the category
 # space of the channel, maybe that's a good alternative.
 
-expr1 = {
-  :channel  => :pref,
-  :advert   => :category,
-  :operator => :intersect?,
-}
+expr1 = Expr.new(channel: :pref, advert: :category, operator: :intersect?)
+expr2 = Expr.new(channel: :category, advert: :category, operator: :==)
+expr3 = Expr.new(channel: :category, advert: :category, operator: :subtype?)
 
-expr2 = {
-  :channel  => :category,
-  :advert   => :category,
-  :operator => :==,
-}
+class ExprGroup
+  attr_accessor :cond, :rules
 
-expr3 = {
-  :channel  => :category,
-  :advert   => :category,
-  :operator => :subtype?,
-}
+  def initialize(c, r)
+    @cond  = c
+    @rules = r
+  end
+
+end
 
 nested_rule = {
   :group => {
@@ -83,32 +82,22 @@ flat_rule = {
 # Ad 1 -- category "cars"
 # Ad 2 -- Category "gadgets"
 
-a1 = {
-  category: ["cars"]
-}
+a1 = Advert.new(cat: ["cars"])
+a1.save
+a2 = Advert.new(cat: ["gadgets"])
+a2.save
 
-a2 = {
-  category: ["gadgets"]
-}
+p Advert.all
 
-r1 = {
-  category: ["cars"],
-  pref: ["cars", "gadgets"]
-}
+r1 = Channel.new(cat: ["cars"], preference: ["cars", "gadgets"])
 
 # Returning Ad 1 is a better match since it doesn't contradict the channel's category
 
-r2 = {
-  category: ["cars"],
-  pref: ["gadgets"]
-}
+r2 = Channel.new(cat: ["cars"], preference: ["gadgets"])
 
 # Perhaps we don't return any ad since:
 # Ad 1 goes against the user's preferences
 # Ad 2 is not related to the channel
-
-adverts  = [a1, a2]
-requests = [r1, r2]
 
 class Array
 
@@ -127,9 +116,9 @@ class Array
 end
 
 def run(expr, channel, advert)
-  lhs = channel[expr[:channel]]
-  rhs = advert[expr[:advert]]
-  op  = expr[:operator]
+  lhs = channel.send(expr.channel)
+  rhs = advert.send(expr.advert)
+  op  = expr.operator
   p [lhs, rhs, op]
   lhs.send(op, rhs)
 end
