@@ -1,4 +1,4 @@
-class Request
+class Channel
 
   attr_accessor :name, :category, :preferences, :country, :language
 
