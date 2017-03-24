@@ -17,12 +17,12 @@ rule = {
               :value    => []
             },
             {
-              :field    => "category",
+              :attr     => "category",
               :operator => "in",
               :value    => []
             },
             {
-              :field    => "user-views",
+              :attr     => "user-views",
               :operator => ">=",
               :value    => "1000"
             }]
