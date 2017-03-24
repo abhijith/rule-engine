@@ -21,6 +21,8 @@ Design:
 
 * All Ads which eval to true are picked
 
+* Update counters and other book keeping information / metrics
+
 
 Example:
 --------
@@ -37,17 +39,4 @@ Operands:
 Operators or functions:
 	is-member, equal-to, is-a
 
-Dispatch: apply fn request-attrs ad-attrs
-
-
-Flow
-----
-* Request comes in via http possibly
-* Prepare request attributes
-* Prepare Ad attributes for an Ad
-* Fill the form with both request and ad attributes
-* Evaluate rule
-
-- Do this for each Ad to get all eligible ads
-- Update counters and other book keeping information (if any)
-- Response complete
+Dispatch: (apply operator-fn request-attrs ad-attrs)
