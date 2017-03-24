@@ -43,16 +43,6 @@ expr1 = Expr.new(channel: :pref, advert: :category, operator: :intersect?)
 expr2 = Expr.new(channel: :category, advert: :category, operator: :==)
 expr3 = Expr.new(channel: :category, advert: :category, operator: :subtype?)
 
-class ExprGroup
-  attr_accessor :cond, :rules
-
-  def initialize(c, r)
-    @cond  = c
-    @rules = r
-  end
-
-end
-
 nested_rule = ExprGroup.new(:and, [expr1, ExprGroup.new(:or, [expr2, expr3])])
 
 # nested_rule = {
