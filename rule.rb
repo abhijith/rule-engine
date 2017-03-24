@@ -76,7 +76,8 @@ flat_rule = {
 }
 
 # Rule
-# channel == category and category in preferences
+# channel-cat == advert-cat and ad-category in channel-pref
+# expr2 and expr1
 
 # We have the following ads available:
 # Ad 1 -- category "cars"
