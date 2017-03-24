@@ -77,6 +77,9 @@ flat_rule = {
   }
 }
 
+# Rule
+# channel == category and category in preferences
+
 # We have the following ads available:
 # Ad 1 -- category "cars"
 # Ad 2 -- Category "gadgets"
@@ -93,7 +96,16 @@ r1 = {
   pref: ["cars", "gadgets"]
 }
 
+# Returning Ad 1 is a better match since it doesn't contradict the channel's category
+
 r2 = {
   channel: "cars",
   pref: ["gadgets"]
 }
+
+# Perhaps we don't return any ad since:
+# Ad 1 goes against the user's preferences
+# Ad 2 is not related to the channel
+
+ads = [a1, a2]
+requests = [r1, r2]
