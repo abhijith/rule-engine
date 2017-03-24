@@ -1,3 +1,5 @@
+require 'set'
+
 # Example 1
 # ---------
 # A request comes with the following info:
@@ -34,26 +36,22 @@
 # user an ad they are interested on, even if that's not in the category
 # space of the channel, maybe that's a good alternative.
 
-class Expr
-  attr_accessor :channel, :advert, :operator
-end
-
 expr1 = {
-  :channel  => [:preferences],
-  :advert   => [:category]
-  :operator => :intersection,
+  :channel  => :pref,
+  :advert   => :category,
+  :operator => :intersect?,
 }
 
 expr2 = {
-  :channel  => [:category],
-  :advert   => [:category]
+  :channel  => :category,
+  :advert   => :category,
   :operator => :==,
 }
 
 expr3 = {
-  :channel  => [:category],
-  :advert   => [:category]
-  :operator => :is_a?,
+  :channel  => :category,
+  :advert   => :category,
+  :operator => :subtype?,
 }
 
 nested_rule = {
@@ -83,6 +81,7 @@ flat_rule = {
 # We have the following ads available:
 # Ad 1 -- category "cars"
 # Ad 2 -- Category "gadgets"
+
 a1 = {
   category: ["cars"]
 }
@@ -92,14 +91,14 @@ a2 = {
 }
 
 r1 = {
-  channel: "cars",
+  category: ["cars"],
   pref: ["cars", "gadgets"]
 }
 
 # Returning Ad 1 is a better match since it doesn't contradict the channel's category
 
 r2 = {
-  channel: "cars",
+  category: ["cars"],
   pref: ["gadgets"]
 }
 
@@ -107,5 +106,43 @@ r2 = {
 # Ad 1 goes against the user's preferences
 # Ad 2 is not related to the channel
 
-ads = [a1, a2]
+adverts  = [a1, a2]
 requests = [r1, r2]
+
+class Array
+
+  def subset(b)
+    Set.new(self).subset?(Set.new(b))
+  end
+
+  def intersect?(b)
+    Set.new(self).intersect?(Set.new(b))
+  end
+
+  def subtype?(b)
+    b.is_a? self.class
+  end
+
+end
+
+def run(expr, channel, advert)
+  lhs = channel[expr[:channel]]
+  rhs = advert[expr[:advert]]
+  op  = expr[:operator]
+  p [lhs, rhs, op]
+  lhs.send(op, rhs)
+end
+
+p run(expr1, r1, a1)
+p run(expr2, r1, a1)
+p run(expr3, r1, a1)
+p run(expr1, r1, a2)
+p run(expr2, r1, a2)
+p run(expr3, r1, a2)
+
+p run(expr1, r2, a1)
+p run(expr2, r2, a1)
+p run(expr3, r2, a1)
+p run(expr1, r2, a2)
+p run(expr2, r2, a2)
+p run(expr3, r2, a2)
