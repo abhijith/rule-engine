@@ -53,26 +53,31 @@ class ExprGroup
 
 end
 
-nested_rule = {
-  :group => {
-    :cond  => "AND" ,
-    :rules => [
-      expr1,
-      {
-        :group => {
-          :cond  => "OR",
-          :rules => [expr2, expr3]
-        }
-      }]
-  }
-}
+nested_rule = ExprGroup.new(:and, [expr1, ExprGroup.new(:or, [expr2, expr3])])
 
-flat_rule = {
-  :group => {
-    :cond  => "OR" ,
-    :rules => [expr1, expr2, expr3]
-  }
-}
+# nested_rule = {
+#   :group => {
+#     :cond  => "AND" ,
+#     :rules => [
+#       expr1,
+#       {
+#         :group => {
+#           :cond  => "OR",
+#           :rules => [expr2, expr3]
+#         }
+#       }]
+#   }
+# }
+
+# flat_rule = {
+#   :group => {
+#     :cond  => "OR" ,
+#     :rules => [expr1, expr2, expr3]
+#   }
+# }
+
+flat_rule = ExprGroup.new(:or, [expr1, expr2, expr3])
+
 
 # Rule
 # channel-cat == advert-cat and ad-category in channel-pref
