@@ -1,9 +1,11 @@
 class TreeNode
   attr_accessor :data, :children, :parent
 
-  def initialize(d, parent_node = nil)
-    @data     = d
-    @parent   = parent_node
+  @coll = []
+
+  def initialize(data, parent = nil)
+    @data     = data
+    @parent   = parent
     @children = []
   end
 
@@ -22,6 +24,10 @@ class TreeNode
     else
       []
     end
+  end
+
+  def destroy_all
+    @coll = []
   end
 
 end
