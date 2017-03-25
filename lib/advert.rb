@@ -19,8 +19,8 @@ class Advert
     @@coll
   end
 
-  def self.find
-    @@coll.find {|x| }
+  def self.find(name)
+    @@coll.find {|x| x.name == name }
   end
 
   def self.destroy_all
