@@ -13,7 +13,7 @@ class TreeNode
   end
 
   def descendants
-    [self] + self.children.flat_map {|node| node.descendants }
+    self.children.flat_map {|node| [node] + node.descendants }
   end
 
   def ancestors

@@ -1,2 +1,2 @@
-class ChannelTest
+class ChannelTest < Test::Unit::TestCase
 end

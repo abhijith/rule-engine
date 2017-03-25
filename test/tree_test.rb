@@ -7,22 +7,15 @@ class TreeTest < Test::Unit::TestCase
     b = TreeNode.new(:b)
     c = TreeNode.new(:c)
     d = TreeNode.new(:d)
-    [a, b, c, d].reduce {|acc, x| acc.children << x }
-    p a.descendants.map(&:data)
-
   end
 
-  def teardown
+  def test_parent
   end
 
-  # a << b
-  # b << c
-  # c << d
+  def test_descendants
+  end
 
-  # p d.parent
-  # p a.descendants.map(&:data)
-  # p d.ancestors.map(&:data)
+  def test_ancestors
+  end
 
-  # c = Children.new
-  # p c << TreeNode.new(:raju)
 end
