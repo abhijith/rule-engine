@@ -7,7 +7,7 @@ require_relative 'lib/advert'
 expr1 = Expr.new(ch: :pref, ad: :category, op: :intersect?)
 expr2 = Expr.new(ch: :category, ad: :category, op: :==)
 expr3 = Expr.new(ch: :category, ad: :category, op: :subtype?)
-expr4 = ExprGroup.new(:any?, [expr2, expr3])
+expr4 = ExprGroup.new(:all?, [expr2, expr3])
 
 expr  = ExprGroup.new(:all?, [expr1, expr4])
 
@@ -16,8 +16,8 @@ a1.save
 a2 = Advert.new(cat: ["gadgets"])
 a2.save
 
-r1 = Channel.new(cat: ["cars"], preference: ["cars", "gadgets"])
-r2 = Channel.new(cat: ["food"], preference: ["gadgets"])
+c1 = Channel.new(cat: ["cars"], preference: ["cars", "gadgets"])
+c2 = Channel.new(cat: ["food"], preference: ["food"])
 
 class Array
 
@@ -35,4 +35,12 @@ class Array
 
 end
 
-p expr.run(r1, a2)
+[c1, c2].each do |c|
+  Advert.all.each do |a|
+    puts "-" * 10
+    puts expr.run(c, a)
+    puts "-" * 10
+  end
+end
+
+pp expr.to_h
