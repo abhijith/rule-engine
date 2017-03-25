@@ -25,6 +25,11 @@ class AdvertTest < Test::Unit::TestCase
   end
 
   def test_destroy_all
+    @a1.save
+    @a2.save
+    assert_equal 2, Advert.all.count
+    Advert.destroy_all
+    assert_equal 0, Advert.all.count
   end
 
 end
