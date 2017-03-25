@@ -36,14 +36,14 @@ class ExprGroup
   def to_h
     {
       group: {
-          rules: self.rules.map {|rule| rule.to_h }
+          rules: self.rules.map {|rule| rule.to_h },
           cond: self.cond
       }
     }
   end
 
   def run(ch, ad)
-    p self.to_h
+    pp self.to_h
     gets
     vals = self.rules.map do |rule|
       rule.run(ch, ad)
