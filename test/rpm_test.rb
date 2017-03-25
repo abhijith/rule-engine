@@ -33,29 +33,29 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def test_all
-    assert_equal true,   @expr1.run(@c1, @a1)
-    assert_equal true,   @expr2.run(@c1, @a1)
-    assert_equal true,   @expr3.run(@c1, @a1)
-    assert_equal true,   @expr4.run(@c1, @a1)
-    assert_equal true,   @expr5.run(@c1, @a1)
+    assert_equal true,  @expr1.run(@c1, @a1)
+    assert_equal true,  @expr2.run(@c1, @a1)
+    assert_equal true,  @expr3.run(@c1, @a1)
+    assert_equal true,  @expr4.run(@c1, @a1)
+    assert_equal true,  @expr5.run(@c1, @a1)
 
-    assert_equal false,  @expr1.run(@c2, @a1)
-    assert_equal false,  @expr2.run(@c2, @a1)
-    assert_equal false,  @expr3.run(@c2, @a1)
-    assert_equal false,  @expr4.run(@c2, @a1)
-    assert_equal false,  @expr5.run(@c2, @a1)
+    assert_equal false, @expr1.run(@c2, @a1)
+    assert_equal false, @expr2.run(@c2, @a1)
+    assert_equal false, @expr3.run(@c2, @a1)
+    assert_equal false, @expr4.run(@c2, @a1)
+    assert_equal false, @expr5.run(@c2, @a1)
 
-    assert_equal false,  @expr1.run(@c1, @a2)
-    assert_equal true,   @expr2.run(@c1, @a2)
-    assert_equal false,  @expr3.run(@c1, @a2)
-    assert_equal true,   @expr4.run(@c1, @a2)
-    assert_equal false,  @expr5.run(@c1, @a2)
+    assert_equal false, @expr1.run(@c1, @a2)
+    assert_equal true,  @expr2.run(@c1, @a2)
+    assert_equal false, @expr3.run(@c1, @a2)
+    assert_equal true,  @expr4.run(@c1, @a2)
+    assert_equal false, @expr5.run(@c1, @a2)
 
-    assert_equal false,  @expr1.run(@c2, @a2)
-    assert_equal false,  @expr2.run(@c2, @a2)
-    assert_equal true,   @expr3.run(@c2, @a2)
-    assert_equal false,  @expr4.run(@c2, @a2)
-    assert_equal false,  @expr5.run(@c2, @a2)
+    assert_equal false, @expr1.run(@c2, @a2)
+    assert_equal false, @expr2.run(@c2, @a2)
+    assert_equal true,  @expr3.run(@c2, @a2)
+    assert_equal false, @expr4.run(@c2, @a2)
+    assert_equal false, @expr5.run(@c2, @a2)
   end
 
 end
