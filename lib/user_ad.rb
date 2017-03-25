@@ -1,14 +1,13 @@
-class Advert
+class UserAd
 
-  attr_accessor :name, :start_date, :end_date, :category, :country, :language, :views
+  attr_accessor :user_id, :advert_id, :views
 
   @@coll = []
 
-  def initialize(cat: nil)
-    @category = cat
-  end
-
-  def to_s
+  def initialize(uid, aid)
+    @user_id   = uid
+    @advert_id = aid
+    @views     = 0
   end
 
   def save
