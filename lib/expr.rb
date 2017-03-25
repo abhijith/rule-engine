@@ -30,8 +30,10 @@ class ExprGroup
 
   def to_h
     {
-      cond:  cond,
-      rules: rules,
+      group: {
+        cond:  cond,
+        rules: rules,
+      }
     }
   end
 
