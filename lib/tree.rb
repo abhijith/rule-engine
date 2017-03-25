@@ -7,11 +7,22 @@ class TreeNode
     @children = []
   end
 
+  def <<(node)
+    puts "--"
+    node.parent = self
+    self.children << node
+  end
+
   def descendants
-    self.children.flat_map {|node| node.children }
+    [self] + self.children.flat_map {|node| node.descendants }
   end
 
   def ancestors
+    if self.parent
+      [self.parent] + self.parent.ancestors
+    else
+      []
+    end
   end
 
 end
