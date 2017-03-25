@@ -3,9 +3,9 @@ require_relative 'lib/expr'
 require_relative 'lib/channel'
 require_relative 'lib/advert'
 
-expr1 = Expr.new(channel: :pref, advert: :category, operator: :intersect?)
-expr2 = Expr.new(channel: :category, advert: :category, operator: :==)
-expr3 = Expr.new(channel: :category, advert: :category, operator: :subtype?)
+expr1 = Expr.new(ch: :pref, ad: :category, op: :intersect?)
+expr2 = Expr.new(ch: :category, ad: :category, op: :==)
+expr3 = Expr.new(ch: :category, ad: :category, op: :subtype?)
 
 nested_rule = ExprGroup.new(:and, [expr1, ExprGroup.new(:or, [expr2, expr3])])
 flat_rule = ExprGroup.new(:or, [expr1, expr2, expr3])
