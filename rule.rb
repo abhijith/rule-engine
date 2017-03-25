@@ -7,9 +7,9 @@ require_relative 'lib/advert'
 expr1 = Expr.new(ch: :pref, ad: :category, op: :intersect?)
 expr2 = Expr.new(ch: :category, ad: :category, op: :==)
 expr3 = Expr.new(ch: :category, ad: :category, op: :subtype?)
+expr4 = ExprGroup.new(:any?, [expr2, expr3])
 
-nested_rule = ExprGroup.new(:all?, [expr1, ExprGroup.new(:any?, [expr2, expr3])])
-flat_rule   = ExprGroup.new(:any?, [expr1, expr2, expr3])
+expr  = ExprGroup.new(:all?, [expr1, expr4])
 
 a1 = Advert.new(cat: ["cars"])
 a1.save
@@ -17,7 +17,7 @@ a2 = Advert.new(cat: ["gadgets"])
 a2.save
 
 r1 = Channel.new(cat: ["cars"], preference: ["cars", "gadgets"])
-r2 = Channel.new(cat: ["cars"], preference: ["gadgets"])
+r2 = Channel.new(cat: ["food"], preference: ["gadgets"])
 
 class Array
 
@@ -35,4 +35,4 @@ class Array
 
 end
 
-p nested_rule.run(r1, a1)
+p expr.run(r1, a2)

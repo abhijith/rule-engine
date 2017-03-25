@@ -19,8 +19,9 @@ class Expr
     lhs = ch.send(self.channel)
     rhs = ad.send(self.advert)
     op  = self.operator
-    p [lhs, rhs, op]
-    lhs.send(op, rhs)
+    val = lhs.send(op, rhs)
+    p [lhs, rhs, op, val]
+    val
   end
 
 end
@@ -43,11 +44,8 @@ class ExprGroup
   end
 
   def run(ch, ad)
-    pp self.to_h
-    gets
-    vals = self.rules.map do |rule|
-      rule.run(ch, ad)
-    end
+    # pp self.to_h
+    vals = self.rules.map {|rule| rule.run(ch, ad) }
     vals.send(self.cond)
   end
 
