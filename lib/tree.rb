@@ -1,3 +1,17 @@
+class Children < Array
+  attr_accessor :parent
+  def initialize
+    p self
+    @parent = nil
+  end
+
+  def <<(node)
+    node.parent = self
+    super(node)
+  end
+
+end
+
 class TreeNode
   attr_accessor :data, :children, :parent
 

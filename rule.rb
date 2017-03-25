@@ -58,3 +58,6 @@ c << d
 p d.parent
 p a.descendants.map(&:data)
 p d.ancestors.map(&:data)
+
+c = Children.new
+p c << TreeNode.new(:raju)
