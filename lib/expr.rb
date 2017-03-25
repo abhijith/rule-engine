@@ -15,7 +15,12 @@ class Expr
     }
   end
 
-  def to_sexp
+  def run(ch, ad)
+    lhs = ch.send(self.channel)
+    rhs = ad.send(self.advert)
+    op  = self.operator
+    p [lhs, rhs, op]
+    lhs.send(op, rhs)
   end
 
 end
@@ -31,13 +36,19 @@ class ExprGroup
   def to_h
     {
       group: {
-        cond:  cond,
-        rules: rules,
+          rules: self.rules.map {|rule| rule.to_h }
+          cond: self.cond
       }
     }
   end
 
-  def to_sexp
+  def run(ch, ad)
+    p self.to_h
+    gets
+    vals = self.rules.map do |rule|
+      rule.run(ch, ad)
+    end
+    vals.send(self.cond)
   end
 
 end
