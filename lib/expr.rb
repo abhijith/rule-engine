@@ -9,18 +9,18 @@ class Expr
 
   def to_h
     {
-      channel: channel,
-      advert:  advert,
+      channel:  channel,
+      advert:   advert,
       operator: operator
     }
   end
 
-  def run(ch, ad)
+  def run(ch, ad, debug = false)
     lhs = ch.send(self.channel)
     rhs = ad.send(self.advert)
     op  = self.operator
     val = lhs.send(op, rhs)
-    p [lhs, rhs, op, val]
+    p [lhs, rhs, op, val] if debug
     val
   end
 
@@ -43,9 +43,8 @@ class ExprGroup
     }
   end
 
-  def run(ch, ad)
-    # pp self.to_h
-    vals = self.rules.map {|rule| rule.run(ch, ad) }
+  def run(ch, ad, debug = false)
+    vals = self.rules.map {|rule| rule.run(ch, ad, debug) }
     vals.send(self.cond)
   end
 
