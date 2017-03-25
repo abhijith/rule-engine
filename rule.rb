@@ -8,7 +8,7 @@ expr2 = Expr.new(ch: :category, ad: :category, op: :==)
 expr3 = Expr.new(ch: :category, ad: :category, op: :subtype?)
 
 nested_rule = ExprGroup.new(:and, [expr1, ExprGroup.new(:or, [expr2, expr3])])
-flat_rule = ExprGroup.new(:or, [expr1, expr2, expr3])
+flat_rule   = ExprGroup.new(:or, [expr1, expr2, expr3])
 
 a1 = Advert.new(cat: ["cars"])
 a1.save
