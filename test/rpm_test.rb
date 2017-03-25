@@ -8,6 +8,7 @@ class RpmTest < Test::Unit::TestCase
     @expr3 = Expr.new(ch: :language, ad: :language, op: :==)
     @expr4 = ExprGroup.new(:any?, [@expr1, @expr2])
     @expr5 = ExprGroup.new(:all?, [@expr1, @expr4])
+    @expr6 = ExprGroup.new(:any?, [@expr1, @expr4])
 
     @a1 = Advert.new(cat: ["cars"])
     @a1.language = "english"
@@ -38,24 +39,28 @@ class RpmTest < Test::Unit::TestCase
     assert_equal true,  @expr3.run(@c1, @a1)
     assert_equal true,  @expr4.run(@c1, @a1)
     assert_equal true,  @expr5.run(@c1, @a1)
+    assert_equal true,  @expr6.run(@c1, @a1)
 
     assert_equal false, @expr1.run(@c2, @a1)
     assert_equal false, @expr2.run(@c2, @a1)
     assert_equal false, @expr3.run(@c2, @a1)
     assert_equal false, @expr4.run(@c2, @a1)
     assert_equal false, @expr5.run(@c2, @a1)
+    assert_equal true,  @expr6.run(@c1, @a1)
 
     assert_equal false, @expr1.run(@c1, @a2)
     assert_equal true,  @expr2.run(@c1, @a2)
     assert_equal false, @expr3.run(@c1, @a2)
     assert_equal true,  @expr4.run(@c1, @a2)
     assert_equal false, @expr5.run(@c1, @a2)
+    assert_equal true,  @expr6.run(@c1, @a1)
 
     assert_equal false, @expr1.run(@c2, @a2)
     assert_equal false, @expr2.run(@c2, @a2)
     assert_equal true,  @expr3.run(@c2, @a2)
     assert_equal false, @expr4.run(@c2, @a2)
     assert_equal false, @expr5.run(@c2, @a2)
+    assert_equal true,  @expr6.run(@c1, @a1)
   end
 
 end
