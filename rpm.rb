@@ -12,7 +12,6 @@ else
       expr    = ExprGroup.load("data/rule.json")
       ads     = Advert.load("data/ads.json")
 
-      p Advert.all
       main(request, expr)
     else
       puts "No such file: #{file}"

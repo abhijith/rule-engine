@@ -24,7 +24,7 @@ class Expr
     rhs = ad.send(self.advert)
     op  = self.operator
     val = lhs.send(op, rhs)
-    p [lhs, rhs, op, val] # if debug
+    p [lhs, rhs, op, val] if debug
     val
   end
 
