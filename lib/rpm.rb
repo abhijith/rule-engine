@@ -1,9 +1,5 @@
-require_relative 'expr'
-require_relative 'channel'
-require_relative 'advert'
-require_relative 'tree'
+require_relative 'utils'
 
 def main(ch, expr)
-  ads = Advert.all.select {|ad| expr.run(ch, ad) }
-  p ads
+  p Advert.all.select {|ad| expr.run(ch, ad) }
 end

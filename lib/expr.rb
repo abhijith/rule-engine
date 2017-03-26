@@ -39,14 +39,18 @@ class ExprGroup
   end
 
   # check if option is available in JSON.parse to provide custom `read` method
-  def self.load(h)
+  def self.parse(h)
     if h.has_key?(:exprgroup)
       e = ExprGroup.new(h[:exprgroup][:cond], [])
-      e.exprs = h[:exprgroup][:exprs].map {|x| self.load(x) }
+      e.exprs = h[:exprgroup][:exprs].map {|x| self.parse(x) }
       e
     else
       Expr.new(channel: h[:expr][:channel], advert: h[:expr][:advert], operator: h[:expr][:operator])
     end
+  end
+
+  def self.load(file)
+    self.parse(JSON.parse(File.read(file), symbolize_names: true))
   end
 
   def to_h

@@ -9,7 +9,8 @@ class Advert
     @category = category
   end
 
-  def self.load(coll)
+  def self.load(file)
+    coll = JSON.parse(File.read(file), symbolize_names: true)
     coll.map {|h| Advert.new(h).save }
   end
 

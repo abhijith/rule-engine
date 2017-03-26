@@ -1,4 +1,10 @@
+require_relative 'channel'
+require_relative 'advert'
+require_relative 'expr'
+
 require 'set'
+require 'json'
+require 'pp'
 
 class Array
 
