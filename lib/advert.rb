@@ -1,6 +1,6 @@
 class Advert
 
-  attr_accessor :name, :start_date, :end_date, :category, :country, :language, :views
+  attr_accessor :name, :start_date, :end_date, :category, :language, :views
 
   @@coll = []
   @@counter = 0
