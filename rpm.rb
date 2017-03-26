@@ -13,7 +13,7 @@ else
       request = JSON.parse(File.read(file))
       begin
         puts main(request)
-      rescue Note::PreRequisiteMissing => e
+      rescue StandardError => e
         puts e.message
       end
     else
