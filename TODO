@@ -1,0 +1,6 @@
+* global-counter
+* user-counter
+* ad scoring
+* live?
+* http interface
+* cli with trollop --ad-id --match

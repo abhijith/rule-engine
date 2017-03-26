@@ -37,8 +37,8 @@ class ExprGroup
   def to_h
     {
       group: {
-          rules: self.rules.map {|rule| rule.to_h },
-          cond: self.cond
+        rules: self.rules.map {|rule| rule.to_h },
+        cond: self.cond
       }
     }
   end
