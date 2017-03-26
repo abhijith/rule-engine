@@ -1,7 +1,7 @@
 require_relative 'lib/utils'
 require_relative 'lib/rpm'
 
-USAGE = "usage: ruby main.rb <request.json>"
+USAGE = "usage: ruby rpm.rb <request.json>"
 if ARGV.empty?
   puts USAGE
 else
