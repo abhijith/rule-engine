@@ -1,5 +1,5 @@
 {
-    "cat": ["cars"],
-    "preference": ["cars", "gadgets"],
+    "category": ["cars"],
+    "preferences": ["cars", "gadgets"],
     "language": "english"
 }

@@ -1,10 +1,10 @@
 class Channel
 
-  attr_accessor :name, :category, :pref, :country, :language, :username
+  attr_accessor :name, :category, :preferences, :country, :language, :username
 
-  def initialize(cat: nil, preference: nil, country: nil, language: nil, username: nil)
-    @category = cat
-    @pref     = preference
+  def initialize(category: nil, preferences: nil, country: nil, language: nil, username: nil)
+    @category    = category
+    @preferences = preferences
   end
 
 end

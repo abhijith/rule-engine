@@ -5,11 +5,12 @@ class Advert
   @@coll = []
   @@counter = 0
 
-  def initialize(cat: nil)
-    @category = cat
+  def initialize(category: nil, language: nil)
+    @category = category
   end
 
-  def self.load(file)
+  def self.load(coll)
+    coll.map {|h| Advert.new(h).save }
   end
 
   def to_s

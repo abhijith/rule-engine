@@ -12,13 +12,13 @@ else
     if File.exists?(file)
       request = JSON.parse(File.read(file), symbolize_names: true)
       rule    = JSON.parse(File.read("data/rule.json"), symbolize_names: true)
-      e  = ExprGroup.load(rule)
-      c1 = Channel.new(request)
-    # p main(c1, expr5)
-      #rescue StandardError => e
-        #puts e.message
-        #puts e.backtrace
-      #end
+      ads     = JSON.parse(File.read("data/ads.json"), symbolize_names: true)
+
+      e   = ExprGroup.load(rule)
+      c1  = Channel.new(request)
+      Advert.load(ads)
+      p Advert.all
+      main(c1, e)
     else
       puts "No such file: #{file}"
     end

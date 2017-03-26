@@ -3,29 +3,29 @@ require_relative 'utils'
 class RpmTest < Test::Unit::TestCase
 
   def setup
-    @expr1 = Expr.new(ch: :category, ad: :category, op: :==)
-    @expr2 = Expr.new(ch: :pref, ad: :category, op: :intersect?)
-    @expr3 = Expr.new(ch: :language, ad: :language, op: :==)
+    @expr1 = Expr.new(channel: :category, ad: :category, op: :==)
+    @expr2 = Expr.new(channel: :preferences, ad: :category, op: :intersect?)
+    @expr3 = Expr.new(channel: :language, ad: :language, op: :==)
     @expr4 = ExprGroup.new(:any?, [@expr1, @expr2])
     @expr5 = ExprGroup.new(:all?, [@expr1, @expr4])
     @expr6 = ExprGroup.new(:any?, [@expr1, @expr4])
 
-    @a1 = Advert.new(cat: ["cars"])
+    @a1 = Advert.new(category: ["cars"])
     @a1.language = "english"
     @a1.save
 
-    @a2 = Advert.new(cat: ["gadgets"])
+    @a2 = Advert.new(category: ["gadgets"])
     @a2.language = "german"
     @a2.save
 
-    @a3 = Advert.new(cat: ["cooking"])
+    @a3 = Advert.new(category: ["cooking"])
     @a3.language = "german"
     @a3.save
 
-    @c1 = Channel.new(cat: ["cars"], preference: ["cars", "gadgets"])
+    @c1 = Channel.new(category: ["cars"], preferences: ["cars", "gadgets"])
     @c1.language = "english"
 
-    @c2 = Channel.new(cat: ["cooking"], preference: ["food"])
+    @c2 = Channel.new(category: ["cooking"], preferences: ["food"])
     @c2.language = "german"
   end
 

@@ -1,5 +1,5 @@
 {
-    "cat": ["cooking"],
-    "preference": ["food"],
+    "category": ["cooking"],
+    "preferences": ["food"],
     "language": "german"
 }

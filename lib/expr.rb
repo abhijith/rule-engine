@@ -3,10 +3,10 @@ require_relative 'utils'
 class Expr
   attr_accessor :channel, :advert, :operator
 
-  def initialize(ch: nil, ad: nil, op: nil)
-    @channel  = ch
-    @advert   = ad
-    @operator = op
+  def initialize(channel: nil, advert: nil, operator: nil)
+    @channel  = channel
+    @advert   = advert
+    @operator = operator
   end
 
   def to_h
@@ -45,7 +45,7 @@ class ExprGroup
       e.exprs = h[:exprgroup][:exprs].map {|x| self.load(x) }
       e
     else
-      Expr.new(ch: h[:expr][:channel], ad: h[:expr][:advert], op: h[:expr][:operator])
+      Expr.new(channel: h[:expr][:channel], advert: h[:expr][:advert], operator: h[:expr][:operator])
     end
   end
 

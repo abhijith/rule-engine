@@ -1,0 +1,35 @@
+{
+    "exprgroup": {
+        "exprs": [
+            {
+                "expr": {
+                    "channel": "category",
+                    "advert": "category",
+                    "operator": "=="
+                }
+            },
+            {
+                "exprgroup": {
+                    "exprs": [
+                        {
+                            "expr": {
+                                "channel": "category",
+                                "advert": "category",
+                                "operator": "=="
+                            }
+                        },
+                        {
+                            "expr": {
+                                "channel": "preferences",
+                                "advert": "category",
+                                "operator": "intersect?"
+                            }
+                        }
+                    ],
+                    "cond": "any?"
+                }
+            }
+        ],
+        "cond": "any?"
+    }
+}

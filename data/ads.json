@@ -1,0 +1,20 @@
+[
+    {
+        "category": [
+            "cars"
+        ],
+        "language": "english"
+    },
+    {
+        "category": [
+            "gadgets"
+        ],
+        "language": "german"
+    },
+    {
+        "category": [
+            "cooking"
+        ],
+        "language": "german"
+    }
+]

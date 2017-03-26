@@ -3,8 +3,8 @@ require_relative 'utils'
 class AdvertTest < Test::Unit::TestCase
 
   def setup
-    @a1 = Advert.new(cat: ["cars"])
-    @a2 = Advert.new(cat: ["gadgets"])
+    @a1 = Advert.new(category: ["cars"])
+    @a2 = Advert.new(category: ["gadgets"])
   end
 
   def teardown
