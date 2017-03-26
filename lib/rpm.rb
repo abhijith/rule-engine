@@ -3,9 +3,8 @@ require_relative 'channel'
 require_relative 'advert'
 require_relative 'tree'
 
-def main(request)
-  ch = Channel.new(request)
-  Advert.all.select do |ad|
-
-  end
+def main(request, expr)
+  ch  = Channel.new(request)
+  ads = Advert.all.select {|ad| expr.run(ch, ad) }
+  p ads
 end

@@ -1,0 +1,5 @@
+{
+    "cat": ["cars"],
+    "preference": ["cars", "gadgets"],
+    "language": "english"
+}

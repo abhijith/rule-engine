@@ -34,6 +34,9 @@ class ExprGroup
     @rules = r
   end
 
+  def self.load(file)
+  end
+
   def to_h
     {
       group: {
