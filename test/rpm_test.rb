@@ -3,9 +3,9 @@ require_relative 'utils'
 class RpmTest < Test::Unit::TestCase
 
   def setup
-    @expr1 = Expr.new(channel: :category, ad: :category, op: :==)
-    @expr2 = Expr.new(channel: :preferences, ad: :category, op: :intersect?)
-    @expr3 = Expr.new(channel: :language, ad: :language, op: :==)
+    @expr1 = Expr.new(channel: :category, advert: :category, operator: :==)
+    @expr2 = Expr.new(channel: :preferences, advert: :category, operator: :intersect?)
+    @expr3 = Expr.new(channel: :language, advert: :language, operator: :==)
     @expr4 = ExprGroup.new(:any?, [@expr1, @expr2])
     @expr5 = ExprGroup.new(:all?, [@expr1, @expr4])
     @expr6 = ExprGroup.new(:any?, [@expr1, @expr4])
