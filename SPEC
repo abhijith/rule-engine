@@ -1,0 +1,70 @@
+Entities:
+---------
+
+** Channel
+  * Description:
+    - collection of channels
+
+  * Attributes:
+    - id
+    - label
+    - categories
+    - country
+    - language
+
+  * Associations:
+    - has-many categories
+
+
+** Advert
+   * Description:
+     - collection of Ads
+
+   * attributes:
+     - id
+     - label
+     - categories
+     - country
+     - language
+     - limit
+     - constraint / rule
+
+  * Associations:
+    - has-many categories
+    - has-one rule
+
+** Category
+   * Description:
+     - collection of categories
+     - tree structure and hence can represent hierarchies
+
+   * Attributes:
+     - id
+     - label
+     - parent
+     - children
+
+   * Associations
+     - belongs-to Advert
+
+** Country
+   * Description:
+     - collection of countries
+
+   * Attributes
+     - label
+
+** Language
+   * Description:
+     - collection of languages
+
+   * Attributes
+     - label
+
+  * Associations:
+    - has-many categories
+    - has-one rule
+
+
+* AdChannelLimit
+* AdCountryLimit
