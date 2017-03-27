@@ -2,12 +2,16 @@ class TreeNode
   attr_accessor :data, :children, :parent
 
   @@coll = []
-  @@root = TreeNode.new(:root)
+  @@root = nil
 
   def initialize(data, parent = nil)
     @data     = data
     @parent   = parent
     @children = []
+  end
+
+  def self.init
+    @@root = TreeNode.new(:root)
   end
 
   def self.root
