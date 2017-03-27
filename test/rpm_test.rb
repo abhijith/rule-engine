@@ -3,9 +3,9 @@ require_relative 'utils'
 class RpmTest < Test::Unit::TestCase
 
   def setup
-    @expr1 = Expr.new(channel: :category, advert: :category, operator: :==)
-    @expr2 = Expr.new(channel: :preferences, advert: :category, operator: :intersect?)
-    @expr3 = Expr.new(channel: :language, advert: :language, operator: :==)
+    @expr1 = Expr.new(request: :category, advert: :category, operator: :==)
+    @expr2 = Expr.new(request: :preferences, advert: :category, operator: :intersect?)
+    @expr3 = Expr.new(request: :language, advert: :language, operator: :==)
     @expr4 = ExprGroup.new(:any?, [@expr1, @expr2])
     @expr5 = ExprGroup.new(:all?, [@expr1, @expr4])
     @expr6 = ExprGroup.new(:any?, [@expr1, @expr4])
@@ -22,10 +22,10 @@ class RpmTest < Test::Unit::TestCase
     @a3.language = "german"
     @a3.save
 
-    @c1 = Channel.new(category: ["cars"], preferences: ["cars", "gadgets"])
+    @c1 = Request.new(category: ["cars"], preferences: ["cars", "gadgets"])
     @c1.language = "english"
 
-    @c2 = Channel.new(category: ["cooking"], preferences: ["food"])
+    @c2 = Request.new(category: ["cooking"], preferences: ["food"])
     @c2.language = "german"
   end
 

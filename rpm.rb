@@ -8,7 +8,7 @@ else
   if ARGV.length == 1
     file = ARGV.first
     if File.exists?(file)
-      request = Channel.load(file)
+      request = Request.load(file)
       expr    = ExprGroup.load("data/rule.json")
       ads     = Advert.load("data/ads.json")
 

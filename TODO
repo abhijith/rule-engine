@@ -1,7 +1,10 @@
 * hierarchies
 * global-counter
-* user-counter
+* channel-counter
+* country-counter
 * ad scoring
 * live?
 * http interface
-* cli with trollop --ad-id --match
+
+
+*

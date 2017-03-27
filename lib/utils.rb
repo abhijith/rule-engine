@@ -1,4 +1,4 @@
-require_relative 'channel'
+require_relative 'request'
 require_relative 'advert'
 require_relative 'expr'
 

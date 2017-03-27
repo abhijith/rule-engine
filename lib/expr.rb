@@ -1,10 +1,10 @@
 require_relative 'utils'
 
 class Expr
-  attr_accessor :channel, :advert, :operator
+  attr_accessor :request, :advert, :operator
 
-  def initialize(channel: nil, advert: nil, operator: nil)
-    @channel  = channel
+  def initialize(request: nil, advert: nil, operator: nil)
+    @request  = request
     @advert   = advert
     @operator = operator
   end
@@ -12,7 +12,7 @@ class Expr
   def to_h
     {
       expr: {
-        channel:  channel,
+        request:  request,
         advert:   advert,
         operator: operator
       }
@@ -20,7 +20,7 @@ class Expr
   end
 
   def run(ch, ad, debug = false)
-    lhs = ch.send(self.channel)
+    lhs = ch.send(self.request)
     rhs = ad.send(self.advert)
     op  = self.operator
     val = lhs.send(op, rhs)
@@ -45,7 +45,7 @@ class ExprGroup
       e.exprs = h[:exprgroup][:exprs].map {|x| self.parse(x) }
       e
     else
-      Expr.new(channel: h[:expr][:channel], advert: h[:expr][:advert], operator: h[:expr][:operator])
+      Expr.new(request: h[:expr][:request], advert: h[:expr][:advert], operator: h[:expr][:operator])
     end
   end
 
