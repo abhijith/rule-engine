@@ -9,12 +9,13 @@ Entities:
     - id
     - label
     - categories
-    - country
-    - language
+    - countries
+    - languages
 
   * Associations:
     - has-many categories
-
+    - has-many countries
+    - has-many languages
 
 ** Advert
    * Description:
@@ -24,13 +25,15 @@ Entities:
      - id
      - label
      - categories
-     - country
-     - language
-     - limit
+     - countries
+     - languages
+     - global-view-limit
      - constraint / rule
 
   * Associations:
     - has-many categories
+    - has-many countries
+    - has-many languages
     - has-one rule
 
 ** Category
@@ -42,10 +45,10 @@ Entities:
      - id
      - label
      - parent
-     - children
 
    * Associations
-     - belongs-to Advert
+     - has-many-and-belongs-to advert
+     - has-many-and-belongs-to channel
 
 ** Country
    * Description:
@@ -53,6 +56,10 @@ Entities:
 
    * Attributes
      - label
+
+   * Associations
+     - has-many-and-belongs-to advert
+     - has-many-and-belongs-to channel
 
 ** Language
    * Description:
@@ -62,9 +69,35 @@ Entities:
      - label
 
   * Associations:
-    - has-many categories
-    - has-one rule
+    - has-many-and-belongs-to advert
+    - has-many-and-belongs-to channel
 
 
-* AdChannelLimit
-* AdCountryLimit
+** AdChannelLimit
+   * Description:
+     - collection of ad-to-channel view limit
+
+   * Attributes
+     - advert-id
+     - channel-id
+     - view-limit
+     - view-counter
+
+  * Associations:
+    - belongs-to advert
+    - belongs-to channel
+
+
+** AdCountryLimit
+   * Description:
+     - collection of ad-to-country view limit
+
+   * Attributes
+     - advert-id
+     - country-id
+     - view-limit
+     - view-counter
+
+  * Associations:
+    - belongs-to advert
+    - belongs-to country
