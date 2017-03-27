@@ -2,26 +2,26 @@ Entities:
 ---------
 
 ** Channel
-  * Description:
-    - collection of channels
+   * Description:
+     - collection of channels
 
-  * Attributes:
-    - id
-    - label
-    - categories
-    - countries
-    - languages
+   * Attributes:
+     - id
+     - label
+     - categories
+     - countries
+     - languages
 
-  * Associations:
-    - has-many categories
-    - has-many countries
-    - has-many languages
+   * Associations:
+     - has-many categories
+     - has-many countries
+     - has-many languages
 
 ** Advert
    * Description:
      - collection of Ads
 
-   * attributes:
+   * Attributes:
      - id
      - label
      - categories
@@ -30,21 +30,24 @@ Entities:
      - global-view-limit
      - constraint / rule
 
-  * Associations:
-    - has-many categories
-    - has-many countries
-    - has-many languages
-    - has-one rule
+   * Associations:
+     - has-many categories
+     - has-many countries
+     - has-many languages
+     - has-one rule
 
 ** Category
    * Description:
      - collection of categories
-     - tree structure and hence can represent hierarchies
+     - tree structure and hence can represent hierarchies like sub-category
 
    * Attributes:
      - id
      - label
-     - parent
+     - parent-id
+     - children
+     - descendants
+     - ancestors
 
    * Associations
      - has-many-and-belongs-to advert
@@ -83,9 +86,9 @@ Entities:
      - view-limit
      - view-counter
 
-  * Associations:
-    - belongs-to advert
-    - belongs-to channel
+   * Associations:
+     - belongs-to advert
+     - belongs-to channel
 
 
 ** AdCountryLimit
@@ -98,6 +101,6 @@ Entities:
      - view-limit
      - view-counter
 
-  * Associations:
-    - belongs-to advert
-    - belongs-to country
+   * Associations:
+     - belongs-to advert
+     - belongs-to country
