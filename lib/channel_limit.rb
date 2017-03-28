@@ -1,11 +1,12 @@
-class AdvertCountry
-  attr_accessor :advert_id, :country_id, :view_limit, :views
+class ChannelLimit
+  attr_accessor :advert_id, :channel_id, :limit, :views
 
   @@coll    = []
   @@counter = 0
 
   def initialize(advert_id: nil, channel_id: nil)
     @views = 0
+    @limit = nil
   end
 
   def self.count
@@ -28,6 +29,14 @@ class AdvertCountry
   def self.destroy_all
     @@coll    = []
     @@counter = 0
+  end
+
+  def exhausted?
+    if self.limit.nil?
+      false
+    else
+      self.views >= self.limit
+    end
   end
 
 end

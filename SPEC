@@ -18,7 +18,6 @@ Entities:
      - label
      - categories
      - country
-     - language
 
    * Associations:
      - has-many categories
@@ -32,13 +31,11 @@ Entities:
    * Attributes:
      - id
      - label
-     - country
      - global-view-limit
      - constraint
 
    * Associations:
      - has-many categories
-     - has-one country
      - has-one rule
 
 ** Category

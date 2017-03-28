@@ -1,5 +1,7 @@
+require 'date'
+
 class Advert
-  attr_accessor :id, :label, :start_date, :end_date, :country, :language, :limit
+  attr_accessor :id, :label, :start_date, :end_date, :limit, :views
 
   @@coll    = []
   @@counter = 0
@@ -7,6 +9,11 @@ class Advert
   def initialize(label: nil)
     @label = label
     @limit = nil
+    @views = nil
+    @limit = nil
+
+    @start_date = DateTime.now
+    @end_date   = DateTime.now + (60 * 60 * 24)
   end
 
   def self.load(file)
@@ -41,6 +48,7 @@ class Advert
   end
 
   def live?
+    (self.start_date..self.end_date).cover?(DateTime.now)
   end
 
   def expired?
@@ -48,9 +56,23 @@ class Advert
   end
 
   def self.live
+    self.all.select(&:live?)
   end
 
   def exhausted?
+    if self.limit.nil?
+      false
+    else
+      self.views >= self.limit or Advert.limiters.each
+    end
+  end
+
+  def self.limiters
+    [CountryLimit, ChannelLimit]
+  end
+
+  def country_limit
+    CountryLimit.new(
   end
 
 end

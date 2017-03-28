@@ -1,5 +1,5 @@
-class AdvertChannel
-  attr_accessor :advert_id, :channel_id, :view_limit, :views
+class CountryLimit
+  attr_accessor :advert_id, :country_id, :limit, :views
 
   @@coll    = []
   @@counter = 0
@@ -28,6 +28,14 @@ class AdvertChannel
   def self.destroy_all
     @@coll    = []
     @@counter = 0
+  end
+
+  def exhausted?
+    if self.limit.nil?
+      false
+    else
+      self.views >= self.limit
+    end
   end
 
 end
