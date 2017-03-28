@@ -1,5 +1,13 @@
 Entities:
 ---------
+** Request
+   * Description
+     Packet sent when a channel queries for an eligible Ad
+
+   * Attributes
+     - channel
+     - country
+     - categories
 
 ** Channel
    * Description:
