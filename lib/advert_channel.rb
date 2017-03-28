@@ -1,11 +1,11 @@
 class AdvertChannel
-  attr_accessor :advert_id, :channel_id, :label, :limit
+  attr_accessor :advert_id, :channel_id, :view_limit, :views
 
   @@coll    = []
   @@counter = 0
 
-  def initialize(label: nil)
-    @label = label
+  def initialize(advert_id: nil, channel_id: nil)
+    @views = 0
   end
 
   def self.count

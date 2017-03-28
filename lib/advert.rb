@@ -6,6 +6,7 @@ class Advert
 
   def initialize(label: nil)
     @label = label
+    @limit = nil
   end
 
   def self.load(file)
