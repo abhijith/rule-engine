@@ -23,6 +23,30 @@ class CategoryTest < Test::Unit::TestCase
     assert_equal 1, @bmw.id
   end
 
+  def test_save_all_and_count
+    assert_equal 0, Category.count
+    @cars.save
+    @cuisine.save
+    assert_equal [@cars, @cuisine], Category.all
+    assert_equal 2, Category.count
+  end
+
+  def test_destroy_all
+    @cars.save
+    @cuisine.save
+    assert_equal 2, Category.count
+    Category.destroy_all
+    assert_equal 0, Category.count
+  end
+
+  def test_find
+    @cars.save
+    @bmw.save
+    assert_equal @cars, Category.find(0)
+    assert_equal @bmw, Category.find(1)
+    assert_equal nil, Category.find(2)
+  end
+
   def test_parent
     @cars.save
     @bmw.save
@@ -68,14 +92,6 @@ class CategoryTest < Test::Unit::TestCase
     assert_equal [:cars, :root], @bmw.ancestors.map(&:label)
     assert_equal [:cuisine, :root], @indian.ancestors.map(&:label)
     assert_equal [], @root.ancestors
-  end
-
-  def test_find
-    @cars.save
-    @bmw.save
-    assert_equal @cars, Category.find(0)
-    assert_equal @bmw, Category.find(1)
-    assert_equal nil, Category.find(2)
   end
 
 end
