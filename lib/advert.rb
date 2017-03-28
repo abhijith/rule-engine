@@ -1,8 +1,8 @@
 class Advert
 
-  attr_accessor :name, :start_date, :end_date, :category, :language, :views
+  attr_accessor :name, :start_date, :end_date, :category, :language, :limit
 
-  @@coll = []
+  @@coll    = []
   @@counter = 0
 
   def initialize(category: nil, language: nil)

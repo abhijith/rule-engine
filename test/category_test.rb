@@ -1,14 +1,14 @@
 require_relative 'utils'
 
-class TreeTest < Test::Unit::TestCase
+class CategoryTest < Test::Unit::TestCase
 
   def setup
-    @a = TreeNode.new(:a)
-    @b = TreeNode.new(:b)
-    @c = TreeNode.new(:c)
-    @d = TreeNode.new(:d)
-    @e = TreeNode.new(1)
-    @f = TreeNode.new(2)
+    @a = Category.new(:a)
+    @b = Category.new(:b)
+    @c = Category.new(:c)
+    @d = Category.new(:d)
+    @e = Category.new(1)
+    @f = Category.new(2)
   end
 
   def test_parent
