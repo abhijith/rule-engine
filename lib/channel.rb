@@ -1,6 +1,5 @@
 class Channel
-
-  attr_accessor :label, :categories, :country
+  attr_accessor :id, :label, :categories, :country
 
   @@coll = []
   @@counter = 0
@@ -17,16 +16,14 @@ class Channel
     coll.map {|h| self.new(h).save }
   end
 
-  def to_s
-  end
-
   def self.count
     @@counter
   end
 
   def save
-    @@counter = @@counter + 1
+    self.id = @@counter
     @@coll << self
+    @@counter = @@counter + 1
   end
 
   def self.all

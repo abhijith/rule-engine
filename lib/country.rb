@@ -1,6 +1,5 @@
 class Country
-
-  attr_accessor :label
+  attr_accessor :id, :label
 
   @@coll = []
   @@counter = 0
@@ -25,8 +24,9 @@ class Country
   end
 
   def save
-    @@counter = @@counter + 1
+    self.id = @@counter
     @@coll << self
+    @@counter = @@counter + 1
   end
 
   def self.all

@@ -1,6 +1,5 @@
 class Advert
-
-  attr_accessor :name, :start_date, :end_date, :country, :language, :limit
+  attr_accessor :id, :label, :start_date, :end_date, :country, :language, :limit
 
   @@coll    = []
   @@counter = 0
@@ -22,8 +21,9 @@ class Advert
   end
 
   def save
-    @@counter = @@counter + 1
+    self.id = @@counter
     @@coll << self
+    @@counter = @@counter + 1
   end
 
   def self.all
@@ -37,6 +37,19 @@ class Advert
   def self.destroy_all
     @@coll    = []
     @@counter = 0
+  end
+
+  def live?
+  end
+
+  def expired?
+    not live?
+  end
+
+  def self.live
+  end
+
+  def exhausted?
   end
 
 end
