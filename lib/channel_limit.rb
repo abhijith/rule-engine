@@ -5,8 +5,10 @@ class ChannelLimit
   @@counter = 0
 
   def initialize(advert_id: nil, channel_id: nil, limit: nil)
-    @views = 0
-    @limit = limit
+    @views      = 0
+    @limit      = limit
+    @advert_id  = advert_id
+    @channel_id = channel_id
   end
 
   def self.count
@@ -38,6 +40,14 @@ class ChannelLimit
     else
       self.views >= self.limit
     end
+  end
+
+  def advert
+    Advert.find(self.advert_id)
+  end
+
+  def channel
+    Channel.find(self.channel_id)
   end
 
 end

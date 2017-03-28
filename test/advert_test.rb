@@ -55,4 +55,15 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @a1, CountryLimit.all[0].advert
   end
 
+  def test_channel_limit
+    @c1 = Channel.new(label: "reddit")
+    @c1.save
+    @a1.save
+    @a1.set_channel_limit(@c1, 10)
+    assert_equal 1,   ChannelLimit.count
+    assert_equal @c1, ChannelLimit.all[0].channel
+    assert_equal @a1, ChannelLimit.all[0].advert
+  end
+
+
 end
