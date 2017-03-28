@@ -1,28 +1,103 @@
-Request attributes:
--------------------
-:id, :channel, :preferences
+Entities:
+---------
+
+** Channel
+   * Description:
+     - collection of channels
+
+   * Attributes:
+     - id
+     - label
+     - categories
+     - country
+     - language
+
+   * Associations:
+     - has-many categories
+     - has-one country
+     - has-one language
+
+** Advert
+   * Description:
+     - collection of Ads
+
+   * Attributes:
+     - id
+     - label
+     - country
+     - global-view-limit
+     - constraint
+
+   * Associations:
+     - has-many categories
+     - has-one country
+     - has-one rule
+
+** Category
+   * Description:
+     - collection of categories
+     - tree structure and hence can represent hierarchies like sub-category
+
+   * Attributes:
+     - id
+     - label
+     - parent-id
+     - children
+     - descendants
+     - ancestors
+
+   * Associations
+     - has-many-and-belongs-to advert
+     - has-many-and-belongs-to channel
+
+** Country
+   * Description:
+     - collection of countries
+
+   * Attributes
+     - label
+
+   * Associations
+     - belongs-to advert
+     - belongs-to channel
+
+** Language
+   * Description:
+     - collection of languages
+
+   * Attributes
+     - label
+
+  * Associations:
+    - belongs-to advert
+    - belongs-to channel
 
 
-Channel attributes:
--------------------
-:id, :language, :country, :category, :preferences
+** AdChannelLimit
+   * Description:
+     - collection of ad-to-channel view limit
 
-Advert attributes
------------------
-:name, :start-date, :end-date, :category, :country, :language
+   * Attributes
+     - advert-id
+     - channel-id
+     - view-limit
+     - view-counter
 
-Design:
--------
-* Rule
- - Operands
- - Operators
+   * Associations:
+     - belongs-to advert
+     - belongs-to channel
 
-* Rule Evaluator
-  * bind request to rule
-  * bind ad to rule
-  * evaluate / interpret
-  * returns true | false
 
-* All Ads which eval to true are picked
+** AdCountryLimit
+   * Description:
+     - collection of ad-to-country view limit
 
-* Update counters and other book keeping information / metrics
+   * Attributes
+     - advert-id
+     - country-id
+     - view-limit
+     - view-counter
+
+   * Associations:
+     - belongs-to advert
+     - belongs-to country

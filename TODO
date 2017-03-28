@@ -1,7 +1,10 @@
 * hierarchies
+
 * global-counter
 * channel-counter
 * country-counter
+
 * ad scoring
+
 * live?
 * http interface
