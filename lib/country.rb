@@ -16,9 +16,6 @@ class Country
     coll.map {|h| self.new(h).save }
   end
 
-  def to_s
-  end
-
   def self.count
     @@counter
   end

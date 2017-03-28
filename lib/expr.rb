@@ -4,10 +4,10 @@ class Expr
   attr_accessor :field, :type, :operator, :value
 
   def initialize(field: nil, type: nil, operator: nil, value: nil)
-    @field    = request
-    @type     = advert
+    @field    = field
+    @type     = type
     @operator = operator
-    @value    = operator
+    @value    = value
   end
 
   def to_h
@@ -22,6 +22,8 @@ class Expr
   end
 
   def satisfies?(request)
+    dyn = request.send(field)
+    value.send(operator, dyn)
   end
 
 end
@@ -59,7 +61,7 @@ class ExprGroup
   end
 
   def satisfies?(request, debug = false)
-    vals = self.exprs.map {|rule| rule.run(ch, ad, debug) }
+    vals = self.exprs.map {|rule| rule.satisfies?(request, debug) }
     vals.send(self.cond)
   end
 
