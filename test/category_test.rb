@@ -12,25 +12,25 @@ class CategoryTest < Test::Unit::TestCase
   end
 
   def test_parent
-    @a << @b
+    @a.add_child(@b)
     assert_equal @a, @b.parent
     assert_equal @a.children, [@b]
   end
 
   def test_descendants
     assert_equal [], @a.descendants
-    @a << @b
-    @a << @e
-    @e << @f
-    @b << @c
-    @c << @d
+    @a.add_child(@b)
+    @a.add_child(@e)
+    @e.add_child(@f)
+    @b.add_child(@c)
+    @c.add_child(@d)
     assert_equal [:b, :c, :d, 1, 2], @a.descendants.map(&:data)
   end
 
   def test_ancestors
-    @a << @b
-    @b << @c
-    @c << @d
+    @a.add_child(@b)
+    @b.add_child(@c)
+    @c.add_child(@d)
     assert_equal [:c, :b, :a], @d.ancestors.map(&:data)
   end
 
