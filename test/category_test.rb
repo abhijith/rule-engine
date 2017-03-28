@@ -11,6 +11,12 @@ class CategoryTest < Test::Unit::TestCase
     @f = Category.new(2)
   end
 
+  def test_init
+    assert_equal nil, Category.root
+    Category.init
+    assert_not_equal nil, Category.root
+  end
+
   def test_parent
     @a.add_child(@b)
     assert_equal @a, @b.parent

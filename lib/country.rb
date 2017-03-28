@@ -38,7 +38,8 @@ class Country
   end
 
   def self.destroy_all
-    @@coll = []
+    @@coll    = []
+    @@counter = 0
   end
 
 end

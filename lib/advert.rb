@@ -5,7 +5,7 @@ class Advert
   @@coll    = []
   @@counter = 0
 
-  def initialize(label: label)
+  def initialize(label: nil)
     @label = label
   end
 
@@ -14,7 +14,7 @@ class Advert
   end
 
   def self.parse(coll)
-    coll.map {|h| Advert.new(h).save }
+    coll.map {|h| self.new(h).save }
   end
 
   def self.count

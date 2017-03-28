@@ -11,8 +11,8 @@ class CountryTest < Test::Unit::TestCase
     Country.destroy_all
   end
 
-  def test_save_and_all
-    assert_equal 0, Country.all.count
+  def test_save_all_and_count
+    assert_equal 0, Country.count
     @a1.save
     @a2.save
     assert_equal [@a1, @a2], Country.all

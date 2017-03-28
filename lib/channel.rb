@@ -1,12 +1,12 @@
 class Channel
 
-  attr_accessor :name, :categories, :country
+  attr_accessor :label, :categories, :country
 
   @@coll = []
   @@counter = 0
 
-  def initialize(category: nil, language: nil)
-    @category = category
+  def initialize(label: nil)
+    @label = label
   end
 
   def self.load(file)
@@ -38,7 +38,8 @@ class Channel
   end
 
   def self.destroy_all
-    @@coll = []
+    @@coll    = []
+    @@counter = 0
   end
 
 end

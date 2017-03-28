@@ -34,6 +34,10 @@ class ExprGroup
     @exprs = r
   end
 
+  def self.load(file)
+    self.parse(JSON.parse(File.read(file), symbolize_names: true))
+  end
+
   # check if option is available in JSON.parse to provide custom `read` method
   def self.parse(h)
     if h.has_key?(:exprgroup)
@@ -43,10 +47,6 @@ class ExprGroup
     else
       Expr.new(field: h[:expr][:field], type: h[:expr][:type], operator: h[:expr][:operator], value: h[:expr][:value])
     end
-  end
-
-  def self.load(file)
-    self.parse(JSON.parse(File.read(file), symbolize_names: true))
   end
 
   def to_h

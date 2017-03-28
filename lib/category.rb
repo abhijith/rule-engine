@@ -1,13 +1,22 @@
 class Category
   attr_accessor :data, :children, :parent
 
-  @@coll = []
-  @@root = nil
+  @@coll    = []
+  @@counter = 0
+  @@root    = nil
 
   def initialize(data, parent = nil)
     @data     = data
     @parent   = parent
     @children = []
+  end
+
+  def self.load(file)
+    coll = JSON.parse(File.read(file), symbolize_names: true)
+  end
+
+  def self.parse(coll)
+    coll.map {|h| self.new(h).save }
   end
 
   def self.init
@@ -18,7 +27,7 @@ class Category
     @@root
   end
 
-  def <<(node)
+  def add_child(node)
     node.parent = self
     self.children << node
   end
@@ -42,7 +51,7 @@ class Category
   def self.destroy_all
     @@coll    = []
     @@counter = 0
+    @root.children = []
   end
-
 
 end

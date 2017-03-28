@@ -11,8 +11,8 @@ class ChannelTest < Test::Unit::TestCase
     Channel.destroy_all
   end
 
-  def test_save_and_all
-    assert_equal 0, Channel.all.count
+  def test_save_all_and_count
+    assert_equal 0, Channel.count
     @a1.save
     @a2.save
     assert_equal [@a1, @a2], Channel.all
@@ -32,6 +32,7 @@ class ChannelTest < Test::Unit::TestCase
     @a1.save
     assert_equal @a2, Channel.find(0)
     assert_equal @a1, Channel.find(1)
+    assert_equal nil, Channel.find(2)
   end
 
 end
