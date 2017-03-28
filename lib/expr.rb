@@ -1,31 +1,24 @@
 require_relative 'utils'
 
 class Expr
-  attr_accessor :request, :advert, :operator
+  attr_accessor :field, :type, :operator, :value
 
-  def initialize(request: nil, advert: nil, operator: nil)
-    @request  = request
-    @advert   = advert
+  def initialize(field: nil, type: nil, operator: nil, value: nil)
+    @field    = request
+    @type     = advert
     @operator = operator
+    @value    = operator
   end
 
   def to_h
     {
       expr: {
-        request:  request,
-        advert:   advert,
-        operator: operator
+        :field    => field,
+        :type     => type,
+        :operator => operator,
+        :value    => value
       }
     }
-  end
-
-  def run(ch, ad, debug = false)
-    lhs = ch.send(self.request)
-    rhs = ad.send(self.advert)
-    op  = self.operator
-    val = lhs.send(op, rhs)
-    p [lhs, rhs, op, val] if debug
-    val
   end
 
 end
@@ -45,7 +38,7 @@ class ExprGroup
       e.exprs = h[:exprgroup][:exprs].map {|x| self.parse(x) }
       e
     else
-      Expr.new(request: h[:expr][:request], advert: h[:expr][:advert], operator: h[:expr][:operator])
+      Expr.new(field: h[:expr][:field], type: h[:expr][:type], operator: h[:expr][:operator], value: h[:expr][:value])
     end
   end
 

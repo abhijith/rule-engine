@@ -3,33 +3,32 @@
         "exprs": [
             {
                 "expr": {
-                    "channel": "category",
-                    "advert": "category",
+		    "field": "country",
+                    "type":  "country",
                     "operator": "=="
+                    "value": 10,
                 }
             },
             {
                 "exprgroup": {
                     "exprs": [
-                        {
-                            "expr": {
-                                "channel": "category",
-                                "advert": "category",
-                                "operator": "=="
-                            }
-                        },
-                        {
-                            "expr": {
-                                "channel": "preferences",
-                                "advert": "category",
-                                "operator": "intersect?"
-                            }
-                        }
+			{
+			    "field": "categories",
+			    "type":  "category",
+			    "operator": "in"
+			    "value": [1, 2],
+			}
+			{
+			    "field": "views",
+			    "type":  "int",
+			    "operator": "<="
+			    "value": 1000,
+			},
                     ],
                     "cond": "any?"
                 }
             }
         ],
-        "cond": "any?"
+        "cond": "all?"
     }
 }
