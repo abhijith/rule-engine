@@ -3,55 +3,79 @@ require_relative 'utils'
 class CategoryTest < Test::Unit::TestCase
 
   def setup
-    @a = Category.new(:cars)
-    @b = Category.new(:bmw)
-    @c = Category.new(:audi)
-    @d = Category.new(:cuisine)
-    @e = Category.new(:chinese)
-    @f = Category.new(:indian)
+    @root    = Category.new(:root)
+    @cars    = Category.new(:cars)
+    @bmw     = Category.new(:bmw)
+    @audi    = Category.new(:audi)
+    @cuisine = Category.new(:cuisine)
+    @chinese = Category.new(:chinese)
+    @indian  = Category.new(:indian)
+  end
+
+  def teardown
+    Category.destroy_all
   end
 
   def test_id
-    @a.save
-    @b.save
-    assert_equal 0, @a.id
-    assert_equal 1, @b.id
+    @cars.save
+    @bmw.save
+    assert_equal 0, @cars.id
+    assert_equal 1, @bmw.id
   end
 
   def test_parent
-    @a.save
-    @b.save
-    @c.save
+    @cars.save
+    @bmw.save
+    @audi.save
 
-    @a.add_child(@b)
-    @a.add_child(@c)
-    assert_equal @a, @b.parent
-    assert_equal @a.children, [@b, @c]
+    @cars.add_child(@bmw)
+    @audi.parent = @cars
+    assert_equal @cars, @bmw.parent
+    assert_equal @cars, @audi.parent
+    assert_equal @cars.children, [@bmw, @audi]
   end
 
-  # def test_descendants
-  #   assert_equal [], @a.descendants
-  #   @a.add_child(@b)
-  #   @a.add_child(@e)
-  #   @e.add_child(@f)
-  #   @b.add_child(@c)
-  #   @c.add_child(@d)
-  #   assert_equal [:b, :c, :d, 1, 2], @a.descendants.map(&:label)
-  # end
+  def test_descendants
+    [@root, @cars, @bmw, @chinese, @audi, @cuisine, @indian].map(&:save)
+    assert_equal [], @cars.descendants
 
-  # def test_ancestors
-  #   @a.add_child(@b)
-  #   @b.add_child(@c)
-  #   @c.add_child(@d)
-  #   assert_equal [:c, :b, :a], @d.ancestors.map(&:label)
-  # end
+    @root.add_child(@cars)
+    @root.add_child(@cuisine)
 
-  # def test_find
-  #   @a.save
-  #   @b.save
-  #   assert_equal @a2, Category.find(0)
-  #   assert_equal @a1, Category.find(1)
-  #   assert_equal nil, Category.find(2)
-  # end
+    @cars.add_child(@bmw)
+    @cars.add_child(@audi)
+
+    @cuisine.add_child(@chinese)
+    @cuisine.add_child(@indian)
+
+    assert_equal [:bmw, :audi], @cars.descendants.map(&:label)
+    assert_equal [:cars, :bmw, :audi, :cuisine, :chinese, :indian], @root.descendants.map(&:label)
+  end
+
+  def test_ancestors
+    [@root, @cars, @bmw, @chinese, @audi, @cuisine, @indian].map(&:save)
+    assert_equal [], @cars.descendants
+
+    @root.add_child(@cars)
+    @root.add_child(@cuisine)
+
+    @cars.add_child(@bmw)
+    @cars.add_child(@audi)
+
+    @cuisine.add_child(@chinese)
+    @cuisine.add_child(@indian)
+
+    assert_equal [:cars, :root], @bmw.ancestors.map(&:label)
+    assert_equal [:cuisine, :root], @indian.ancestors.map(&:label)
+    assert_equal [], @root.ancestors
+  end
+
+  def test_find
+    @cars.save
+    @bmw.save
+    assert_equal @cars, Category.find(0)
+    assert_equal @bmw, Category.find(1)
+    assert_equal nil, Category.find(2)
+  end
 
 end
