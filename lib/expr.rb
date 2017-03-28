@@ -21,6 +21,9 @@ class Expr
     }
   end
 
+  def satisfies?(request)
+  end
+
 end
 
 class ExprGroup
@@ -55,7 +58,7 @@ class ExprGroup
     }
   end
 
-  def run(ch, ad, debug = false)
+  def satisfies?(request, debug = false)
     vals = self.exprs.map {|rule| rule.run(ch, ad, debug) }
     vals.send(self.cond)
   end

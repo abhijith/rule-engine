@@ -2,7 +2,7 @@ Entities:
 ---------
 ** Request
    * Description
-     Packet sent when a channel queries for an eligible Ad
+     - Packet sent when a channel queries for an eligible Ad
 
    * Attributes
      - channel
@@ -109,3 +109,33 @@ Entities:
    * Associations:
      - belongs-to advert
      - belongs-to country
+
+
+Example:
+--------
+
+* Request
+  {
+    channel: "reddit.com"
+    country: "germany"
+    categories: ["food", "travelling"]
+  }
+
+* Ad1
+  {
+    label: "nike"
+    country: "germany"
+    limit: 1000
+    constraint: (and (== country "germany") (member? "sports" categories))
+  }
+
+  Ad1.satisifies?(request) -> (and true false) => false
+
+* Ad2
+  {
+    label: "airbnb"
+    country: "germany"
+    limit: 1000
+    constraint: (and (== country "germany") (member? "travelling" categories))
+  }
+  Ad2.satisifies?(request) -> (and true true) => true

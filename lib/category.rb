@@ -1,4 +1,4 @@
-class TreeNode
+class Category
   attr_accessor :data, :children, :parent
 
   @@coll = []
@@ -11,7 +11,7 @@ class TreeNode
   end
 
   def self.init
-    @@root = TreeNode.new(:root)
+    @@root = Category.new(:root)
   end
 
   def self.root

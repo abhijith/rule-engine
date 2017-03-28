@@ -1,16 +1,18 @@
 class Advert
 
-  attr_accessor :name, :start_date, :end_date, :category, :language, :limit
+  attr_accessor :name, :start_date, :end_date, :country, :language, :limit
 
   @@coll    = []
   @@counter = 0
 
-  def initialize(category: nil, language: nil)
-    @category = category
+  def initialize
   end
 
   def self.load(file)
-    coll = JSON.parse(File.read(file), symbolize_names: true)
+    JSON.parse(File.read(file), symbolize_names: true)
+  end
+
+  def self.parse(coll)
     coll.map {|h| Advert.new(h).save }
   end
 

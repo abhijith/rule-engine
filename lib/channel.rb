@@ -1,6 +1,6 @@
 class Channel
 
-  attr_accessor :name, :category, :language
+  attr_accessor :name, :categories, :country
 
   @@coll = []
   @@counter = 0
@@ -11,7 +11,10 @@ class Channel
 
   def self.load(file)
     coll = JSON.parse(File.read(file), symbolize_names: true)
-    coll.map {|h| Channel.new(h).save }
+  end
+
+  def self.parse(coll)
+    coll.map {|h| self.new(h).save }
   end
 
   def to_s
