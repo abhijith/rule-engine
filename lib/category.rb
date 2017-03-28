@@ -1,13 +1,12 @@
 class Category
-  attr_accessor :id, :label, :children, :parent
+  attr_accessor :id, :label, :parent_id
 
   @@coll    = []
   @@counter = 0
 
-  def initialize(label, parent = nil)
-    @label    = label
-    @parent   = parent
-    @children = []
+  def initialize(label, parent_id = nil)
+    @label     = label
+    @parent_id = parent_id
   end
 
   def self.load(file)
@@ -36,14 +35,21 @@ class Category
     @@coll[id]
   end
 
+  def parent
+    Category.find(self.parent_id)
+  end
+
+  def children
+    Category.all.select {|x| x.parent_id == self.id }
+  end
+
   def self.destroy_all
     @@coll    = []
     @@counter = 0
   end
 
   def add_child(node)
-    node.parent = self
-    self.children << self.find(node)
+    node.parent_id = self.id
   end
 
   def descendants
