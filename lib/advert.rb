@@ -32,6 +32,7 @@ class Advert
     self.id = @@counter
     @@coll << self
     @@counter = @@counter + 1
+    self
   end
 
   def self.all
@@ -56,23 +57,32 @@ class Advert
   end
 
   def self.live
-    self.all.select(&:live?)
+    self.all.select {|x| x.live? and (not exhausted?) }
   end
 
   def exhausted?
     if self.limit.nil?
       false
     else
-      self.views >= self.limit or Advert.limiters.each
+      self.views >= self.limit
     end
   end
 
-  def self.limiters
-    [CountryLimit, ChannelLimit]
+  # make this polymorphic
+  def country_limits(country)
+    CountryLimit.all.select {|x| x.advert_id == self.id and x.country_id == country.id }
   end
 
-  def country_limit
-    CountryLimit.new(
+  def channel_limits(channel)
+    ChannelLimit.all.select {|x| x.advert_id == self.id and x.channel_id == channel.id }
+  end
+
+  def set_country_limit(country, limit)
+    CountryLimit.new(advert_id: self.id, country_id: country.id, limit: limit).save
+  end
+
+  def set_channel_limit(channel, limit)
+    ChannelLimit.new(advert_id: self.id, channel_id: channel.id, limit: limit).save
   end
 
 end

@@ -24,6 +24,7 @@ class Channel
     self.id = @@counter
     @@coll << self
     @@counter = @@counter + 1
+    self
   end
 
   def self.all

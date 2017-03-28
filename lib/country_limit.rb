@@ -4,8 +4,11 @@ class CountryLimit
   @@coll    = []
   @@counter = 0
 
-  def initialize(advert_id: nil, channel_id: nil)
-    @views = 0
+  def initialize(advert_id: nil, country_id: nil, limit: nil)
+    @views      = 0
+    @limit      = limit
+    @advert_id  = advert_id
+    @country_id = country_id
   end
 
   def self.count
@@ -15,6 +18,7 @@ class CountryLimit
   def save
     @@coll << self
     @@counter = @@counter + 1
+    self
   end
 
   def self.all
@@ -36,6 +40,14 @@ class CountryLimit
     else
       self.views >= self.limit
     end
+  end
+
+  def advert
+    Advert.find(self.advert_id)
+  end
+
+  def country
+    Country.find(self.country_id)
   end
 
 end

@@ -41,4 +41,18 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @a1, Advert.find(1)
   end
 
+  def test_exhausted?
+    assert_equal false, @a1.exhausted?
+  end
+
+  def test_country_limit
+    @c1 = Country.new(label: "India")
+    @c1.save
+    @a1.save
+    @a1.set_country_limit(@c1, 10)
+    assert_equal 1,   CountryLimit.count
+    assert_equal @c1, CountryLimit.all[0].country
+    assert_equal @a1, CountryLimit.all[0].advert
+  end
+
 end

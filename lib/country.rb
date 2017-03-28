@@ -4,7 +4,7 @@ class Country
   @@coll = []
   @@counter = 0
 
-  def initialize(label)
+  def initialize(label: label)
     @label = label
   end
 
@@ -24,6 +24,7 @@ class Country
     self.id = @@counter
     @@coll << self
     @@counter = @@counter + 1
+    self
   end
 
   def self.all

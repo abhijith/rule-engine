@@ -4,9 +4,9 @@ class ChannelLimit
   @@coll    = []
   @@counter = 0
 
-  def initialize(advert_id: nil, channel_id: nil)
+  def initialize(advert_id: nil, channel_id: nil, limit: nil)
     @views = 0
-    @limit = nil
+    @limit = limit
   end
 
   def self.count
@@ -16,6 +16,7 @@ class ChannelLimit
   def save
     @@coll << self
     @@counter = @@counter + 1
+    self
   end
 
   def self.all
