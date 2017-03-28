@@ -5,7 +5,8 @@ class Advert
   @@coll    = []
   @@counter = 0
 
-  def initialize
+  def initialize(label: label)
+    @label = label
   end
 
   def self.load(file)
@@ -14,9 +15,6 @@ class Advert
 
   def self.parse(coll)
     coll.map {|h| Advert.new(h).save }
-  end
-
-  def to_s
   end
 
   def self.count
@@ -37,7 +35,8 @@ class Advert
   end
 
   def self.destroy_all
-    @@coll = []
+    @@coll    = []
+    @@counter = 0
   end
 
 end

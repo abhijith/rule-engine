@@ -39,8 +39,10 @@ class Category
     @@coll[id]
   end
 
-  def destroy_all
-    @coll = []
+  def self.destroy_all
+    @@coll    = []
+    @@counter = 0
   end
+
 
 end
