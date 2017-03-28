@@ -21,7 +21,7 @@ class Expr
     }
   end
 
-  def satisfies?(request)
+  def satisfies?(request, debug = false)
     dyn = request.send(field)
     value.send(operator, dyn)
   end
