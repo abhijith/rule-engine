@@ -11,8 +11,4 @@ class Request
     @country    = Country.find_by_label(country).id
   end
 
-  def self.load(file)
-    Request.new(JSON.parse(File.read(file), symbolize_names: true))
-  end
-
 end

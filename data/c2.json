@@ -1,8 +1,8 @@
 {
-    "channel": "example.com",
+    "channel": "food-example.com",
     "categories": [
         "food",
         "travel"
     ],
-    "country": "India"
+    "country": "india"
 }
