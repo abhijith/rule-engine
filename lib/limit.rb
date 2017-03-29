@@ -1,10 +1,10 @@
 class Limit
-  attr_accessor :advert_id, :type, :type_id, :limit, :views
+  attr_accessor :advert_id, :ltype, :ltype_id, :limit, :views
 
   @@coll    = []
   @@counter = 0
 
-  def initialize(advert_id: nil, type_id: nil, type: nil)
+  def initialize(advert_id: nil, ltype_id: nil, ltype: nil)
     @views = 0
   end
 

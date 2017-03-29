@@ -81,6 +81,13 @@ class Advert
   def views_exhausted?(request)
   end
 
+  def inc_view(request)
+    views = view.succ
+    [:country, :channel].each do |type|
+      Limit.find(ltype: type, ltype_id: request.send(type).id, advert_id: self.id)
+    end
+  end
+
   def inc_country_view(request)
     request.channel.id
   end
