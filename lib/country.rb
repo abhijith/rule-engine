@@ -35,6 +35,10 @@ class Country
     @@coll[id]
   end
 
+  def self.find_by_label(l)
+    @@coll.select {|x| x.label == l }.first
+  end
+
   def self.destroy_all
     @@coll    = []
     @@counter = 0

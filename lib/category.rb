@@ -36,6 +36,10 @@ class Category
     @@coll[id]
   end
 
+  def self.find_by_label(l)
+    @@coll.select {|x| x.label == l }.first
+  end
+
   def parent
     Category.find(self.parent_id) if self.parent_id
   end

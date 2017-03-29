@@ -1,5 +1,12 @@
 require_relative 'utils'
 
+# {
+#   field: :categories,
+#   attr: { channel: :id }
+#   value: 1
+#   operator: :==
+# }
+
 class Expr
   attr_accessor :field, :type, :operator, :value
 
@@ -47,7 +54,10 @@ class ExprGroup
       e.exprs = h[:exprgroup][:exprs].map {|x| self.parse(x) }
       e
     else
-      Expr.new(field: h[:expr][:field], type: h[:expr][:type], operator: h[:expr][:operator], value: h[:expr][:value])
+      Expr.new(field:    h[:expr][:field],
+               type:     h[:expr][:type],
+               operator: h[:expr][:operator],
+               value:    h[:expr][:value])
     end
   end
 

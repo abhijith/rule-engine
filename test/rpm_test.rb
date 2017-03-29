@@ -6,15 +6,15 @@ class RpmTest < Test::Unit::TestCase
     @nokia  = Advert.new(label: "nokia").save
     @airbnb = Advert.new(label: "airbnb").save
 
-    @reddit = Channel.new(label: "reddit.com").save
-    @medium = Channel.new(label: "medium.com").save
+    @cars    = Category.new("cars")
+    @bmw     = Category.new("bmw")
+    @audi    = Category.new("audi")
+    @cuisine = Category.new("cuisine")
+    @chinese = Category.new("chinese")
+    @indian  = Category.new("indian")
 
-    @cars    = Category.new(:cars)
-    @bmw     = Category.new(:bmw)
-    @audi    = Category.new(:audi)
-    @cuisine = Category.new(:cuisine)
-    @chinese = Category.new(:chinese)
-    @indian  = Category.new(:indian)
+    @india   = Country.new(label: "India").save
+    @germany = Country.new(label: "Germany").save
 
     [@cars, @bmw, @chinese, @audi, @cuisine, @indian].map(&:save)
 
@@ -23,6 +23,11 @@ class RpmTest < Test::Unit::TestCase
 
     @cuisine.add_child(@chinese)
     @cuisine.add_child(@indian)
+
+    @reddit = Channel.new(label: "reddit.com").save
+    @medium = Channel.new(label: "medium.com").save
+
+    @reddit.categories = [@cars, @cuisine]
 
     expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
     expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
@@ -42,8 +47,16 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def test_all
-    Advert.find(0).constraints
-    Advert.find(1).constraints
+    r = {
+      channel: "reddit.com",
+      categories: ["cars"],
+      country: "Germany"
+    }
+
+    req = Request.new(r)
+    p [ req.channel.id,
+        req.country.id,
+        req.categories.map(&:id)]
   end
 
 end
