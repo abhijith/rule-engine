@@ -9,7 +9,7 @@ class Advert
   def initialize(label: nil)
     @label = label
     @limit = nil
-    @views = nil
+    @views = 0
     @limit = nil
 
     @start_date = DateTime.now
@@ -52,6 +52,10 @@ class Advert
   def self.destroy_all
     @@coll    = []
     @@counter = 0
+  end
+
+  def inc_view
+    @views = @views.succ
   end
 
   def live?

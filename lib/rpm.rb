@@ -39,9 +39,13 @@ end
 
 def main(attrs)
   init_data
-  p Channel.all
+
   request = Request.new(attrs)
-  Advert.all.map do |ad|
-    p ad.constraints.satisfies?(request)
+  coll = Advert.all.select do |ad|
+    ad.constraints.satisfies?(request)
+  end
+  coll.map do |ad|
+    ad.inc_view
+    p ad.views
   end
 end

@@ -34,6 +34,10 @@ class ChannelLimit
     @@counter = 0
   end
 
+  def inc_view
+    @views = @views.succ
+  end
+
   def exhausted?
     if self.limit.nil?
       false
