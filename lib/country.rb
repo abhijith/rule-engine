@@ -4,7 +4,7 @@ class Country
   @@coll = []
   @@counter = 0
 
-  def initialize(label: label)
+  def initialize(label: nil)
     @label = label
   end
 
