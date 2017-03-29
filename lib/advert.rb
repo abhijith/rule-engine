@@ -78,8 +78,14 @@ class Advert
     end
   end
 
-  def matches?(request)
-    self.constraint.satisfies?(request) and not limits_exhausted?(request)
+  def views_exhausted?(request)
+  end
+
+  def inc_country_view(request)
+    request.channel.id
+  end
+
+  def inc_channel_view(request)
   end
 
   # make this polymorphic

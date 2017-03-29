@@ -43,7 +43,7 @@ def main(attrs)
   request = Request.new(attrs)
 
   coll = Advert.all.select do |ad|
-    ad.constraints.satisfies?(request) and not ad.exhausted?
+    ad.constraints.satisfies?(request) and not ad.exhausted? and not ad.views_exhausted?
   end
 
   coll.map do |ad|
