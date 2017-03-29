@@ -29,15 +29,15 @@ class RpmTest < Test::Unit::TestCase
 
     @reddit.categories = [@cars, @cuisine]
 
-    expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
-    expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
-    expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
-    expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
+    @expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
+    @expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
+    @expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
+    @expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
 
-    expr  = ExprGroup.new(:any?, [expr1, expr2, expr3])
+    @expr  = ExprGroup.new(:any?, [@expr1, @expr2, @expr3])
 
-    @nokia.constraints  = expr
-    @airbnb.constraints = expr4
+    @nokia.constraints  = @expr
+    @airbnb.constraints = @expr4
   end
 
   def teardown
@@ -53,10 +53,13 @@ class RpmTest < Test::Unit::TestCase
       country: "Germany"
     }
 
-    req = Request.new(r)
-    p [ req.channel.id,
-        req.country.id,
-        req.categories.map(&:id)]
+    p @expr.satisfies?(Request.new(r))
   end
 
+end
+
+class Array
+  def intersect?(x)
+    not (self & x).empty?
+  end
 end
