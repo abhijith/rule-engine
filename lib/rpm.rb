@@ -41,9 +41,11 @@ def main(attrs)
   init_data
 
   request = Request.new(attrs)
+
   coll = Advert.all.select do |ad|
-    ad.constraints.satisfies?(request)
+    ad.constraints.satisfies?(request) and not ad.exhausted?
   end
+
   coll.map do |ad|
     ad.inc_view
     p ad.views
