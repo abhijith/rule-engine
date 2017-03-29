@@ -1,12 +1,11 @@
 class Channel
-  attr_accessor :id, :label, :categories, :country
+  attr_accessor :id, :label, :categories
 
   @@coll    = []
   @@counter = 0
 
   def initialize(label: nil)
     @label      = label
-    @country    = nil
     @categories = []
   end
 

@@ -1,5 +1,8 @@
 {
-    "category": ["cars"],
-    "preferences": ["cars", "gadgets"],
-    "language": "english"
+    "channel": "reddit.com",
+    "categories": [
+        "cars",
+        "gadgets"
+    ],
+    "country": "Germany"
 }

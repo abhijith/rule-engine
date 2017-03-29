@@ -1,5 +1,7 @@
 require_relative 'utils'
 
 def main(request)
-  p Advert.all.select {|ad| ad.constriant.satisfies?(request) }
+  Advert.all.map do |ad|
+    p ad.constraint.satisfies?(request)
+  end
 end

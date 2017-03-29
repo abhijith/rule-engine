@@ -1,5 +1,8 @@
 {
-    "category": ["cooking"],
-    "preferences": ["food"],
-    "language": "german"
+    "channel": "example.com",
+    "categories": [
+        "food",
+        "travel"
+    ],
+    "country": "India"
 }

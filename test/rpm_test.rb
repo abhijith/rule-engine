@@ -3,41 +3,42 @@ require_relative 'utils'
 class RpmTest < Test::Unit::TestCase
 
   def setup
-    @nokia  = Advert.new(label: "nokia").save
-    @airbnb = Advert.new(label: "airbnb").save
+    @ad1     = Advert.new(label: "bmw-m3").save
+    @ad2     = Advert.new(label: "master-chef").save
 
-    @cars    = Category.new("cars")
-    @bmw     = Category.new("bmw")
-    @audi    = Category.new("audi")
-    @cuisine = Category.new("cuisine")
-    @chinese = Category.new("chinese")
-    @indian  = Category.new("indian")
+    cars    = Category.new("cars")
+    bmw     = Category.new("bmw")
+    audi    = Category.new("audi")
+    food    = Category.new("food")
+    south   = Category.new("south-indian")
+    north   = Category.new("north-indian")
 
-    @india   = Country.new(label: "India").save
-    @germany = Country.new(label: "Germany").save
+    india   = Country.new(label: "india").save
+    germany = Country.new(label: "germany").save
 
-    [@cars, @bmw, @chinese, @audi, @cuisine, @indian].map(&:save)
+    [cars, bmw, food, audi, south, north].map(&:save)
 
-    @cars.add_child(@bmw)
-    @cars.add_child(@audi)
+    cars.add_child(bmw)
+    cars.add_child(audi)
 
-    @cuisine.add_child(@chinese)
-    @cuisine.add_child(@indian)
+    food.add_child(south)
+    food.add_child(north)
 
-    @reddit = Channel.new(label: "reddit.com").save
-    @medium = Channel.new(label: "medium.com").save
+    car_channel  = Channel.new(label: "car-example.com").save
+    food_channel = Channel.new(label: "food-example.com").save
 
-    @reddit.categories = [@cars, @cuisine]
+    car_channel.categories  = [cars]
+    food_channel.categories = [food]
 
-    @expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
-    @expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
-    @expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
-    @expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
+    expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
+    expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
+    expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
+    expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
 
-    @expr  = ExprGroup.new(:any?, [@expr1, @expr2, @expr3])
+    expr  = ExprGroup.new(:all?, [expr1, expr2, expr3])
 
-    @nokia.constraints  = @expr
-    @airbnb.constraints = @expr4
+    @ad1.constraints = expr
+    @ad2.constraints = expr4
   end
 
   def teardown
@@ -47,13 +48,16 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def test_all
-    r = {
-      channel: "reddit.com",
+    r1 = {
+      channel: "car-example.com",
       categories: ["cars"],
-      country: "Germany"
+      country: "germany"
     }
 
-    p @expr.satisfies?(Request.new(r))
+    p Channel.all
+    exit
+    assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1), true)
+    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2), true)
   end
 
 end
