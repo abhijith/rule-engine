@@ -5,7 +5,8 @@ class Channel
   @@counter = 0
 
   def initialize(label: nil)
-    @label = label
+    @label   = label
+    @country = nil
   end
 
   def self.load(file)
