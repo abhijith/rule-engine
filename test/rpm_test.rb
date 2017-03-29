@@ -30,7 +30,7 @@ class RpmTest < Test::Unit::TestCase
     car_channel.categories  = [cars]
     food_channel.categories = [food]
 
-    expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
+    expr1 = Expr.new(field: :channel,    type: :channel,  value: 0, operator: :==)
     expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
     expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
     expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
@@ -54,10 +54,14 @@ class RpmTest < Test::Unit::TestCase
       country: "germany"
     }
 
-    p Channel.all
-    exit
-    assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1), true)
-    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2), true)
+    r2 = {
+      channel: "food-example.com",
+      categories: ["cars", "travel"],
+      country: "india"
+    }
+
+    assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1))
+    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
   end
 
 end
