@@ -72,8 +72,11 @@ class ExprGroup
 
   def satisfies?(request, debug = false)
     res  = self.exprs.map {|rule| { expr: rule.to_h, val: rule.satisfies?(request, debug) } }
-    pp res
     vals = res.map {|x| x[:val] }
+    if debug
+      pp res
+      pp vals
+    end
     vals.send(self.cond)
   end
 
