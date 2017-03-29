@@ -9,6 +9,8 @@ class AdvertTest < Test::Unit::TestCase
 
   def teardown
     Advert.destroy_all
+    Channel.destroy_all
+    Country.destroy_all
   end
 
   def test_id

@@ -1,7 +1,7 @@
 require 'date'
 
 class Advert
-  attr_accessor :id, :label, :start_date, :end_date, :limit, :views
+  attr_accessor :id, :label, :start_date, :end_date, :limit, :views, :constraints
 
   @@coll    = []
   @@counter = 0
@@ -14,6 +14,8 @@ class Advert
 
     @start_date = DateTime.now
     @end_date   = DateTime.now + (60 * 60 * 24)
+
+    @constraints = nil
   end
 
   def self.load(file)
@@ -66,6 +68,10 @@ class Advert
     else
       self.views >= self.limit
     end
+  end
+
+  def matches?(request)
+    self.constraint.satisfies?(request) and not limits_exhausted?(request)
   end
 
   # make this polymorphic

@@ -1,5 +1,5 @@
 require_relative 'utils'
 
-def main(ch, expr)
+def main(request)
   p Advert.all.select {|ad| ad.constriant.satisfies?(request) }
 end
