@@ -51,10 +51,11 @@ def main(attrs)
     ad.constraints.satisfies?(request) and not ad.exhausted? # and not ad.views_exhausted?(request)
   end
 
-  # coll.map do |ad|
-  #   ad.inc_country_view(request)
-  #   ad.inc_channel_view(request)
-  # end
+  coll.map do |ad|
+    ad.inc_view
+    ad.inc_country_view(request)
+    ad.inc_channel_view(request)
+  end
 
-  true
+  "true"
 end
