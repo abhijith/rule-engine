@@ -8,9 +8,8 @@ class Advert
 
   def initialize(label: nil)
     @label = label
-    @limit = nil
     @views = 0
-    @limit = nil
+    @limit = 10
 
     @start_date = DateTime.now
     @end_date   = DateTime.now + (60 * 60 * 24)
@@ -54,10 +53,6 @@ class Advert
     @@counter = 0
   end
 
-  def inc_view
-    @views = @views.succ
-  end
-
   def live?
     (self.start_date..self.end_date).cover?(DateTime.now)
   end
@@ -79,20 +74,27 @@ class Advert
   end
 
   def views_exhausted?(request)
+    find(self.id, request.country.id)
   end
 
-  def inc_view(request)
-    views = view.succ
-    [:country, :channel].each do |type|
-      Limit.find(ltype: type, ltype_id: request.send(type).id, advert_id: self.id)
-    end
+  # def inc_view(request)
+  #   views = view.succ
+  #   [:country, :channel].each do |type|
+  #     Limit.find(ltype: type, ltype_id: request.send(type).id, advert_id: self.id)
+  #   end
+  # end
+
+  def incr_view
+    p [@views, views]
+    views = views + 1
   end
 
   def inc_country_view(request)
-    request.channel.id
+    CountryLimit.find(self.id, request.country).inc_view
   end
 
   def inc_channel_view(request)
+    ChannelLimit.find(self.id, request.channel).inc_view
   end
 
   # make this polymorphic

@@ -25,8 +25,8 @@ class ChannelLimit
     @@coll
   end
 
-  def self.find(id)
-    @@coll[id]
+  def self.find(advert_id, channel_id)
+    @@coll.select {|x| x.advert_id == advert_id and x.channel_id == channel_id }
   end
 
   def self.destroy_all
@@ -35,7 +35,7 @@ class ChannelLimit
   end
 
   def inc_view
-    @views = @views.succ
+    views = views.succ
   end
 
   def exhausted?

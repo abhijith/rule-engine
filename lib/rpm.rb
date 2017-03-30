@@ -27,14 +27,14 @@ def init_data
 
   reddit.categories = [cars, food]
 
-  expr1 = Expr.new(field: :channel,    type: :channel,  value: 1, operator: :==)
+  expr1 = Expr.new(field: :channel,    type: :channel,  value: 0, operator: :==)
   expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
   expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
 
   expr  = ExprGroup.new(:any?, [expr1, expr2, expr3])
 
   ad1.constraints = expr
-  ad2.constraints = expr2
+  ad2.constraints = ExprGroup.new(:all?, [Expr.new(field: :channel, type: :channel,  value: 1, operator: :==)])
 end
 
 def main(attrs)
@@ -43,11 +43,15 @@ def main(attrs)
   request = Request.new(attrs)
 
   coll = Advert.all.select do |ad|
-    ad.constraints.satisfies?(request) and not ad.exhausted? and not ad.views_exhausted?
+    ad.constraints.satisfies?(request) and not ad.exhausted? # and not ad.views_exhausted?(request)
   end
 
   coll.map do |ad|
-    ad.inc_view
     p ad.views
+
+    ad.incr_view
+    # ad.inc_country_view
+    # ad.inc_channel_view
   end
+
 end

@@ -25,8 +25,8 @@ class CountryLimit
     @@coll
   end
 
-  def self.find(id)
-    @@coll[id]
+  def self.find(advert_id, country_id)
+    @@coll.select {|x| x.advert_id == advert_id and x.country_id == country_id }
   end
 
   def self.destroy_all
@@ -35,7 +35,7 @@ class CountryLimit
   end
 
   def inc_view
-    @views = @views.succ
+    views = views.succ
   end
 
   def exhausted?
