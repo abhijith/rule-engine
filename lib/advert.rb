@@ -74,7 +74,10 @@ class Advert
   end
 
   def views_exhausted?(request)
-    p CountryLimit.all
+    # puts "--"
+    # p CountryLimit.all
+    # p [request, self]
+    # puts "--"
     a = CountryLimit.find(self.id, request.country).exhausted?
     b = ChannelLimit.find(self.id, request.channel).exhausted?
     a or b

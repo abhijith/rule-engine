@@ -16,5 +16,8 @@ def main(attrs)
     ad.inc_channel_view(request)
   end
 
-  "true"
+  pp CountryLimit.all
+  pp ChannelLimit.all
+
+  coll.count.to_json
 end
