@@ -1,19 +1,17 @@
+require 'sinatra'
+
 require_relative 'lib/utils'
 require_relative 'lib/rpm'
 
-USAGE = "usage: ruby rpm.rb <request.json>"
-if ARGV.empty?
-  puts USAGE
-else
-  if ARGV.length == 1
-    file = ARGV.first
-    if File.exists?(file)
-      attrs = JSON.parse(File.read(file), symbolize_names: true)
-      main(attrs)
-    else
-      puts "No such file: #{file}"
-    end
-  else
-    puts USAGE
-  end
+get '/' do
+  'Hello world!'
+end
+
+get '/ad/:id' do
+  Advert.find(params[:id].to_i)
+end
+
+post '/match' do
+  r = JSON.parse(request.body.read, symbolize_names: true)
+  main(r)
 end

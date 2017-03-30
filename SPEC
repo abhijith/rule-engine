@@ -136,3 +136,4 @@ Example:
     constraint: (and (== country "germany") (member? "travelling" categories))
   }
   Ad2.satisifies?(request) -> (and true true) => true
+curl -H "Content-Type: application/json" -X POST -d "{\"channel\":\"car-example.com\",\"country\":\"germany\",\"categories\":[\"cars\",\"gadgets\"]}" http://localhost:4567/match
