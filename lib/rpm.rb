@@ -52,8 +52,6 @@ def main(attrs)
   end
 
   coll.map do |ad|
-    p ad.inc_view
-    p ad.inc_view
     ad.inc_country_view(request)
     ad.inc_channel_view(request)
   end

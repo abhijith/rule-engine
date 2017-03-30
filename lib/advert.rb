@@ -73,9 +73,9 @@ class Advert
     end
   end
 
-  def views_exhausted?(request)
-    find(self.id, request.country.id)
-  end
+  # def views_exhausted?(request)
+  #   find(self.id, request.country.id)
+  # end
 
   # def inc_view(request)
   #   views = view.succ
