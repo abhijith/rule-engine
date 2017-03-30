@@ -84,9 +84,8 @@ class Advert
   #   end
   # end
 
-  def incr_view
-    p [@views, views]
-    views = views + 1
+  def inc_view
+    @views = @views + 1
   end
 
   def inc_country_view(request)

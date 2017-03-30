@@ -35,6 +35,11 @@ def init_data
 
   ad1.constraints = expr
   ad2.constraints = ExprGroup.new(:all?, [Expr.new(field: :channel, type: :channel,  value: 1, operator: :==)])
+
+  ad1.set_country_limit(germany, 10)
+  ad1.set_channel_limit(reddit, 10)
+  ad2.set_country_limit(india, 10)
+  ad2.set_channel_limit(medium, 10)
 end
 
 def main(attrs)
@@ -47,11 +52,13 @@ def main(attrs)
   end
 
   coll.map do |ad|
-    p ad.views
-
-    ad.incr_view
-    # ad.inc_country_view
-    # ad.inc_channel_view
+    p ad.inc_view
+    p ad.inc_view
+    ad.inc_country_view(request)
+    ad.inc_channel_view(request)
   end
+
+  pp CountryLimit.all
+  pp ChannelLimit.all
 
 end
