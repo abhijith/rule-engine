@@ -61,6 +61,8 @@ class AdvertTest < Test::Unit::TestCase
     @a1.start_date = DateTime.now - 1000
     @a1.end_date   = DateTime.now + 1000
     assert_equal true, @a1.live?
+    assert_equal false, @a1.expired?
+    assert_equal true, @a2.expired?
   end
 
   def test_live
