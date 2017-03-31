@@ -80,17 +80,15 @@ class Advert
 
   def fetch_limit(obj)
     type = obj.class
-    self.limits.select {|x| x.type == type and request.send(type.downcase) }.first
+    self.limits.select {|l| l.type == type and l.type_id == obj.id }.first
   end
 
-  def fetch_limits(request)
-    [:channel, :country].map do |type|
-      fetch_limit(request, type)
-    end.compact
+  def fetch_limits(objs)
+    objs.map {|obj| self.fetch_limit(obj) }.compact
   end
 
-  def views_exhausted?(request)
-    fetch_limits(request).map(&:exhausted?).any?
+  def limits_exceeded?(objs)
+    self.fetch_limits(objs).map(&:exhausted?).any?
   end
 
 end

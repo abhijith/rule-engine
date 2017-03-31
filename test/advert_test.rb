@@ -8,9 +8,11 @@ class AdvertTest < Test::Unit::TestCase
 
     @india   = Country.new(label: "india").save
     @germany = Country.new(label: "germany").save
+    @food = Channel.new(label: "food-example.com")
 
     @l1 = Limit.new(@germany, 2)
-    @l2 = Limit.new(@india, 2)
+    @l2 = Limit.new(@food, 1)
+
     @a1.limits = [@l1, @l2]
   end
 
@@ -87,18 +89,12 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @l1, @a1.fetch_limit(@germany)
   end
 
-  def test_limits
-    r1 = {
-      channel: "car-example.com",
-      categories: ["cars"],
-      country: "germany"
-    }
-
-    assert_equal false, @a1.views_exhausted?(Request.new(r1))
-    @a1.fetch_limits(Request.new(r1)).each(&:inc_view)
-    @a1.fetch_limits(Request.new(r1)).each(&:inc_view)
-    assert_equal true, @a1.views_exhausted?(Request.new(r1))
+  def test_fetch_limits
+    assert_equal [@l1, @l2], @a1.fetch_limits([@germany, @food])
   end
 
+  def test_limits
+    assert_equal false, @a1.limits_exceeded?([@germany, @food])
+  end
 
 end
