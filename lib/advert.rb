@@ -7,15 +7,13 @@ class Advert
   @@counter = 0
 
   def initialize(label: nil)
-    @label = label
-    @views = 0
-    @limit = 10
-
-    # @start_date = DateTime.now
-    # @end_date   = DateTime.now + (60 * 60 * 24)
-
+    @label       = label
+    @views       = 0
+    @limit       = 10
     @constraints = nil
-    @limits = []
+    @limits      = []
+    @start_date  = nil
+    @end_date    = nil
   end
 
   def self.load(file)
