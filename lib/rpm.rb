@@ -5,5 +5,5 @@ def main(attrs)
 
   Advert.live.select do |ad|
     (not ad.limits_exceeded?([request.country, request.channel])) and ad.constraints.satisfies?(request)
-  end
+  end.first
 end

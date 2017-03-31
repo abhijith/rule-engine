@@ -40,8 +40,6 @@ def init_data
   l1 = Limit.new(germany, 2)
   l2 = Limit.new(car_ex, 2)
   ad1.limits = [l1, l2]
-
-  ad1.fetch_limits(request)
 end
 
 def flush
@@ -54,10 +52,10 @@ get '/' do
   ":initialized"
 end
 
-get '/ad/:id' do
+get '/ads/:id' do
   content_type :json
-  Advert.find(params[:id].to_i)
-  true.to_json
+  a = Advert.find(params[:id].to_i)
+  a.to_h.to_json
 end
 
 post '/match' do

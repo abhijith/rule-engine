@@ -85,4 +85,8 @@ class Advert
     self.fetch_limits(objs).map(&:exhausted?).any?
   end
 
+  def to_h
+    { label: label }
+  end
+
 end
