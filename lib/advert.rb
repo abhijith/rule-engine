@@ -63,7 +63,7 @@ class Advert
   end
 
   def self.live
-    self.all.select {|x| x.live? and (not exhausted?) }
+    self.all.select {|x| x.live? }
   end
 
   def exhausted?
