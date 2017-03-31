@@ -77,6 +77,12 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal false, @a1.exhausted?
   end
 
+  def test_inc_view
+    assert_equal 0, @a1.views
+    @a1.inc_view
+    assert_equal 1, @a1.views
+  end
+
   def test_limits
     r1 = {
       channel: "car-example.com",
