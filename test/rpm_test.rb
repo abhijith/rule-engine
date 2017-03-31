@@ -4,7 +4,6 @@ class RpmTest < Test::Unit::TestCase
 
   def setup
     @ad1     = Advert.new(label: "bmw-m3").save
-    @ad2     = Advert.new(label: "master-chef").save
 
     cars    = Category.new("cars")
     bmw     = Category.new("bmw")
@@ -38,7 +37,9 @@ class RpmTest < Test::Unit::TestCase
     expr  = ExprGroup.new(:all?, [expr1, expr2, expr3])
 
     @ad1.constraints = expr
-    @ad2.constraints = expr4
+    l1 = Limit.new(germany, 1)
+    l2 = Limit.new(india, 2)
+    @ad1.limits = [l1, l2]
   end
 
   def teardown
@@ -60,8 +61,12 @@ class RpmTest < Test::Unit::TestCase
       country: "india"
     }
 
-    assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1))
-    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
+    p @ad1.fetch_limits(Request.new(r1))
+    p @ad1.views_exhausted?(Request.new(r1))
+    @ad1.fetch_limits(Request.new(r1)).each(&:inc_view)
+    p @ad1.limits
+    #assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1))
+    #assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
   end
 
 end

@@ -47,24 +47,10 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal false, @a1.exhausted?
   end
 
-  def test_country_limit
-    @c1 = Country.new(label: "India")
-    @c1.save
-    @a1.save
-    @a1.set_country_limit(@c1, 10)
-    assert_equal 1,   CountryLimit.count
-    assert_equal @c1, CountryLimit.all[0].country
-    assert_equal @a1, CountryLimit.all[0].advert
-  end
-
-  def test_channel_limit
-    @c1 = Channel.new(label: "reddit")
-    @c1.save
-    @a1.save
-    @a1.set_channel_limit(@c1, 10)
-    assert_equal 1,   ChannelLimit.count
-    assert_equal @c1, ChannelLimit.all[0].channel
-    assert_equal @a1, ChannelLimit.all[0].advert
+  def test_limits
+    l1 = Limit.new(germany, 2)
+    l2 = Limit.new(car_ex, 2)
+    ad1.limits = [l1, l2]
   end
 
 

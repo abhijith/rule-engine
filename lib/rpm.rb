@@ -10,14 +10,5 @@ def main(attrs)
 
   coll = coll.select {|ad| ad.constraints.satisfies?(request) }
 
-  coll.map do |ad|
-    ad.inc_view
-    ad.inc_country_view(request)
-    ad.inc_channel_view(request)
-  end
-
-  pp CountryLimit.all
-  pp ChannelLimit.all
-
   coll.count.to_json
 end

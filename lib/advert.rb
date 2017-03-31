@@ -1,7 +1,7 @@
 require 'date'
 
 class Advert
-  attr_accessor :id, :label, :start_date, :end_date, :limit, :views, :constraints
+  attr_accessor :id, :label, :start_date, :end_date, :limit, :views, :constraints, :limits
 
   @@coll    = []
   @@counter = 0
@@ -11,10 +11,11 @@ class Advert
     @views = 0
     @limit = 10
 
-    @start_date = DateTime.now
-    @end_date   = DateTime.now + (60 * 60 * 24)
+    # @start_date = DateTime.now
+    # @end_date   = DateTime.now + (60 * 60 * 24)
 
     @constraints = nil
+    @limits = []
   end
 
   def self.load(file)
@@ -73,39 +74,22 @@ class Advert
     end
   end
 
-  def views_exhausted?(request)
-    a = CountryLimit.find(self.id, request.country).exhausted?
-    b = ChannelLimit.find(self.id, request.channel).exhausted?
-    a or b
-  end
-
-  def views_exhausted?(request)
-    [:country, :channel].map do |type|
-      konstant = "#{type.capitalize}Limit"
-      if Object.const_defined?(konstant)
-        Object.const_get(konstant).send(:find, self.id, request.send(type)).exhausted?
-      end
-    end.any?
-  end
-
   def inc_view
     @views = @views + 1
   end
 
-  def inc_country_view(request)
-    CountryLimit.find(self.id, request.country).inc_view
+  def fetch_limit(request, type)
+    self.limits.select {|x| x.type.to_s == type.to_s.capitalize and request.send(type) }.first
   end
 
-  def inc_channel_view(request)
-    ChannelLimit.find(self.id, request.channel).inc_view
+  def fetch_limits(request)
+    [:channel, :country].map do |type|
+      fetch_limit(request, type)
+    end.compact
   end
 
-  def set_country_limit(country, limit)
-    CountryLimit.new(advert_id: self.id, country_id: country.id, limit: limit).save
-  end
-
-  def set_channel_limit(channel, limit)
-    ChannelLimit.new(advert_id: self.id, channel_id: channel.id, limit: limit).save
+  def views_exhausted?(request)
+    fetch_limits(request).map(&:exhausted?)
   end
 
 end

@@ -8,9 +8,7 @@ require_relative 'country'
 require_relative 'category'
 require_relative 'expr'
 
-require_relative 'channel_limit'
-require_relative 'country_limit'
-
+require_relative 'limit'
 
 class Array
   def intersect?(x)

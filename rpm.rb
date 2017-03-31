@@ -5,7 +5,6 @@ require_relative 'lib/rpm'
 
 def init_data
   ad1     = Advert.new(label: "bmw-m3").save
-  # ad2     = Advert.new(label: "master-chef").save
 
   cars    = Category.new("cars")
   bmw     = Category.new("bmw")
@@ -37,12 +36,12 @@ def init_data
   expr  = ExprGroup.new(:any?, [expr1, expr2, expr3])
 
   ad1.constraints = expr
-  # ad2.constraints = ExprGroup.new(:all?, [Expr.new(field: :channel, type: :channel,  value: 1, operator: :==)])
 
-  ad1.set_country_limit(germany, 2)
-  ad1.set_channel_limit(car_ex, 2)
-  # ad2.set_country_limit(india, 10)
-  # ad2.set_channel_limit(food_ex, 10)
+  l1 = Limit.new(germany, 2)
+  l2 = Limit.new(car_ex, 2)
+  ad1.limits = [l1, l2]
+
+  ad1.fetch_limits(request)
 end
 
 init_data
