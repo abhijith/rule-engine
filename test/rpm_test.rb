@@ -67,8 +67,6 @@ class RpmTest < Test::Unit::TestCase
     @ad1.fetch_limits(Request.new(r1)).each(&:inc_view)
     p @ad1.views_exhausted?(Request.new(r1))
     p @ad1.limits
-    #assert_equal true,  @ad1.constraints.satisfies?(Request.new(r1))
-    #assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
   end
 
 end

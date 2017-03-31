@@ -50,6 +50,13 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @a1, Advert.find(1)
   end
 
+  def test_find_by_label
+    @a2.save
+    @a1.save
+    assert_equal @a2, Advert.find_by_label("airbnb")
+    assert_equal @a1, Advert.find_by_label("nokia")
+  end
+
   def test_exhausted?
     assert_equal false, @a1.exhausted?
   end
