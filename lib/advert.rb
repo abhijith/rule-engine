@@ -89,7 +89,7 @@ class Advert
   end
 
   def views_exhausted?(request)
-    fetch_limits(request).map(&:exhausted?)
+    fetch_limits(request).map(&:exhausted?).any?
   end
 
 end

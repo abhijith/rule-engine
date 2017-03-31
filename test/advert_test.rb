@@ -5,6 +5,13 @@ class AdvertTest < Test::Unit::TestCase
   def setup
     @a1 = Advert.new(label: "nokia")
     @a2 = Advert.new(label: "airbnb")
+
+    india   = Country.new(label: "india").save
+    germany = Country.new(label: "germany").save
+
+    l1 = Limit.new(germany, 2)
+    l2 = Limit.new(india, 2)
+    @a1.limits = [l1, l2]
   end
 
   def teardown
@@ -48,9 +55,16 @@ class AdvertTest < Test::Unit::TestCase
   end
 
   def test_limits
-    l1 = Limit.new(germany, 2)
-    l2 = Limit.new(car_ex, 2)
-    ad1.limits = [l1, l2]
+    r1 = {
+      channel: "car-example.com",
+      categories: ["cars"],
+      country: "germany"
+    }
+
+    assert_equal false, @a1.views_exhausted?(Request.new(r1))
+    @a1.fetch_limits(Request.new(r1)).each(&:inc_view)
+    @a1.fetch_limits(Request.new(r1)).each(&:inc_view)
+    assert_equal true, @a1.views_exhausted?(Request.new(r1))
   end
 
 
