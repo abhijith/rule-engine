@@ -29,10 +29,19 @@ class Expr
   end
 
   def satisfies?(request, debug = false)
-    request.channel.id == value
-    # rval = request.send(field)
-    # p [field, rval, value]
-    # value.send(operator, attr)
+    case field
+    when :channel
+      dyn = request.send(field).id
+      value.send(operator, dyn)
+    when :country
+      dyn = request.send(field).id
+      value.send(operator, dyn)
+    when :categories
+      dyn = request.send(field).map(&:id)
+      value.send(operator, dyn)
+    else
+      false
+    end
   end
 
 end
