@@ -68,7 +68,6 @@ class AdvertTest < Test::Unit::TestCase
     @a1.end_date   = DateTime.now + 1000
     @a1.save
     @a2.save
-    assert_equal true, @a1.live?
     assert_equal 1, Advert.live.count
   end
 
