@@ -22,19 +22,17 @@ class AdvertTest < Test::Unit::TestCase
     Country.destroy_all
   end
 
+  def test_save_all_and_count
+    @a1.save
+    @a2.save
+    assert_equal [@a1, @a2], Advert.all
+  end
+
   def test_id
     @a1.save
     @a2.save
     assert_equal 0, @a1.id
     assert_equal 1, @a2.id
-  end
-
-  def test_save_all_and_count
-    assert_equal 0, Advert.count
-    @a1.save
-    @a2.save
-    assert_equal [@a1, @a2], Advert.all
-    assert_equal 2, Advert.count
   end
 
   def test_destroy_all
@@ -59,7 +57,7 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @a1, Advert.find_by_label("nokia")
   end
 
-  def test_live?
+  def test_live_and_expired?
     @a1.start_date = DateTime.now - 1000
     @a1.end_date   = DateTime.now + 1000
     assert_equal true, @a1.live?
@@ -73,6 +71,14 @@ class AdvertTest < Test::Unit::TestCase
     @a1.save
     @a2.save
     assert_equal 1, Advert.live.count
+  end
+
+  def test_expired
+    @a1.start_date = DateTime.now - 2000
+    @a1.end_date   = DateTime.now - 1000
+    @a1.save
+    @a2.save
+    assert_equal 2, Advert.expired.count
   end
 
   def test_exhausted?

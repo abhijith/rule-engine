@@ -16,14 +16,6 @@ class Advert
     @end_date    = nil
   end
 
-  def self.load(file)
-    JSON.parse(File.read(file), symbolize_names: true)
-  end
-
-  def self.parse(coll)
-    coll.map {|h| self.new(h).save }
-  end
-
   def self.count
     @@counter
   end
@@ -39,17 +31,17 @@ class Advert
     @@coll
   end
 
+  def self.destroy_all
+    @@coll    = []
+    @@counter = 0
+  end
+
   def self.find(id)
     @@coll[id]
   end
 
   def self.find_by_label(l)
     @@coll.select {|x| x.label == l }.first
-  end
-
-  def self.destroy_all
-    @@coll    = []
-    @@counter = 0
   end
 
   def live?
@@ -62,6 +54,10 @@ class Advert
 
   def self.live
     self.all.select {|x| x.live? }
+  end
+
+  def self.expired
+    self.all.select {|x| x.expired? }
   end
 
   def exhausted?
