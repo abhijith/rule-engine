@@ -44,10 +44,14 @@ def init_data
   ad1.fetch_limits(request)
 end
 
-init_data
+def flush
+  [Advert, Channel, Country, Category, Limit].each(&:destroy_all)
+end
 
 get '/' do
-  'Hello world!'
+  flush
+  init_data
+  ":initialized"
 end
 
 get '/ad/:id' do

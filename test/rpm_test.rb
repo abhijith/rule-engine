@@ -3,55 +3,59 @@ require_relative 'utils'
 class RpmTest < Test::Unit::TestCase
 
   def setup
-    @ad1     = Advert.new(label: "bmw-m3").save
+    @ad1 = Advert.new(label: "bmw-m3").save
+    @ad1.start_date = DateTime.now - 1000
+    @ad1.end_date   = DateTime.now + 1000
 
-    cars    = Category.new("cars")
-    bmw     = Category.new("bmw")
-    audi    = Category.new("audi")
-    food    = Category.new("food")
-    south   = Category.new("south-indian")
-    north   = Category.new("north-indian")
+    @ad2 = Advert.new(label: "airbnb").save
 
-    india   = Country.new(label: "india").save
-    germany = Country.new(label: "germany").save
+    @cars    = Category.new("cars")
+    @bmw     = Category.new("bmw")
+    @audi    = Category.new("audi")
+    @food    = Category.new("food")
+    @south   = Category.new("south-indian")
+    @north   = Category.new("north-indian")
 
-    [cars, bmw, food, audi, south, north].map(&:save)
+    @india   = Country.new(label: "india").save
+    @germany = Country.new(label: "germany").save
 
-    cars.add_child(bmw)
-    cars.add_child(audi)
+    [@cars, @bmw, @food, @audi, @south, @north].map(&:save)
 
-    food.add_child(south)
-    food.add_child(north)
+    @cars.add_child(@bmw)
+    @cars.add_child(@audi)
 
-    car_channel  = Channel.new(label: "car-example.com").save
-    food_channel = Channel.new(label: "food-example.com").save
+    @food.add_child(@south)
+    @food.add_child(@north)
 
-    car_channel.categories  = [cars]
-    food_channel.categories = [food]
+    @car_ex  = Channel.new(label: "car-example.com").save
+    @food_ex = Channel.new(label: "food-example.com").save
 
-    expr1 = Expr.new(field: :channel,    type: :channel,  value: 0, operator: :==)
-    expr2 = Expr.new(field: :country,    type: :country,  value: [0, 1], operator: :member?)
-    expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
-    expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :descendant?)
+    @car_ex.categories = [@cars, @food]
 
-    expr  = ExprGroup.new(:all?, [expr1, expr2, expr3])
+    @expr1 = Expr.new(field: :channel,    type: :channel,  value: 0, operator: :==)
+    @expr2 = Expr.new(field: :country,    type: :country,  value: 0, operator: :==)
+    @expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
 
-    @ad1.constraints = expr
-    l1 = Limit.new(germany, 1)
-    l2 = Limit.new(india, 2)
-    @ad1.limits = [l1, l2]
+    @expr4  = ExprGroup.new(:any?, [@expr1, @expr2, @expr3])
+
+    @ad1.constraints = @expr4
+
+    @l1 = Limit.new(@germany, 2)
+    @l2 = Limit.new(@food_ex, 2)
+    @ad1.limits = [@l1, @l2]
   end
 
   def teardown
     Advert.destroy_all
     Channel.destroy_all
     Country.destroy_all
+    Limit.destroy_all
   end
 
   def test_all
     r1 = {
       channel: "car-example.com",
-      categories: ["cars"],
+      categories: ["cars", "travel"],
       country: "germany"
     }
 
@@ -61,12 +65,20 @@ class RpmTest < Test::Unit::TestCase
       country: "india"
     }
 
-    p @ad1.fetch_limits(Request.new(r1))
-    p @ad1.views_exhausted?(Request.new(r1))
-    @ad1.fetch_limits(Request.new(r1)).each(&:inc_view)
-    @ad1.fetch_limits(Request.new(r1)).each(&:inc_view)
-    p @ad1.views_exhausted?(Request.new(r1))
-    p @ad1.limits
+    assert_equal true,  @ad1.live?
+    assert_equal false, @ad1.expired?
+    assert_equal 1, Advert.live.count
+    assert_equal 1, Advert.expired.count
+
+    assert_equal false, @ad1.exhausted?
+    assert_equal @l1, @ad1.fetch_limit(@germany)
+    assert_equal [@l1, @l2], @ad1.fetch_limits([@germany, @food_ex])
+    assert_equal false, @ad1.limits_exceeded?([@germany, @food_ex])
+
+    assert_equal true, @ad1.constraints.satisfies?(Request.new(r1))
+    @expr5  = ExprGroup.new(:all?, [@expr1, @expr2, @expr3])
+    @ad1.constraints = @expr5
+    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
   end
 
 end
