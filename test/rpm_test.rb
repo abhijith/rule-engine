@@ -81,4 +81,20 @@ class RpmTest < Test::Unit::TestCase
     assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
   end
 
+  def test_main
+    r1 = {
+      channel: "car-example.com",
+      categories: ["cars", "travel"],
+      country: "germany"
+    }
+
+    r2 = {
+      channel: "food-example.com",
+      categories: ["cars", "travel"],
+      country: "india"
+    }
+
+    main(r1)
+  end
+
 end

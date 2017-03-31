@@ -7,6 +7,7 @@ require_relative 'channel'
 require_relative 'country'
 require_relative 'category'
 require_relative 'expr'
+require_relative 'rpm'
 
 require_relative 'limit'
 

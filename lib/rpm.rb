@@ -3,11 +3,7 @@ require_relative 'utils'
 def main(attrs)
   request = Request.new(attrs)
 
-  Advert.all.each do |ad|
-
+  Advert.live.select do |ad|
+    (not ad.limits_exceeded?([request.country, request.channel])) and ad.constraints.satisfies?(Request.new(request), true)
   end
-  # get ads which are live and not exhausted
-  # for each ad
-  # check if limits have exceeded
-  # check if constraints are satisfied
 end
