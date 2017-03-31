@@ -29,8 +29,10 @@ class Expr
   end
 
   def satisfies?(request, debug = false)
-    dyn = request.send(field)
-    value.send(operator, dyn)
+    request.channel.id == value
+    # rval = request.send(field)
+    # p [field, rval, value]
+    # value.send(operator, attr)
   end
 
 end
