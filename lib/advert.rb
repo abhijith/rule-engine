@@ -78,8 +78,9 @@ class Advert
     @views = @views + 1
   end
 
-  def fetch_limit(request, type)
-    self.limits.select {|x| x.type.to_s == type.to_s.capitalize and request.send(type) }.first
+  def fetch_limit(obj)
+    type = obj.class
+    self.limits.select {|x| x.type == type and request.send(type.downcase) }.first
   end
 
   def fetch_limits(request)

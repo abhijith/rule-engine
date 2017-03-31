@@ -6,12 +6,12 @@ class AdvertTest < Test::Unit::TestCase
     @a1 = Advert.new(label: "nokia")
     @a2 = Advert.new(label: "airbnb")
 
-    india   = Country.new(label: "india").save
-    germany = Country.new(label: "germany").save
+    @india   = Country.new(label: "india").save
+    @germany = Country.new(label: "germany").save
 
-    l1 = Limit.new(germany, 2)
-    l2 = Limit.new(india, 2)
-    @a1.limits = [l1, l2]
+    @l1 = Limit.new(@germany, 2)
+    @l2 = Limit.new(@india, 2)
+    @a1.limits = [@l1, @l2]
   end
 
   def teardown
@@ -81,6 +81,10 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal 0, @a1.views
     @a1.inc_view
     assert_equal 1, @a1.views
+  end
+
+  def test_fetch_limit
+    assert_equal @l1, @a1.fetch_limit(@germany)
   end
 
   def test_limits

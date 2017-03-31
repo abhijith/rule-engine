@@ -11,4 +11,8 @@ class Request
     @country    = Country.find_by_label(country)
   end
 
+  def category
+    self.categories
+  end
+
 end
