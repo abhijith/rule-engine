@@ -1,14 +1,16 @@
 def init_data
+  # --
   # cars
   # |    `["bmw", "audi", "fiat", "volvo"]
   # `bikes
   # |    `["ktm", "bmw", "yamaha", "suzuki"]
   # `foods
   # |    `["dosa", "idly", "meatballs", "croissant", "pizza"]
-  # `airlines
-  #       `["lufthansa", "air-france", "emirates", "air-india"]
+  # `travel
+  #       `airlines
+  #               `["lufthansa", "air-france", "emirates", "air-india"]
+  # --
 
-  categories = ["cars", "bikes", "food", "airlines"]
   cars       = ["bmw", "audi", "fiat", "volvo"]
   bikes      = ["ktm", "bmw", "yamaha", "suzuki"]
   airlines   = ["lufthansa", "air-france", "emirates", "air-india"]
@@ -18,12 +20,13 @@ def init_data
     "cars"     => cars,
     "bikes"    => bikes,
     "foods"    => foods,
-    "airlines" => airlines
+    "travel"   => { "airlines" => airlines }
   }
 
   # channels
   channels  = ["reddit.com", "team-bhp.com", "medium.com",
                "trip-advisor.com", "booking.com"]
+
   countries = ["india", "germany", "sweden", "france", "italy"]
 
   # ads
