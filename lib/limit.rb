@@ -52,4 +52,8 @@ class Limit
     end
   end
 
+  def type_instance
+    self.type.find(type_id)
+  end
+
 end
