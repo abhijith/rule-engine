@@ -64,13 +64,24 @@ def init_data
     c.save
   end
 
+  country_limits = Country.all.map {|c| Limit.new(c, 6).save }
+  channel_limits = Channel.all.map {|c| Limit.new(c, 3).save }
+
   # ads
   ads = ["bmw-m4", "audi-a4", "fiat-punto", "volvo-s40",
          "master-chef-australia", "master-chef-us", "ktm-390",
          "yamaha-r6", "motocross", "formula-1", "khaana-kazana",
          "airbnb", "euro-cars", "sixt", "hertz"]
 
-  ads.each {|x| Advert.new(label: x).save }
+  ads.each do |x|
+    ad = Advert.new(label: x).save
+    ad.limits = country_limits + channel_limits
+  end
+
 end
 
 init_data
+
+Advert.all.each do |ad|
+  p ad.limits.map(&:type_instance).map(&:label)
+end
