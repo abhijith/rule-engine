@@ -24,12 +24,19 @@ def setup_cats
   }
 end
 
-def foo(h)
+def foo(h, parent_id = nil)
   case h.is_a?
   when Hash
+    h.each_pair do |k, v|
+      c = Category.new(label: k, parent_id: parent_id).save
+      foo(v, c.id)
+    end
   when Array
+    v.each {|x| Category.new(label: x, parent_id: parent_id).save }
   when String
+    Category.new(label: h, parent_id: parent_id)
   else
+    nil
   end
 end
 
