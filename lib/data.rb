@@ -23,7 +23,7 @@ def init_data
 
   # channels
   channels  = ["reddit.com", "team-bhp.com", "medium.com",
-              "trip-advisor.com", "booking.com"]
+               "trip-advisor.com", "booking.com"]
   countries = ["india", "germany", "sweden", "france", "italy"]
 
   # ads
