@@ -1,9 +1,4 @@
-* global-counter
-* channel-counter
-* country-counter
 * ad scoring
-* live?
-* http interface
-
---
-Logging
+* http tests
+* logging
+* exceptions
