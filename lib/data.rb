@@ -1,3 +1,22 @@
+require_relative 'utils'
+
+def foo(h, parent_id = nil)
+  case h.class.to_s
+  when Hash.to_s
+    puts :hash
+    h.each_pair do |k, v|
+      c = Category.new(label: k, parent_id: parent_id).save
+      foo(v, c.id)
+    end
+  when Array.to_s
+    puts :arr
+    h.each {|x| Category.new(label: x, parent_id: parent_id).save }
+  when String.to_s
+    puts :str
+    Category.new(label: h, parent_id: parent_id).save
+  end
+end
+
 def setup_cats
   # --
   # cars
@@ -22,23 +41,11 @@ def setup_cats
     "foods"    => foods,
     "travel"   => { "airlines" => airlines }
   }
+  foo(categories)
 end
 
-def foo(h, parent_id = nil)
-  case h.is_a?
-  when Hash
-    h.each_pair do |k, v|
-      c = Category.new(label: k, parent_id: parent_id).save
-      foo(v, c.id)
-    end
-  when Array
-    v.each {|x| Category.new(label: x, parent_id: parent_id).save }
-  when String
-    Category.new(label: h, parent_id: parent_id)
-  else
-    nil
-  end
-end
+setup_cats
+pp Category.all[1]
 
 def init_data
   # setup countries
@@ -53,7 +60,7 @@ def init_data
   channels  = {
     "reddit.com"       => ["cars", "bikes", "airlines", "travel"],
     "team-bhp.com"     => ["cars", "bikes"],
-    "motocross.com"    => ["bikes", "ktm", "yamaha", "suzuki", "bmw"]
+    "motocross.com"    => ["bikes", "ktm", "yamaha", "suzuki", "bmw"],
     "trip-advisor.com" => ["foods", "travel", "air-india", "emirates"],
     "booking.com"      => ["lufthansa", "air-france"],
     "clear-trip.com"   => ["airlines"],
