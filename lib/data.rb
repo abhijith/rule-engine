@@ -1,12 +1,4 @@
-def init_data
-  # setup countries
-  # setup categories
-  # setup channels
-  # setup ads
-
-  countries = ["india", "germany", "sweden", "france", "italy"]
-  countries.each {|x| Country.new(label: x).save }
-
+def setup_cats
   # --
   # cars
   # |    `["bmw", "audi", "fiat", "volvo"]
@@ -30,10 +22,25 @@ def init_data
     "foods"    => foods,
     "travel"   => { "airlines" => airlines }
   }
+end
 
-  categories.each do |x|
-    Category.new(label: x).save
+def foo(h)
+  case h.is_a?
+  when Hash
+  when Array
+  when String
+  else
   end
+end
+
+def init_data
+  # setup countries
+  # setup categories
+  # setup channels
+  # setup ads
+
+  countries = ["india", "germany", "sweden", "france", "italy"]
+  countries.each {|x| Country.new(label: x).save }
 
   # channels
   channels  = {
@@ -59,7 +66,6 @@ def init_data
          "airbnb", "euro-cars", "sixt", "hertz"]
 
   ads.each {|x| Advert.new(label: x).save }
-
 end
 
 def flush
