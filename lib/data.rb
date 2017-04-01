@@ -79,3 +79,62 @@ def init_data
   end
 
 end
+
+def init_min_data
+  countries = ["india", "germany", "sweden", "france", "italy"]
+  countries.each {|x| Country.new(label: x).save }
+
+  # --
+  # cars
+  # |    `["bmw", "audi", "fiat", "volvo"]
+  # `bikes
+  # |    `["ktm", "bmw", "yamaha", "suzuki"]
+  # `foods
+  # |    `["dosa", "idly", "meatballs", "croissant", "pizza"]
+  # `travel
+  #       `airlines
+  #               `["lufthansa", "air-france", "emirates", "air-india"]
+  # --
+  cars       = ["bmw", "audi", "fiat", "volvo"]
+  bikes      = ["ktm", "bmw", "yamaha", "suzuki"]
+  airlines   = ["lufthansa", "air-france", "emirates", "air-india"]
+  foods      = ["dosa", "idly", "meatballs", "croissant", "pizza"]
+
+  categories = {
+    "cars"     => cars,
+    "bikes"    => bikes,
+    "foods"    => foods,
+    "travel"   => { "airlines" => airlines }
+  }
+  build_category_tree(categories)
+
+  # channels
+  channels  = {
+    "team-bhp.com"    => ["bikes", "ktm", "yamaha", "suzuki", "bmw"],
+    "trip-advisor.com" => ["foods", "travel", "air-india", "emirates"],
+    "booking.com"      => ["lufthansa", "air-france"],
+  }
+
+  channels.each_pair do |channel, categories|
+    c = Channel.new(label: channel)
+    c.categories = categories.map {|x| Category.find_by_label(x) }.compact
+    c.save
+  end
+
+  country_limits = Country.all.map {|c| Limit.new(c, 6).save }
+  channel_limits = Channel.all.map {|c| Limit.new(c, 3).save }
+
+  # ads
+  ads = ["bmw-i8", "volvo-xc60",
+         "duke-390", "yamaha-r6",
+         "master-chef-india", "master-chef-italia",
+         "airbnb", "hertz"]
+
+  ads.each do |x|
+    ad = Advert.new(label: x).save
+    ad.limits = country_limits + channel_limits
+  end
+
+end
+
+[:channel, :country, :category]
