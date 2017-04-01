@@ -1,23 +1,27 @@
 require_relative 'utils'
 
-def foo(h, parent_id = nil)
+def flush
+  [Advert, Channel, Country, Category, Limit].each(&:destroy_all)
+end
+
+def build_category_tree(h, parent_id = nil)
   case h.class.to_s
   when Hash.to_s
-    puts :hash
     h.each_pair do |k, v|
-      c = Category.new(label: k, parent_id: parent_id).save
-      foo(v, c.id)
+      c = Category.new(k, parent_id).save
+      build_category_tree(v, c.id)
     end
   when Array.to_s
-    puts :arr
-    h.each {|x| Category.new(label: x, parent_id: parent_id).save }
+    h.each {|x| build_category_tree(x, parent_id) }
   when String.to_s
-    puts :str
-    Category.new(label: h, parent_id: parent_id).save
+    Category.new(h, parent_id).save
   end
 end
 
-def setup_cats
+def init_data
+  countries = ["india", "germany", "sweden", "france", "italy"]
+  countries.each {|x| Country.new(label: x).save }
+
   # --
   # cars
   # |    `["bmw", "audi", "fiat", "volvo"]
@@ -29,7 +33,6 @@ def setup_cats
   #       `airlines
   #               `["lufthansa", "air-france", "emirates", "air-india"]
   # --
-
   cars       = ["bmw", "audi", "fiat", "volvo"]
   bikes      = ["ktm", "bmw", "yamaha", "suzuki"]
   airlines   = ["lufthansa", "air-france", "emirates", "air-india"]
@@ -41,20 +44,8 @@ def setup_cats
     "foods"    => foods,
     "travel"   => { "airlines" => airlines }
   }
-  foo(categories)
-end
+  build_category_tree(categories)
 
-setup_cats
-pp Category.all[1]
-
-def init_data
-  # setup countries
-  # setup categories
-  # setup channels
-  # setup ads
-
-  countries = ["india", "germany", "sweden", "france", "italy"]
-  countries.each {|x| Country.new(label: x).save }
 
   # channels
   channels  = {
@@ -68,7 +59,7 @@ def init_data
   }
 
   channels.each_pair do |channel, categories|
-    c = Channel.new(label: x)
+    c = Channel.new(label: channel)
     c.categories = categories.map {|x| Category.find_by_label(x) }.compact
     c.save
   end
@@ -82,6 +73,4 @@ def init_data
   ads.each {|x| Advert.new(label: x).save }
 end
 
-def flush
-  [Advert, Channel, Country, Category, Limit].each(&:destroy_all)
-end
+init_data
