@@ -26,7 +26,9 @@ def init_data
     "travel"   => { "airlines" => airlines }
   }
 
-  categories.each {|x| Category.new(label: x).save }
+  categories.each do |x|
+    Category.new(label: x).save
+  end
 
   # channels
   channels  = {
@@ -49,9 +51,7 @@ def init_data
          "yamaha-r6", "motocross", "formula-1", "khaana-kazana",
          "airbnb", "euro-cars", "sixt", "hertz"]
 
-  ads.each do |x|
-    Advert.new(label: x).save
-  end
+  ads.each {|x| Advert.new(label: x).save }
 
 end
 
