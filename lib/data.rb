@@ -5,20 +5,20 @@ def init_data
   # |    `["ktm", "bmw", "yamaha", "suzuki"]
   # `foods
   # |    `["dosa", "idly", "meatballs", "croissant", "pizza"]
-  # `flights
+  # `airlines
   #       `["lufthansa", "air-france", "emirates", "air-india"]
 
-  categories = ["cars", "bikes", "food"]
+  categories = ["cars", "bikes", "food", "airlines"]
   cars       = ["bmw", "audi", "fiat", "volvo"]
   bikes      = ["ktm", "bmw", "yamaha", "suzuki"]
-  flights    = ["lufthansa", "air-france", "emirates", "air-india"]
+  airlines   = ["lufthansa", "air-france", "emirates", "air-india"]
   foods      = ["dosa", "idly", "meatballs", "croissant", "pizza"]
 
   categories = {
-    "cars"   => cars,
-    "bikes"  => bikes,
-    "foods"  => foods,
-    "travel" => []
+    "cars"     => cars,
+    "bikes"    => bikes,
+    "foods"    => foods,
+    "airlines" => airlines
   }
 
   # channels
