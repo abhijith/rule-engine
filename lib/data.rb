@@ -47,7 +47,9 @@ def init_data
   }
 
   channels.each_pair do |channel, categories|
-    Channel.new(label: x).save
+    c = Channel.new(label: x)
+    c.categories = categories.map {|x| Category.find_by_label(x) }.compact
+    c.save
   end
 
   # ads
