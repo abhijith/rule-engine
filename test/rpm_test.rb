@@ -94,11 +94,11 @@ class RpmTest < Test::Unit::TestCase
       country: "india"
     }
 
-    assert_equal 1, main(r1).count
+    assert_equal @ad1, main(r1)
     @expr5  = ExprGroup.new(:all?, [@expr1, @expr2, @expr3])
     @ad1.constraints = @expr5
 
-    assert_equal 0, main(r2).count
+    assert_equal nil, main(r2)
   end
 
 end
