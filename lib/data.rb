@@ -1,4 +1,9 @@
 def init_data
+  # setup countries
+  # setup categories
+  # setup channels
+  # setup ads
+
   countries = ["india", "germany", "sweden", "france", "italy"]
   countries.each {|x| Country.new(label: x).save }
 
