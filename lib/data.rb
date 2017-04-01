@@ -79,9 +79,3 @@ def init_data
   end
 
 end
-
-init_data
-
-Advert.all.each do |ad|
-  p ad.limits.map(&:type_instance).map(&:label)
-end

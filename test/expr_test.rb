@@ -12,7 +12,7 @@ class ExprTest < Test::Unit::TestCase
   end
 
   def test_satisfies?
-    assert_equal true,  @expr1.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"), true)
+    assert_equal true,  @expr1.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"))
   end
 
 end
@@ -21,10 +21,10 @@ class ExprGroupTest < ExprTest
 
   def test_satisfies
     @expr3 = ExprGroup.new(:any?, [@expr1, @expr2])
-    assert_equal true,  @expr3.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"), true)
+    assert_equal true,  @expr3.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"))
 
     @expr3 = ExprGroup.new(:all?, [@expr1, @expr2])
-    assert_equal false,  @expr3.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"), true)
+    assert_equal false,  @expr3.satisfies?(Request.new(channel: "food-example.com", categories: ["cars"], country: "germany"))
   end
 
 end
