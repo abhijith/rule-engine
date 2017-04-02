@@ -12,7 +12,13 @@ require_relative 'rpm'
 require_relative 'limit'
 
 class Array
+
   def intersect?(x)
     not (self & x).empty?
   end
+
+  def subtype_of?(o)
+    self.map {|x| x.subtype_of?(o) }.all?
+  end
+
 end
