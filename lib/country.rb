@@ -8,14 +8,6 @@ class Country
     @label = label
   end
 
-  def self.load(file)
-    coll = JSON.parse(File.read(file), symbolize_names: true)
-  end
-
-  def self.parse(coll)
-    coll.map {|h| self.new(h).save }
-  end
-
   def self.count
     @@counter
   end

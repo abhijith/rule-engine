@@ -9,14 +9,6 @@ class Category
     @parent_id = parent_id
   end
 
-  def self.load(file)
-    JSON.parse(File.read(file), symbolize_names: true)
-  end
-
-  def self.parse(coll)
-    coll.map {|h| self.new(h).save }
-  end
-
   def self.count
     @@counter
   end
