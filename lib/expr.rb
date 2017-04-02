@@ -1,12 +1,5 @@
 require_relative 'utils'
 
-# {
-#   field: :categories,
-#   attr: { channel: :id }
-#   value: 1
-#   operator: :==
-# }
-
 class Expr
   attr_accessor :field, :type, :operator, :value
 
@@ -30,21 +23,19 @@ class Expr
 
   # TODO: make use of type information to dispatch the operator on the type instead of operating on id
   def satisfies?(request, debug = false)
-    case field
+    case type
     when :channel
-      request_val = request.send(field).id
-      value.send(operator, request_val)
+      request_val = request.send(field)
+      ch = Channel.find(value)
+      ch.send(operator, request_val)
     when :country
-      request_val = request.send(field).id
-      value.send(operator, request_val)
-    when :categories
-      if operator == :isa?
-        request_val = request.send(field).flat_map(&:ancestors).map(&:id)
-        not (request_val & value).empty?
-      else
-        request_val = request.send(field).map(&:id)
-        value.send(operator, request_val)
-      end
+      request_val = request.send(field)
+      ch = Country.find(value)
+      ch.send(operator, request_val)
+    when :category
+      request_vals = request.send(field)
+      rule_vals    = value.map {|v| Category.find(v) }
+      Category.intersect?(request_vals, rule_vals)
     else
       false
     end

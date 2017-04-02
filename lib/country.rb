@@ -44,4 +44,9 @@ class Country
     @@counter = 0
   end
 
+  # comparators
+  def ==(o)
+    self.label == o.label
+  end
+
 end
