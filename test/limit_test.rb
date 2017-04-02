@@ -4,7 +4,7 @@ class LimitTest < Test::Unit::TestCase
 
   def setup
     @india = Country.new(label: "india").save
-    @food  = Channel.new(label: "food-example.com")
+    @food  = Channel.new(label: "food-example.com").save
 
     @l1 = Limit.new(@india, 2)
     @l2 = Limit.new(@food, 2)
