@@ -28,17 +28,23 @@ class Expr
     }
   end
 
+  # TODO: make use of type information to dispatch the operator on the type instead of operating on id
   def satisfies?(request, debug = false)
     case field
     when :channel
-      dyn = request.send(field).id
-      value.send(operator, dyn)
+      request_val = request.send(field).id
+      value.send(operator, request_val)
     when :country
-      dyn = request.send(field).id
-      value.send(operator, dyn)
+      request_val = request.send(field).id
+      value.send(operator, request_val)
     when :categories
-      dyn = request.send(field).map(&:id)
-      value.send(operator, dyn)
+      if operator == :isa?
+        request_val = request.send(field).flat_map(&:ancestors).map(&:id)
+        not (request_val & value).empty?
+      else
+        request_val = request.send(field).map(&:id)
+        value.send(operator, request_val)
+      end
     else
       false
     end
