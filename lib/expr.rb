@@ -21,28 +21,18 @@ class Expr
     }
   end
 
-  # TODO: make use of type information to dispatch the operator on the type instead of operating on id
   def satisfies?(request, debug = false)
-    case type
-    when :channel
-      request_val = request.send(field)
-      ch = Channel.find(value)
-      ch.send(operator, request_val)
-    when :country
-      request_val = request.send(field)
-      ch = Country.find(value)
-      ch.send(operator, request_val)
-    when :category
-      request_val = request.send(field)
-      if value.is_a? Array
-        rule_val = value.map {|v| Category.find(v) }
-      else
-        rule_val = Category.find(value)
-      end
-      request_val.send(operator, rule_val)
-    else
-      false
+    if debug
+      pp self.to_h
+      pp request
     end
+    request_val = request.send(field)
+    if value.is_a? Array
+      rule_val = value.map {|v| type.send(:find, v) }
+    else
+      rule_val = type.send(:find, value)
+    end
+    request_val.send(operator, rule_val)
   end
 
 end

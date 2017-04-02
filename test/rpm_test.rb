@@ -32,9 +32,9 @@ class RpmTest < Test::Unit::TestCase
 
     @car_ex.categories = [@cars, @food]
 
-    @expr1 = Expr.new(field: :channel,    type: :channel,  value: 0, operator: :==)
-    @expr2 = Expr.new(field: :country,    type: :country,  value: 0, operator: :==)
-    @expr3 = Expr.new(field: :categories, type: :category, value: [0, 1], operator: :intersect?)
+    @expr1 = Expr.new(field: :channel,    type: Channel,  value: 0, operator: :==)
+    @expr2 = Expr.new(field: :country,    type: Country,  value: 0, operator: :==)
+    @expr3 = Expr.new(field: :categories, type: Category, value: [0, 1], operator: :intersect?)
 
     @expr4  = ExprGroup.new(:any?, [@expr1, @expr2, @expr3])
 
