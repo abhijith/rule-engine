@@ -135,10 +135,10 @@ def min_data
     ad.limits = country_limits + channel_limits
   end
 
-  e1 = Expr.new(field: :channel, type: :channel, value: 0, operator: :==)
-  e2 = Expr.new(field: :country, type: :channel, value: 0, operator: :==)
-  e3 = Expr.new(field: :categories, type: :category, value: [1], operator: :intersect?)
-  e4 = Expr.new(field: :categories, type: :category, value: [1], operator: :isa?)
+  e1 = Expr.new(field: :channel, type: Channel, value: 0, operator: :==)
+  e2 = Expr.new(field: :country, type: Country, value: 0, operator: :==)
+  e3 = Expr.new(field: :categories, type: Category, value: [1], operator: :intersect?)
+  e4 = Expr.new(field: :categories, type: Category, value: [1], operator: :isa?)
 
   e5 = ExprGroup.new(:all?, [e1, e2, e3])
   e6 = ExprGroup.new(:any?, [e4, e5])
