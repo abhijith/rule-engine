@@ -77,12 +77,18 @@ class Category
     self.label == o.label and self.parent_id == o.parent_id
   end
 
-  def self.intersect?(a, b)
-    (a.map(&:id) & b.map(&:id)).any?
-  end
+  # def self.intersect?(a, b)
+  #   (a.map(&:id) & b.map(&:id)).any?
+  # end
 
-  def isa?(o)
+  def subtype_of?(o)
     self.ancestors.member?(o)
   end
 
+end
+
+class Array
+  def subtype_of?(o)
+    self.map {|x| x.subtype_of?(o) }.all?
+  end
 end

@@ -7,8 +7,8 @@ class ExprTest < Test::Unit::TestCase
     @expr1 = Expr.new(field: :channel, type: :channel, value: 0, operator: :==)
     @expr2 = Expr.new(field: :country, type: :country, value: 0, operator: :==)
     @expr3 = Expr.new(field: :categories, type: :category, value: [1, 0], operator: :==)
-    @expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :&)
-    @expr5 = Expr.new(field: :categories, type: :category, value: 0, operator: :isa?)
+    @expr4 = Expr.new(field: :categories, type: :category, value: [0], operator: :intersect?)
+    @expr5 = Expr.new(field: :categories, type: :category, value: 0, operator: :subtype_of?)
 
     @germany = Country.new(label: "germany").save
     @car     = Channel.new(label: "car-example.com").save
@@ -25,11 +25,11 @@ class ExprTest < Test::Unit::TestCase
     assert_equal true, @expr3.satisfies?(r1, true)
     assert_equal true, @expr4.satisfies?(r1, true)
 
+    r2 = Request.new(channel: "car-example.com", categories: ["cars"], country: "germany")
+    assert_equal true, @expr5.satisfies?(r2, true)
 
-    # r2 = Request.new(categories: ["cars", "automobiles"])
-    # assert_equal true, @expr3.satisfies?(r1, true)
-
-
+    r3 = Request.new(channel: "car-example.com", categories: ["automobiles"], country: "germany")
+    assert_equal false, @expr5.satisfies?(r3, true)
   end
 
 end

@@ -33,9 +33,13 @@ class Expr
       ch = Country.find(value)
       ch.send(operator, request_val)
     when :category
-      request_vals = request.send(field)
-      rule_vals    = value.map {|v| Category.find(v) }
-      Category.intersect?(request_vals, rule_vals)
+      request_val = request.send(field)
+      if value.is_a? Array
+        rule_val = value.map {|v| Category.find(v) }
+      else
+        rule_val = Category.find(value)
+      end
+      request_val.send(operator, rule_val)
     else
       false
     end
