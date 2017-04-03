@@ -22,36 +22,30 @@ class Expr
   end
 
   def satisfies?(request, debug = false)
-    raise Invalid.new, "Request field not found: #{field}" if not request.respond_to?(field)
-
     if debug
       pp self.to_h
       pp request
     end
 
+    raise InvalidField.new, "Request field not found: #{field}" if not request.respond_to?(field)
+
     request_val = request.send(field)
 
     if value.is_a? Array
+      value.each do |v|
+        raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find)
+      end
+
       rule_val = value.map do |v|
-        if type.respond_to?(:find)
-          type.send(:find, v)
-        else
-          raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
-        end
+        type.send(:find, v)
       end
     else
-      if type.respond_to?(:find)
-        rule_val = type.send(:find, value)
-      else
-        raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
-      end
+      raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find)
+      rule_val = type.send(:find, value)
     end
 
-    if request_val.respond_to?(operator)
-      request_val.send(operator, rule_val)
-    else
-      raise Invalid.new, "Invalid operator #{operator} for #{request_val.class}"
-    end
+    raise InvalidOperator.new, "Invalid operator #{operator} for #{request_val.class}" if not request_val.respond_to?(operator)
+    request_val.send(operator, rule_val)
   end
 
 end

@@ -2,9 +2,8 @@ require_relative 'utils'
 
 class ExprTest < Test::Unit::TestCase
 
-  class Cat ; end
+  class Spurious ; end
 
-  # request.attr.is_a?
   def setup
     @expr1 = Expr.new(field: :channel, type: Channel, value: 0, operator: :==)
     @expr2 = Expr.new(field: :country, type: Country, value: 0, operator: :==)
@@ -18,6 +17,7 @@ class ExprTest < Test::Unit::TestCase
     @c1 = Category.new("automobiles").save
     @c2 = Category.new("cars", 0).save
     @c3 = Category.new("bmw", 1).save
+
   end
 
   def test_satisfies?
@@ -36,16 +36,20 @@ class ExprTest < Test::Unit::TestCase
     r4 = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
     assert_equal true, @expr5.satisfies?(r2)
 
-    assert_raises Invalid do
-      assert_equal false, Expr.new(field: :categories, type: Cat, value: 0, operator: :subtype_of?).satisfies?(r3)
+    assert_raises InvalidType do
+      Expr.new(field: :categories, type: Spurious, value: 0, operator: :subtype_of?).satisfies?(r3)
     end
 
-    assert_raises Invalid do
-      assert_equal false, Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r3)
+    assert_raises InvalidType do
+      Expr.new(field: :categories, type: Spurious, value: [1, 0], operator: :==).satisfies?(r3)
     end
 
-    assert_raises Invalid do
-      assert_equal false, Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r3)
+    assert_raises InvalidOperator do
+      Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r3)
+    end
+
+    assert_raises InvalidField do
+      Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r3)
     end
 
   end

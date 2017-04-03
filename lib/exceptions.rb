@@ -1,3 +1,9 @@
-class RpmError < StandardError ; end
-class NotFound < RpmError      ; end
-class Invalid  < RpmError      ; end
+class ChannelNotFound  < StandardError ; end
+class CountryNotFound  < StandardError ; end
+class CategoryNotFound < StandardError ; end
+class AdvertNotFound   < StandardError ; end
+class LimitNotFound    < StandardError ; end
+
+class InvalidOperator  < StandardError ; end
+class InvalidField     < StandardError ; end
+class InvalidType      < StandardError ; end
