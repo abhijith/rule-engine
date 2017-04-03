@@ -8,6 +8,7 @@ class Request
       @channel = Channel.find_by_label(channel)
       raise ChannelNotFound.new, "no such channel" if @channel.nil?
     end
+
     if country
       @country = Country.find_by_label(country)
       raise CountryNotFound.new, "no such channel" if @country.nil?
