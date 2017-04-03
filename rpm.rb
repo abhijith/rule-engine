@@ -12,8 +12,10 @@ end
 
 get '/ads/:id' do
   content_type :json
-  a = Advert.find(params[:id].to_i)
-  a.to_h.to_json
+  ad = Advert.find(params[:id].to_i)
+  raise Invalid, "no such advert: #{id}" if a.nil?
+
+  ad.to_h.to_json
 end
 
 post '/match' do

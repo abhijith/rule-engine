@@ -33,12 +33,19 @@ class ExprTest < Test::Unit::TestCase
     r3 = Request.new(channel: "car-example.com", categories: ["automobiles"], country: "germany")
     assert_equal false, @expr5.satisfies?(r3)
 
+    r4 = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
+    assert_equal true, @expr5.satisfies?(r2)
+
     assert_raises Invalid do
       assert_equal false, Expr.new(field: :categories, type: Cat, value: 0, operator: :subtype_of?).satisfies?(r3)
     end
 
     assert_raises Invalid do
       assert_equal false, Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r3)
+    end
+
+    assert_raises Invalid do
+      assert_equal false, Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r3)
     end
 
   end
