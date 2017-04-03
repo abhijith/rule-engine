@@ -8,8 +8,8 @@ require_relative 'country'
 require_relative 'category'
 require_relative 'expr'
 require_relative 'rpm'
-
 require_relative 'limit'
+require_relative 'exceptions'
 
 class Array
 
