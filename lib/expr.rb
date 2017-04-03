@@ -30,19 +30,28 @@ class Expr
     end
 
     request_val = request.send(field)
+
     if value.is_a? Array
       rule_val = value.map do |v|
         if type.respond_to?(:find)
           type.send(:find, v)
         else
-          # raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
+          raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
         end
       end
     else
-      rule_val = type.send(:find, value)
+      if type.respond_to?(:find)
+        rule_val = type.send(:find, value)
+      else
+        raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
+      end
     end
 
-    request_val.send(operator, rule_val)
+    if request_val.respond_to?(operator)
+      request_val.send(operator, rule_val)
+    else
+      raise Invalid.new, "Invalid operator #{operator} for #{request_val.class}"
+    end
   end
 
 end

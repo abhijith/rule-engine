@@ -2,6 +2,8 @@ require_relative 'utils'
 
 class ExprTest < Test::Unit::TestCase
 
+  class Cat ; end
+
   # request.attr.is_a?
   def setup
     @expr1 = Expr.new(field: :channel, type: Channel, value: 0, operator: :==)
@@ -30,6 +32,15 @@ class ExprTest < Test::Unit::TestCase
 
     r3 = Request.new(channel: "car-example.com", categories: ["automobiles"], country: "germany")
     assert_equal false, @expr5.satisfies?(r3)
+
+    assert_raises Invalid do
+      assert_equal false, Expr.new(field: :categories, type: Cat, value: 0, operator: :subtype_of?).satisfies?(r3)
+    end
+
+    assert_raises Invalid do
+      assert_equal false, Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r3)
+    end
+
   end
 
 end

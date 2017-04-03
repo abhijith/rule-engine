@@ -15,8 +15,8 @@ class RequestTest < Test::Unit::TestCase
   def test_initialize
     @r1 = Request.new(channel: @ch1.label, categories: [@cat1.label], country: "india")
 
-    assert_equal @ch1,  @r1.channel
-    assert_equal @india, @r1.country
+    assert_equal @ch1,    @r1.channel
+    assert_equal @india,  @r1.country
     assert_equal [@cat1], @r1.categories
 
     @r2 = Request.new(channel: "unknown.com", categories: ["bike"], country: "foo")
