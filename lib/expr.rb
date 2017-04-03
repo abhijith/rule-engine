@@ -22,16 +22,26 @@ class Expr
   end
 
   def satisfies?(request, debug = false)
+    raise Invalid.new, "Request field not found: #{field}" if not request.respond_to?(field)
+
     if debug
       pp self.to_h
       pp request
     end
+
     request_val = request.send(field)
     if value.is_a? Array
-      rule_val = value.map {|v| type.send(:find, v) }
+      rule_val = value.map do |v|
+        if type.respond_to?(:find)
+          type.send(:find, v)
+        else
+          # raise Invalid.new, "Invalid type #{type} in rule: #{self.to_h}"
+        end
+      end
     else
       rule_val = type.send(:find, value)
     end
+
     request_val.send(operator, rule_val)
   end
 
