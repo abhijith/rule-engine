@@ -49,34 +49,34 @@ def init_data
   volvo = Advert.new(label: "volvo-s40", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   volvo.limits = country_limits + channel_limits
 
-  volvo.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: "sweden",       operator: :==),
-                                            Expr.new(field: :channel,       value: "team-bhp.com", operator: :==),
-                                            Expr.new(field: :preferences,  value: ["cars"],      operator: :==)
+  volvo.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,     value: "sweden",       operator: :==),
+                                            Expr.new(field: :channel,     value: "team-bhp.com", operator: :==),
+                                            Expr.new(field: :preferences, value: ["cars"],       operator: :==)
                                            ])
 
   bmw = Advert.new(label: "bmw-i8", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   bmw.limits = country_limits + channel_limits
 
-  bmw.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: "germany",      operator: :==),
-                                          Expr.new(field: :channel,       value: "team-bhp.com", operator: :==),
-                                          Expr.new(field: :preferences, value: "cars",        operator: :parent_of?)
+  bmw.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,     value: "germany",      operator: :==),
+                                          Expr.new(field: :channel,     value: "team-bhp.com", operator: :==),
+                                          Expr.new(field: :preferences, value: "cars",         operator: :parent_of?)
                                          ])
 
   masterchef = Advert.new(label: "master-chef", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   masterchef.limits = country_limits + channel_limits
 
-  masterchef.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: ["germany", "sweden", "india"],   operator: :member?),
-                                                 Expr.new(field: :channel,       value: "trip-advisor.com", operator: :==),
-                                                 Expr.new(field: :preferences,  value: ["food", "dosa", "travel"], operator: :intersect?)
+  masterchef.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,     value: ["germany", "sweden", "india"], operator: :member?),
+                                                 Expr.new(field: :channel,     value: "trip-advisor.com",             operator: :==),
+                                                 Expr.new(field: :preferences, value: ["food", "dosa", "travel"],     operator: :intersect?)
                                                 ])
 
   airberlin = Advert.new(label: "air-berlin",  start_date: DateTime.now - 1000,  end_date:    DateTime.now + 1000).save
   airberlin.limits = country_limits + channel_limits
 
-  expr = ExprGroup.new(:any?, [Expr.new(field: :preferences,  value: "travel", operator: :parent_of?),
-                               Expr.new(field: :categories,   value: "travel", operator: :parent_of?)])
+  expr = ExprGroup.new(:any?, [Expr.new(field: :preferences, value: "travel", operator: :parent_of?),
+                               Expr.new(field: :categories,  value: "travel", operator: :parent_of?)])
 
-  airberlin.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,      value: ["germany", "sweden"], operator: :member?),
-                                                Expr.new(field: :channel,      value: "trip-advisor.com", operator: :==),
+  airberlin.constraints = ExprGroup.new(:all?, [Expr.new(field: :country, value: ["germany", "sweden"], operator: :member?),
+                                                Expr.new(field: :channel, value: "trip-advisor.com",    operator: :==),
                                                 expr])
 end

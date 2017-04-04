@@ -6,15 +6,15 @@ class ExprTest < Test::Unit::TestCase
 
   def setup
     @expr1 = Expr.new(field: :channel,     value: "car-example.com",                       operator: :==)
-    @expr2 = Expr.new(field: :country,       value: "germany",                               operator: :==)
-    @expr3 = Expr.new(field: :preferences,  value: ["cars", "automobiles"],                 operator: :==)
-    @expr4 = Expr.new(field: :preferences,  value: ["automobiles"],                         operator: :intersect?)
-    @expr5 = Expr.new(field: :channel,       value: ["car-example.com", "food-example.com"], operator: :member?)
-    @expr6 = Expr.new(field: :country,       value: ["germany", "india"],                    operator: :member?)
-    @expr7 = Expr.new(field: :preferences,  value: "automobiles",                           operator: :parent_of?)
+    @expr2 = Expr.new(field: :country,     value: "germany",                               operator: :==)
+    @expr3 = Expr.new(field: :preferences, value: ["cars", "automobiles"],                 operator: :==)
+    @expr4 = Expr.new(field: :preferences, value: ["automobiles"],                         operator: :intersect?)
+    @expr5 = Expr.new(field: :channel,     value: ["car-example.com", "food-example.com"], operator: :member?)
+    @expr6 = Expr.new(field: :country,     value: ["germany", "india"],                    operator: :member?)
+    @expr7 = Expr.new(field: :preferences, value: "automobiles",                           operator: :parent_of?)
 
     @expr8 = ExprGroup.new(:all?, [
-                             Expr.new(field: :channel, value: "car-example.com", operator: :==),
+                             Expr.new(field: :channel,    value: "car-example.com", operator: :==),
                              Expr.new(field: :categories, value: "automobiles",     operator: :parent_of?)
                            ])
 
