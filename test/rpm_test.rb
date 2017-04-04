@@ -10,6 +10,12 @@ class RpmTest < Test::Unit::TestCase
     [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
+  def assert_ad(attrs, ad, status)
+    r = Request.new(attrs)
+    assert_equal ad, main(attrs)
+    assert_equal status, ad.constraints.satisfies?(r) if ad
+  end
+
   def test_main
     assert_equal 4,  Advert.count
     assert_equal 3,  Country.count
@@ -17,37 +23,20 @@ class RpmTest < Test::Unit::TestCase
     assert_equal 10, Category.count
 
     ad = Advert.find_by_label("volvo-s40")
-    r = Request.new(channel: "team-bhp.com", preferences: ["cars"], country: "sweden")
-    assert_equal ad, main({channel: "team-bhp.com", preferences: ["cars"], country: "sweden"})
-    assert_equal true, ad.constraints.satisfies?(r)
+    assert_ad({channel: "team-bhp.com", preferences: ["cars"], country: "sweden"}, ad, true)
 
     ad = Advert.find_by_label("bmw-i8")
-    r = Request.new(channel: "team-bhp.com", preferences: ["bmw"], country: "germany")
-    assert_equal ad, main({channel: "team-bhp.com", preferences: ["bmw"], country: "germany"})
-    assert_equal true, ad.constraints.satisfies?(r)
+    assert_ad({channel: "team-bhp.com", preferences: ["bmw"], country: "germany"}, ad, true)
 
     ad = Advert.find_by_label("master-chef")
-    r = Request.new(channel: "trip-advisor.com", preferences: ["food"], country: "india")
-    assert_equal ad, main({channel: "trip-advisor.com", preferences: ["food"], country: "india"})
-    assert_equal true, ad.constraints.satisfies?(r)
-    r = Request.new(channel: "trip-advisor.com", preferences: ["food"], country: "germany")
-    assert_equal ad, main({channel: "trip-advisor.com", preferences: ["food"], country: "germany"})
-    assert_equal true, ad.constraints.satisfies?(r)
-    r = Request.new(channel: "trip-advisor.com", preferences: ["food"], country: "sweden")
-    assert_equal ad, main({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"})
-    assert_equal true, ad.constraints.satisfies?(r)
-
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "india"}, ad, true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "germany"}, ad, true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"}, ad, true)
 
     ad = Advert.find_by_label("air-berlin")
-    r = Request.new(channel: "trip-advisor.com", preferences: ["cars"], country: "sweden")
-    assert_equal ad, main({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"})
-    assert_equal true, ad.constraints.satisfies?(r)
-    r = Request.new(channel: "trip-advisor.com", preferences: ["cars"], country: "germany")
-    assert_equal ad, main({channel: "trip-advisor.com", preferences: ["cars"], country: "germany"})
-    assert_equal true, ad.constraints.satisfies?(r)
-    r = Request.new(channel: "trip-advisor.com", preferences: ["cars"], country: "india")
-    assert_equal nil, main({channel: "trip-advisor.com", preferences: ["cars"], country: "india"})
-    assert_equal false, ad.constraints.satisfies?(r)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"}, ad, true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "germany"}, ad, true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "india"}, nil, false)
   end
 
 end
