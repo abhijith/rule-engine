@@ -6,4 +6,4 @@ class LimitNotFound    < StandardError ; end
 
 class InvalidOperator  < StandardError ; end
 class InvalidField     < StandardError ; end
-class InvalidType      < StandardError ; end
+class ProtocolError    < StandardError ; end
