@@ -6,14 +6,14 @@ class Advert
   @@coll    = []
   @@counter = 0
 
-  def initialize(label: nil, limit: 10)
+  def initialize(label: nil, limit: 10, start_date: nil, end_date: nil)
     @label       = label
     @views       = 0
     @limit       = limit
     @constraints = nil
     @limits      = []
-    @start_date  = nil
-    @end_date    = nil
+    @start_date  = start_date
+    @end_date    = end_date
   end
 
   def self.count

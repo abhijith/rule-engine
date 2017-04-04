@@ -8,8 +8,7 @@ class HttpTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def setup
-    @a1 = Advert.new(label: "nokia").save
-    @a2 = Advert.new(label: "airbnb").save
+    init_data
   end
 
   def teardown
@@ -36,9 +35,9 @@ class HttpTest < Test::Unit::TestCase
     get '/ads/0'
     assert last_response.ok?
     res = JSON.parse(last_response.body)
-    assert_equal({ "label" => "nokia" }, res)
+    assert_equal({ "label" => "volvo-s40" }, res)
 
-    get '/ads/2'
+    get '/ads/10'
     assert last_response.not_found?
     assert_equal "null", last_response.body
   end
@@ -61,6 +60,40 @@ class HttpTest < Test::Unit::TestCase
 
     post '/match', r2.to_json
     assert last_response.client_error?
+
+    post '/match', ({channel: "team-bhp.com", preferences: ["cars"], country: "sweden"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "volvo-s40" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "team-bhp.com", preferences: ["bmw"], country: "germany"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "bmw-i8" }, JSON.parse(last_response.body))
+
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "india"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "germany"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "air-berlin" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "germany"}).to_json
+    assert last_response.ok?
+    assert_equal({ "label" => "air-berlin" }, JSON.parse(last_response.body))
+
+    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "india"}).to_json
+    assert last_response.ok?
+    assert_equal({}, JSON.parse(last_response.body))
+
   end
 
 end

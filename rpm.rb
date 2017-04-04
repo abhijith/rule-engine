@@ -56,7 +56,7 @@ post '/match' do
   req = JSON.parse(request.body.read, symbolize_names: true)
   begin
     status 200
-    main(req).to_json
+    main(req).to_h.to_json
   rescue CountryNotFound, ChannelNotFound => e
     status 400
     e.message.to_json
