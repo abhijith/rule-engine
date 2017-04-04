@@ -10,6 +10,7 @@ require_relative 'expr'
 require_relative 'rpm'
 require_relative 'limit'
 require_relative 'exceptions'
+require_relative 'data'
 
 class Array
 
