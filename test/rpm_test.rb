@@ -2,100 +2,91 @@ require_relative 'utils'
 
 class RpmTest < Test::Unit::TestCase
 
+  def build_category_tree(h, parent_id = nil)
+    case h.class.to_s
+    when Hash.to_s
+      h.each_pair do |k, v|
+        c = Category.new(k, parent_id).save
+        build_category_tree(v, c.id)
+      end
+    when Array.to_s
+      h.each {|x| build_category_tree(x, parent_id) }
+    when String.to_s
+      Category.new(h, parent_id).save
+    end
+  end
+
   def setup
-    @ad1 = Advert.new(label: "bmw-m3").save
-    @ad1.start_date = DateTime.now - 1000
-    @ad1.end_date   = DateTime.now + 1000
+    countries = ["india", "germany", "sweden"]
+    countries.each {|x| Country.new(label: x).save }
 
-    @ad2 = Advert.new(label: "airbnb").save
+    cars       = ["bmw", "volvo"]
+    airlines   = ["air-berlin", "air-india"]
+    foods      = ["dosa", "meatballs"]
 
-    @cars    = Category.new("cars")
-    @bmw     = Category.new("bmw")
-    @audi    = Category.new("audi")
-    @food    = Category.new("food")
-    @south   = Category.new("south-indian")
-    @north   = Category.new("north-indian")
+    categories = {
+      "cars"     => cars,
+      "travel"   => { "airlines" => airlines, "foods" => foods }
+    }
+    build_category_tree(categories)
 
-    @india   = Country.new(label: "india").save
-    @germany = Country.new(label: "germany").save
+    # channels
+    channels  = {
+      "team-bhp.com"     => ["automobiles", "cars", "bikes"],
+      "trip-advisor.com" => ["travel", "airlines", "food"],
+    }
 
-    [@cars, @bmw, @food, @audi, @south, @north].map(&:save)
+    channels.each_pair do |channel, categories|
+      c = Channel.new(label: channel)
+      c.categories = categories.map {|x| Category.find_by_label(x) }.compact
+      c.save
+    end
 
-    @cars.add_child(@bmw)
-    @cars.add_child(@audi)
+    country_limits = Country.all.map {|c| Limit.new(c, 6).save }
+    channel_limits = Channel.all.map {|c| Limit.new(c, 3).save }
 
-    @food.add_child(@south)
-    @food.add_child(@north)
+    volvo = Advert.new(label: "volvo-s40").save
+    volvo.limits = country_limits + channel_limits
+    volvo.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: Country.find_by_label("sweden").id,       operator: :==),
+                                              Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("team-bhp.com").id, operator: :==),
+                                              Expr.new(field: :categories, type: Category, value: Category.find_by_label("cars").id,        operator: :==)
+                                             ])
 
-    @car_ex  = Channel.new(label: "car-example.com").save
-    @food_ex = Channel.new(label: "food-example.com").save
+    bmw = Advert.new(label: "bmw-i8").save
+    bmw.limits = country_limits + channel_limits
+    bmw.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: Country.find_by_label("germany").id,      operator: :==),
+                                            Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("team-bhp.com").id, operator: :==),
+                                            Expr.new(field: :categories, type: Category, value: Category.find_by_label("automobiles").id, operator: :subtype_of?)
+                                           ])
 
-    @car_ex.categories = [@cars, @food]
+    masterchef = Advert.new(label: "master-chef").save
+    masterchef.limits = country_limits + channel_limits
+    cats = ["foods", "dosa", "travel"].map {|x| Category.find_by_label(x).id }
+    masterchef.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: Country.find_by_label("india").id,   operator: :==),
+                                                   Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("tlc.com").id, operator: :==),
+                                                   Expr.new(field: :categories, type: Category, value: cats,                                operator: :intersects?)
+                                                  ])
 
-    @expr1 = Expr.new(field: :channel,    type: Channel,  value: 0, operator: :==)
-    @expr2 = Expr.new(field: :country,    type: Country,  value: 0, operator: :==)
-    @expr3 = Expr.new(field: :categories, type: Category, value: [0, 1], operator: :intersect?)
-
-    @expr4  = ExprGroup.new(:any?, [@expr1, @expr2, @expr3])
-
-    @ad1.constraints = @expr4
-
-    @l1 = Limit.new(@germany, 2)
-    @l2 = Limit.new(@food_ex, 2)
-    @ad1.limits = [@l1, @l2]
+    airberlin = Advert.new(label: "air-berlin").save
+    airberline.limits = country_limits + channel_limits
+    airberlin.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: [1, 2],                                       operator: :member?),
+                                                  Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("trip-advisor.com").id, operator: :==),
+                                                  Expr.new(field: :categories, type: Category, value: Category.find_by_label("travel").id,          operator: :subtype_of?)
+                                                 ])
   end
 
   def teardown
     [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
-  def test_all
-    r1 = {
-      channel: "car-example.com",
-      categories: ["cars", "travel"],
-      country: "germany"
-    }
-
-    r2 = {
-      channel: "food-example.com",
-      categories: ["cars", "travel"],
-      country: "india"
-    }
-
-    assert_equal true,  @ad1.live?
-    assert_equal false, @ad1.expired?
-    assert_equal 1, Advert.live.count
-    assert_equal 1, Advert.expired.count
-
-    assert_equal false, @ad1.exhausted?
-    assert_equal @l1, @ad1.fetch_limit(@germany)
-    assert_equal [@l1, @l2], @ad1.fetch_limits([@germany, @food_ex])
-    assert_equal false, @ad1.limits_exceeded?([@germany, @food_ex])
-
-    assert_equal true, @ad1.constraints.satisfies?(Request.new(r1))
-    @expr5  = ExprGroup.new(:all?, [@expr1, @expr2, @expr3])
-    @ad1.constraints = @expr5
-    assert_equal false, @ad1.constraints.satisfies?(Request.new(r2))
-  end
-
   def test_main
-    r1 = {
-      channel: "car-example.com",
-      categories: ["cars", "travel"],
-      country: "germany"
-    }
-
-    r2 = {
+    r = {
       channel: "food-example.com",
       categories: ["cars", "travel"],
       country: "india"
     }
 
-    assert_equal @ad1, main(r1)
-    @expr5  = ExprGroup.new(:all?, [@expr1, @expr2, @expr3])
-    @ad1.constraints = @expr5
-
-    assert_equal nil, main(r2)
+    # assert_equal , main(r)
   end
 
 end

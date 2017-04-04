@@ -70,7 +70,7 @@ class Category
   end
 
   def subtype_of?(o)
-    self.ancestors.member?(o)
+    not (self.descendants & o).empty?
   end
 
 end
