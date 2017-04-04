@@ -56,7 +56,7 @@ class ExprTest < Test::Unit::TestCase
     assert_equal true, @expr7.satisfies?(r)
 
     r = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
-    assert_equal true, @expr8.satisfies?(r, true)
+    assert_equal true, @expr8.satisfies?(r)
 
     assert_raises InvalidType do
       Expr.new(field: :categories, type: Spurious, value: 0, operator: :parent_of?).satisfies?(r)
