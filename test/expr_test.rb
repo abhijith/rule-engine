@@ -5,16 +5,16 @@ class ExprTest < Test::Unit::TestCase
   class Spurious ; end
 
   def setup
-    @expr1 = Expr.new(field: :channel,    type: Channel,  value: 0,      operator: :==)
-    @expr2 = Expr.new(field: :country,    type: Country,  value: 0,      operator: :==)
+    @expr1 = Expr.new(field: :channel,     type: Channel,  value: 0,      operator: :==)
+    @expr2 = Expr.new(field: :country,     type: Country,  value: 0,      operator: :==)
     @expr3 = Expr.new(field: :preferences, type: Category, value: [1, 0], operator: :==)
     @expr4 = Expr.new(field: :preferences, type: Category, value: [0],    operator: :intersect?)
-    @expr5 = Expr.new(field: :channel,    type: Channel,  value: [0, 1], operator: :member?)
-    @expr6 = Expr.new(field: :country,    type: Country,  value: [0, 1], operator: :member?)
+    @expr5 = Expr.new(field: :channel,     type: Channel,  value: [0, 1], operator: :member?)
+    @expr6 = Expr.new(field: :country,     type: Country,  value: [0, 1], operator: :member?)
     @expr7 = Expr.new(field: :preferences, type: Category, value: 0,      operator: :parent_of?)
 
     @expr8 = ExprGroup.new(:all?, [
-                             Expr.new(field: :channel,     type: Channel,  value: 0, operator: :==),
+                             Expr.new(field: :channel,    type: Channel,  value: 0, operator: :==),
                              Expr.new(field: :categories, type: Category, value: 0, operator: :parent_of?)
                            ])
 
