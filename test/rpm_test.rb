@@ -49,7 +49,7 @@ class RpmTest < Test::Unit::TestCase
     [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
-  def _test_all
+  def test_all
     r1 = {
       channel: "car-example.com",
       categories: ["cars", "travel"],

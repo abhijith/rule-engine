@@ -4,7 +4,7 @@ require_relative 'utils'
 require_relative '../rpm'
 require 'rack/test'
 
-class RpmTest < Test::Unit::TestCase
+class HttpTest < Test::Unit::TestCase
   include Rack::Test::Methods
 
   def setup
