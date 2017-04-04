@@ -46,41 +46,33 @@ def init_data
   country_limits = Country.all.map {|c| Limit.new(c, 6).save }
   channel_limits = Channel.all.map {|c| Limit.new(c, 3).save }
 
-  volvo = Advert.new(label: "volvo-s40").save
-  volvo.start_date = DateTime.now - 1000
-  volvo.end_date   = DateTime.now + 1000
-
+  volvo = Advert.new(label: "volvo-s40", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   volvo.limits = country_limits + channel_limits
+
   volvo.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: "sweden",       operator: :==),
                                             Expr.new(field: :channel,       value: "team-bhp.com", operator: :==),
                                             Expr.new(field: :preferences,  value: ["cars"],      operator: :==)
                                            ])
 
-  bmw = Advert.new(label: "bmw-i8").save
-  bmw.start_date = DateTime.now - 1000
-  bmw.end_date   = DateTime.now + 1000
-
+  bmw = Advert.new(label: "bmw-i8", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   bmw.limits = country_limits + channel_limits
+
   bmw.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: "germany",      operator: :==),
                                           Expr.new(field: :channel,       value: "team-bhp.com", operator: :==),
-                                          Expr.new(field: :preferences,  value: "cars",        operator: :parent_of?)
+                                          Expr.new(field: :preferences, value: "cars",        operator: :parent_of?)
                                          ])
 
-  masterchef = Advert.new(label: "master-chef").save
-  masterchef.start_date = DateTime.now - 1000
-  masterchef.end_date   = DateTime.now + 1000
-
+  masterchef = Advert.new(label: "master-chef", start_date: DateTime.now - 1000, end_date: DateTime.now + 1000).save
   masterchef.limits = country_limits + channel_limits
+
   masterchef.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,       value: ["germany", "sweden", "india"],   operator: :member?),
                                                  Expr.new(field: :channel,       value: "trip-advisor.com", operator: :==),
                                                  Expr.new(field: :preferences,  value: ["food", "dosa", "travel"], operator: :intersect?)
                                                 ])
 
-  airberlin = Advert.new(label: "air-berlin").save
-  airberlin.start_date = DateTime.now - 1000
-  airberlin.end_date   = DateTime.now + 1000
-
+  airberlin = Advert.new(label: "air-berlin",  start_date: DateTime.now - 1000,  end_date:    DateTime.now + 1000).save
   airberlin.limits = country_limits + channel_limits
+
   expr = ExprGroup.new(:any?, [Expr.new(field: :preferences,  value: "travel", operator: :parent_of?),
                                Expr.new(field: :categories,   value: "travel", operator: :parent_of?)])
 
