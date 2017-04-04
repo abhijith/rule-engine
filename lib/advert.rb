@@ -12,8 +12,8 @@ class Advert
     @limit       = limit
     @constraints = nil
     @limits      = []
-    @start_date  = DateTime.now - 1000
-    @end_date    = DateTime.now + 1000
+    @start_date  = nil
+    @end_date    = nil
   end
 
   def self.count
