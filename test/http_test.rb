@@ -42,56 +42,24 @@ class HttpTest < Test::Unit::TestCase
     assert_equal "null", last_response.body
   end
 
+  def assert_match(req, status, ad = nil)
+    post '/match', req.to_json
+    assert last_response.send(status)
+    assert_equal(ad, JSON.parse(last_response.body)) if ad
+  end
+
   def test_match
-    r1 = {
-      channel: "car-example.com",
-      preferences: ["cars", "travel"],
-      country: "germany"
-    }
+    assert_match({ channel: "car-example.com",  preferences: ["cars", "travel"], country: "germany" }, :client_error?)
+    assert_match({ channel: "food-example.com", preferences: ["cars", "travel"], country: "india"   }, :client_error?)
 
-    r2 = {
-      channel: "food-example.com",
-      preferences: ["cars", "travel"],
-      country: "india"
-    }
-
-    post '/match', r1.to_json
-    assert last_response.client_error?
-
-    post '/match', r2.to_json
-    assert last_response.client_error?
-
-    post '/match', ({channel: "team-bhp.com", preferences: ["cars"], country: "sweden"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "volvo-s40" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "team-bhp.com", preferences: ["bmw"], country: "germany"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "bmw-i8" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "india"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "germany"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "air-berlin" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "germany"}).to_json
-    assert last_response.ok?
-    assert_equal({ "label" => "air-berlin" }, JSON.parse(last_response.body))
-
-    post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "india"}).to_json
-    assert last_response.ok?
-    assert_equal({}, JSON.parse(last_response.body))
+    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
+    assert_match({channel: "team-bhp.com",     preferences: ["bmw"],  country: "germany" }, :ok?, { "label" => "bmw-i8"      })
+    assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "india"   }, :ok?, { "label" => "master-chef" })
+    assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "germany" }, :ok?, { "label" => "master-chef" })
+    assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"  }, :ok?, { "label" => "master-chef" })
+    assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "air-berlin"  })
+    assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "germany" }, :ok?, { "label" => "air-berlin"  })
+    assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, :ok?, {})
   end
 
 end
