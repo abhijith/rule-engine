@@ -36,8 +36,4 @@ class Country
     @@counter = 0
   end
 
-  def ==(o)
-    self.label == o.label
-  end
-
 end

@@ -69,7 +69,6 @@ class HttpTest < Test::Unit::TestCase
     assert last_response.ok?
     assert_equal({ "label" => "bmw-i8" }, JSON.parse(last_response.body))
 
-
     post '/match', ({channel: "trip-advisor.com", preferences: ["food"], country: "india"}).to_json
     assert last_response.ok?
     assert_equal({ "label" => "master-chef" }, JSON.parse(last_response.body))
@@ -93,7 +92,6 @@ class HttpTest < Test::Unit::TestCase
     post '/match', ({channel: "trip-advisor.com", preferences: ["cars"], country: "india"}).to_json
     assert last_response.ok?
     assert_equal({}, JSON.parse(last_response.body))
-
   end
 
 end
