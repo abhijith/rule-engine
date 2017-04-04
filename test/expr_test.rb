@@ -5,13 +5,19 @@ class ExprTest < Test::Unit::TestCase
   class Spurious ; end
 
   def setup
-    @expr1 = Expr.new(field: :channel, type: Channel, value: 0, operator: :==)
-    @expr2 = Expr.new(field: :country, type: Country, value: 0, operator: :==)
+    @expr1 = Expr.new(field: :channel,    type: Channel,  value: 0,      operator: :==)
+    @expr2 = Expr.new(field: :country,    type: Country,  value: 0,      operator: :==)
     @expr3 = Expr.new(field: :categories, type: Category, value: [1, 0], operator: :==)
-    @expr4 = Expr.new(field: :categories, type: Category, value: [0], operator: :intersect?)
-    @expr5 = Expr.new(field: :channel, type: Channel, value: [0, 1], operator: :member?)
-    @expr6 = Expr.new(field: :country, type: Country, value: [0, 1], operator: :member?)
-    @expr7 = Expr.new(field: :categories, type: Category, value: 0, operator: :subtype_of?)
+    @expr4 = Expr.new(field: :categories, type: Category, value: [0],    operator: :intersect?)
+    @expr5 = Expr.new(field: :channel,    type: Channel,  value: [0, 1], operator: :member?)
+    @expr6 = Expr.new(field: :country,    type: Country,  value: [0, 1], operator: :member?)
+    @expr7 = Expr.new(field: :categories, type: Category, value: 0,      operator: :parent_of?)
+
+    @expr8 = ExprGroup.new(:all?, [
+                             Expr.new(field: :channel,     type: Channel,  value: 0, operator: :==),
+                             Expr.new(field: :preferences, type: Category, value: 0, operator: :parent_of?)
+                           ])
+
 
     @germany = Country.new(label: "germany").save
     @india   = Country.new(label: "india").save
@@ -22,6 +28,8 @@ class ExprTest < Test::Unit::TestCase
     @c1 = Category.new("automobiles").save
     @c2 = Category.new("cars", 0).save
     @c3 = Category.new("bmw", 1).save
+
+    @car.categories = [@c3]
   end
 
   def teardown
@@ -47,8 +55,11 @@ class ExprTest < Test::Unit::TestCase
     r = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
     assert_equal true, @expr7.satisfies?(r)
 
+    r = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
+    assert_equal true, @expr8.satisfies?(r, true)
+
     assert_raises InvalidType do
-      Expr.new(field: :categories, type: Spurious, value: 0, operator: :subtype_of?).satisfies?(r)
+      Expr.new(field: :categories, type: Spurious, value: 0, operator: :parent_of?).satisfies?(r)
     end
 
     assert_raises InvalidType do

@@ -17,8 +17,4 @@ class Array
     not (self & x).empty?
   end
 
-  def subtype_of?(o)
-    self.map {|x| x.subtype_of?(o) }.all?
-  end
-
 end

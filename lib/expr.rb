@@ -31,7 +31,6 @@ class Expr
 
     request_val = request.send(field)
 
-    # fmap instead of if-else?
     if value.is_a? Array
       value.each do |v|
         raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find)

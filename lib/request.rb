@@ -7,6 +7,7 @@ class Request
     if channel
       @channel = Channel.find_by_label(channel)
       raise ChannelNotFound.new, "no such channel" if @channel.nil?
+      @preferences = @channel.categories
     end
 
     if country
@@ -14,8 +15,7 @@ class Request
       raise CountryNotFound.new, "no such channel" if @country.nil?
     end
 
-    @categories = categories.map {|c| Category.find_by_label(c) }.compact
-    @preferences = @channel.categories
+    @categories  = categories.map {|c| Category.find_by_label(c) }.compact
   end
 
 end

@@ -69,7 +69,7 @@ class Category
     self.label == o.label and self.parent_id == o.parent_id
   end
 
-  def subtype_of?(o)
+  def parent_of?(o)
     not (self.descendants & o).empty?
   end
 

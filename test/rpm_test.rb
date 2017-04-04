@@ -56,22 +56,22 @@ class RpmTest < Test::Unit::TestCase
     bmw.limits = country_limits + channel_limits
     bmw.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: Country.find_by_label("germany").id,      operator: :==),
                                             Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("team-bhp.com").id, operator: :==),
-                                            Expr.new(field: :categories, type: Category, value: Category.find_by_label("automobiles").id, operator: :subtype_of?)
+                                            Expr.new(field: :categories, type: Category, value: Category.find_by_label("cars").id, operator: :parent_of?)
                                            ])
 
     masterchef = Advert.new(label: "master-chef").save
     masterchef.limits = country_limits + channel_limits
     cats = ["foods", "dosa", "travel"].map {|x| Category.find_by_label(x).id }
     masterchef.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: Country.find_by_label("india").id,   operator: :==),
-                                                   Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("tlc.com").id, operator: :==),
+                                                   Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("trip-advisor.com").id, operator: :==),
                                                    Expr.new(field: :categories, type: Category, value: cats,                                operator: :intersects?)
                                                   ])
 
     airberlin = Advert.new(label: "air-berlin").save
-    airberline.limits = country_limits + channel_limits
+    airberlin.limits = country_limits + channel_limits
     airberlin.constraints = ExprGroup.new(:all?, [Expr.new(field: :country,    type: Country,  value: [1, 2],                                       operator: :member?),
                                                   Expr.new(field: :channel,    type: Channel,  value: Channel.find_by_label("trip-advisor.com").id, operator: :==),
-                                                  Expr.new(field: :categories, type: Category, value: Category.find_by_label("travel").id,          operator: :subtype_of?)
+                                                  Expr.new(field: :categories, type: Category, value: Category.find_by_label("travel").id,          operator: :parent_of?)
                                                  ])
   end
 
