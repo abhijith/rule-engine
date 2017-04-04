@@ -9,7 +9,7 @@ class RequestTest < Test::Unit::TestCase
   end
 
   def teardown
-    [Channel, Country, Category, Advert].each(&:destroy_all)
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_initialize

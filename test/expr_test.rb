@@ -17,7 +17,10 @@ class ExprTest < Test::Unit::TestCase
     @c1 = Category.new("automobiles").save
     @c2 = Category.new("cars", 0).save
     @c3 = Category.new("bmw", 1).save
+  end
 
+  def teardown
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_satisfies?

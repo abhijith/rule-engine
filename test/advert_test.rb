@@ -17,9 +17,7 @@ class AdvertTest < Test::Unit::TestCase
   end
 
   def teardown
-    Advert.destroy_all
-    Channel.destroy_all
-    Country.destroy_all
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_save_all_and_count

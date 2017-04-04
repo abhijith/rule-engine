@@ -18,68 +18,6 @@ def build_category_tree(h, parent_id = nil)
   end
 end
 
-def init_data
-  countries = ["india", "germany", "sweden", "france", "italy"]
-  countries.each {|x| Country.new(label: x).save }
-
-  # --
-  # cars
-  # |    `["bmw", "audi", "fiat", "volvo"]
-  # `bikes
-  # |    `["ktm", "bmw", "yamaha", "suzuki"]
-  # `foods
-  # |    `["dosa", "idly", "meatballs", "croissant", "pizza"]
-  # `travel
-  #       `airlines
-  #               `["lufthansa", "air-france", "emirates", "air-india"]
-  # --
-  cars       = ["bmw", "audi", "fiat", "volvo"]
-  bikes      = ["ktm", "bmw", "yamaha", "suzuki"]
-  airlines   = ["lufthansa", "air-france", "emirates", "air-india"]
-  foods      = ["dosa", "idly", "meatballs", "croissant", "pizza"]
-
-  categories = {
-    "cars"     => cars,
-    "bikes"    => bikes,
-    "foods"    => foods,
-    "travel"   => { "airlines" => airlines }
-  }
-  build_category_tree(categories)
-
-
-  # channels
-  channels  = {
-    "reddit.com"       => ["cars", "bikes", "airlines", "travel"],
-    "team-bhp.com"     => ["cars", "bikes"],
-    "motocross.com"    => ["bikes", "ktm", "yamaha", "suzuki", "bmw"],
-    "trip-advisor.com" => ["foods", "travel", "air-india", "emirates"],
-    "booking.com"      => ["lufthansa", "air-france"],
-    "clear-trip.com"   => ["airlines"],
-    "lufthansa.com"    => ["lufthansa", "foods"]
-  }
-
-  channels.each_pair do |channel, categories|
-    c = Channel.new(label: channel)
-    c.categories = categories.map {|x| Category.find_by_label(x) }.compact
-    c.save
-  end
-
-  country_limits = Country.all.map {|c| Limit.new(c, 6).save }
-  channel_limits = Channel.all.map {|c| Limit.new(c, 3).save }
-
-  # ads
-  ads = ["bmw-m4", "audi-a4", "fiat-punto", "volvo-s40",
-         "master-chef-australia", "master-chef-us", "ktm-390",
-         "yamaha-r6", "motocross", "formula-1", "khaana-kazana",
-         "airbnb", "euro-cars", "sixt", "hertz"]
-
-  ads.each do |x|
-    ad = Advert.new(label: x).save
-    ad.limits = country_limits + channel_limits
-  end
-
-end
-
 def min_data
   countries = ["india", "germany", "sweden", "france", "italy"]
   countries.each {|x| Country.new(label: x).save }
@@ -110,7 +48,7 @@ def min_data
 
   # channels
   channels  = {
-    "team-bhp.com"    => ["bikes", "ktm", "yamaha", "suzuki", "bmw"],
+    "team-bhp.com"     => ["bikes", "ktm", "yamaha", "suzuki", "bmw"],
     "trip-advisor.com" => ["foods", "travel", "air-india", "emirates"],
     "booking.com"      => ["lufthansa", "air-france"],
   }
@@ -142,8 +80,4 @@ def min_data
 
   e5 = ExprGroup.new(:all?, [e1, e2, e3])
   e6 = ExprGroup.new(:any?, [e4, e5])
-
-  pp e6.to_h
 end
-
-# min_data

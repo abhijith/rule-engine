@@ -13,7 +13,7 @@ class CategoryTest < Test::Unit::TestCase
   end
 
   def teardown
-    Category.destroy_all
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_id

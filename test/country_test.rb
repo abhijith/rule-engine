@@ -8,7 +8,7 @@ class CountryTest < Test::Unit::TestCase
   end
 
   def teardown
-    Country.destroy_all
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_id

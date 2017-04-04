@@ -11,9 +11,7 @@ class LimitTest < Test::Unit::TestCase
   end
 
   def teardown
-    Channel.destroy_all
-    Country.destroy_all
-    Limit.destroy_all
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def test_id

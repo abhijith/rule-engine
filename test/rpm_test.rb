@@ -46,13 +46,10 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def teardown
-    Advert.destroy_all
-    Channel.destroy_all
-    Country.destroy_all
-    Limit.destroy_all
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
-  def test_all
+  def _test_all
     r1 = {
       channel: "car-example.com",
       categories: ["cars", "travel"],

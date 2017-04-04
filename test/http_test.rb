@@ -13,7 +13,7 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def teardown
-    get '/flush'
+    [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
   def app
@@ -37,8 +37,6 @@ class RpmTest < Test::Unit::TestCase
     assert last_response.ok?
     res = JSON.parse(last_response.body)
     assert_equal({ "label" => "nokia" }, res)
-
-    p last_response.methods.sort
 
     get '/ads/2'
     assert last_response.not_found?
