@@ -3,11 +3,11 @@ require_relative 'utils'
 class Request
   attr_accessor :channel, :categories, :country, :preferences
 
-  def initialize(channel: nil, categories: [], country: nil)
+  def initialize(channel: nil, preferences: [], country: nil)
     if channel
       @channel = Channel.find_by_label(channel)
       raise ChannelNotFound.new, "no such channel" if @channel.nil?
-      @preferences = @channel.categories
+      @categories = @channel.categories
     end
 
     if country
@@ -15,7 +15,7 @@ class Request
       raise CountryNotFound.new, "no such channel" if @country.nil?
     end
 
-    @categories  = categories.map {|c| Category.find_by_label(c) }.compact
+    @preferences  = preferences.map {|c| Category.find_by_label(c) }.compact
   end
 
 end

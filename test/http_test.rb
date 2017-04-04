@@ -46,13 +46,13 @@ class HttpTest < Test::Unit::TestCase
   def test_match
     r1 = {
       channel: "car-example.com",
-      categories: ["cars", "travel"],
+      preferences: ["cars", "travel"],
       country: "germany"
     }
 
     r2 = {
       channel: "food-example.com",
-      categories: ["cars", "travel"],
+      preferences: ["cars", "travel"],
       country: "india"
     }
 

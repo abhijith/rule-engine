@@ -14,25 +14,25 @@ class RequestTest < Test::Unit::TestCase
   end
 
   def test_initialize
-    @r1 = Request.new(channel: "car-example.com", categories: ["cars"], country: "india")
+    @r1 = Request.new(channel: "car-example.com", preferences: ["cars"], country: "india")
     assert_equal @ch1,    @r1.channel
     assert_equal @india,  @r1.country
-    assert_equal [@cat1], @r1.categories
+    assert_equal [@cat1], @r1.preferences
 
-    @r1 = Request.new(channel: "car-example.com", categories: ["cars"], country: "india")
+    @r1 = Request.new(channel: "car-example.com", preferences: ["cars"], country: "india")
     assert_equal @ch1,    @r1.channel
     assert_equal @india,  @r1.country
     assert_equal [@cat1], @r1.preferences
 
     assert_raises ChannelNotFound do
-      Request.new(channel: "unknown.com", categories: ["cars"], country: "india")
+      Request.new(channel: "unknown.com", preferences: ["cars"], country: "india")
     end
 
     assert_raises CountryNotFound do
-      Request.new(channel: "car-example.com", categories: ["cars"], country: "foo")
+      Request.new(channel: "car-example.com", preferences: ["cars"], country: "foo")
     end
 
-    assert_equal [], Request.new(channel: "car-example.com", categories: ["bike"], country: "india").categories
+    assert_equal [], Request.new(channel: "car-example.com", preferences: ["bike"], country: "india").preferences
   end
 
 end

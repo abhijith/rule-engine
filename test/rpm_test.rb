@@ -82,7 +82,7 @@ class RpmTest < Test::Unit::TestCase
   def test_main
     r = {
       channel: "food-example.com",
-      categories: ["cars", "travel"],
+      preferences: ["cars", "travel"],
       country: "india"
     }
 
