@@ -10,7 +10,8 @@ class RpmTest < Test::Unit::TestCase
     [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
-  def assert_ad(attrs, ad, status)
+  def assert_ad(attrs, label, status)
+    ad = Advert.find_by_label(label)
     r = Request.new(attrs)
     assert_equal ad, main(attrs)
     assert_equal status, ad.constraints.satisfies?(r) if ad
@@ -22,21 +23,14 @@ class RpmTest < Test::Unit::TestCase
     assert_equal 2,  Channel.count
     assert_equal 10, Category.count
 
-    ad = Advert.find_by_label("volvo-s40")
-    assert_ad({channel: "team-bhp.com", preferences: ["cars"], country: "sweden"}, ad, true)
-
-    ad = Advert.find_by_label("bmw-i8")
-    assert_ad({channel: "team-bhp.com", preferences: ["bmw"], country: "germany"}, ad, true)
-
-    ad = Advert.find_by_label("master-chef")
-    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "india"}, ad, true)
-    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "germany"}, ad, true)
-    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"}, ad, true)
-
-    ad = Advert.find_by_label("air-berlin")
-    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"}, ad, true)
-    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "germany"}, ad, true)
-    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "india"}, nil, false)
+    assert_ad({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, "volvo-s40",   true)
+    assert_ad({channel: "team-bhp.com",     preferences: ["bmw"],  country: "germany" }, "bmw-i8",      true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "india"   }, "master-chef", true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "germany" }, "master-chef", true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"  }, "master-chef", true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"  }, "air-berlin",  true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "germany" }, "air-berlin",  true)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, "spurious",    false)
   end
 
 end
