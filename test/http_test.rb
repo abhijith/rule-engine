@@ -20,7 +20,7 @@ class HttpTest < Test::Unit::TestCase
     Sinatra::Application
   end
 
-  def _test_initialization
+  def test_initialization
     get '/'
     assert last_response.ok?
     assert_equal "true", last_response.body
