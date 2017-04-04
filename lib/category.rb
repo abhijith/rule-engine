@@ -65,9 +65,9 @@ class Category
     end
   end
 
-  def ==(o)
-    self.label == o.label and self.parent_id == o.parent_id
-  end
+  # def ==(o)
+  #   self.label == o.label and self.parent_id == o.parent_id
+  # end
 
   def parent_of?(o)
     not (self.descendants & o).empty?

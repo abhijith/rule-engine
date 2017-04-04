@@ -22,11 +22,6 @@ class Expr
   end
 
   def satisfies?(request, debug = false)
-    if debug
-      pp self.to_h
-      pp request
-    end
-
     raise InvalidField.new, "Request field not found: #{field}" if not request.respond_to?(field)
 
     request_val = request.send(field)
