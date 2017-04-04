@@ -5,17 +5,17 @@ class ExprTest < Test::Unit::TestCase
   class Spurious ; end
 
   def setup
-    @expr1 = Expr.new(field: :channel,     type: Channel,  value: 0,      operator: :==)
-    @expr2 = Expr.new(field: :country,     type: Country,  value: 0,      operator: :==)
-    @expr3 = Expr.new(field: :preferences, type: Category, value: [1, 0], operator: :==)
-    @expr4 = Expr.new(field: :preferences, type: Category, value: [0],    operator: :intersect?)
-    @expr5 = Expr.new(field: :channel,     type: Channel,  value: [0, 1], operator: :member?)
-    @expr6 = Expr.new(field: :country,     type: Country,  value: [0, 1], operator: :member?)
-    @expr7 = Expr.new(field: :preferences, type: Category, value: 0,      operator: :parent_of?)
+    @expr1 = Expr.new(field: :channel,     type: Channel,  value: "car-example.com",                       operator: :==)
+    @expr2 = Expr.new(field: :country,     type: Country,  value: "germany",                               operator: :==)
+    @expr3 = Expr.new(field: :preferences, type: Category, value: ["cars", "automobiles"],                 operator: :==)
+    @expr4 = Expr.new(field: :preferences, type: Category, value: ["automobiles"],                         operator: :intersect?)
+    @expr5 = Expr.new(field: :channel,     type: Channel,  value: ["car-example.com", "food-example.com"], operator: :member?)
+    @expr6 = Expr.new(field: :country,     type: Country,  value: ["germany", "india"],                    operator: :member?)
+    @expr7 = Expr.new(field: :preferences, type: Category, value: "automobiles",                           operator: :parent_of?)
 
     @expr8 = ExprGroup.new(:all?, [
-                             Expr.new(field: :channel,    type: Channel,  value: 0, operator: :==),
-                             Expr.new(field: :categories, type: Category, value: 0, operator: :parent_of?)
+                             Expr.new(field: :channel,    type: Channel,  value: "car-example.com", operator: :==),
+                             Expr.new(field: :categories, type: Category, value: "automobiles",     operator: :parent_of?)
                            ])
 
 
@@ -59,19 +59,19 @@ class ExprTest < Test::Unit::TestCase
     assert_equal true, @expr8.satisfies?(r)
 
     assert_raises InvalidType do
-      Expr.new(field: :categories, type: Spurious, value: 0, operator: :parent_of?).satisfies?(r)
+      Expr.new(field: :categories, type: Spurious, value: "automobiles", operator: :parent_of?).satisfies?(r)
     end
 
     assert_raises InvalidType do
-      Expr.new(field: :categories, type: Spurious, value: [1, 0], operator: :==).satisfies?(r)
+      Expr.new(field: :categories, type: Spurious, value: ["cars", "automobiles"], operator: :==).satisfies?(r)
     end
 
     assert_raises InvalidOperator do
-      Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r)
+      Expr.new(field: :categories, type: Category, value: "automobiles", operator: :isa?).satisfies?(r)
     end
 
     assert_raises InvalidField do
-      Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r)
+      Expr.new(field: :category, type: Category, value: "automobiles", operator: :==).satisfies?(r)
     end
 
   end

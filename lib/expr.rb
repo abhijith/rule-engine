@@ -21,25 +21,25 @@ class Expr
     }
   end
 
-  def satisfies?(request, debug = false)
+  def satisfies?(request, debug = true)
     raise InvalidField.new, "Request field not found: #{field}" if not request.respond_to?(field)
 
     request_val = request.send(field)
 
     if value.is_a? Array
       value.each do |v|
-        raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find)
+        raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find_by_label)
       end
 
       rule_val = value.map do |v|
-        type.send(:find, v)
+        type.send(:find_by_label, v)
       end
     else
-      raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find)
-      rule_val = type.send(:find, value)
+      raise InvalidType.new, "Invalid type #{type} in rule: #{self.to_h}" if not type.respond_to?(:find_by_label)
+      rule_val = type.send(:find_by_label, value)
     end
 
-    raise InvalidOperator.new, "Invalid operator #{operator} for #{rule_val.class}" if not rule_val.respond_to?(operator)
+    raise InvalidOperator.new, "Invalid operator #{operator} for #{rule_val.class}: #{pp self.to_h}" if not rule_val.respond_to?(operator)
     rule_val.send(operator, request_val)
   end
 
