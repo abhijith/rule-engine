@@ -9,10 +9,15 @@ class ExprTest < Test::Unit::TestCase
     @expr2 = Expr.new(field: :country, type: Country, value: 0, operator: :==)
     @expr3 = Expr.new(field: :categories, type: Category, value: [1, 0], operator: :==)
     @expr4 = Expr.new(field: :categories, type: Category, value: [0], operator: :intersect?)
-    @expr5 = Expr.new(field: :categories, type: Category, value: 0, operator: :subtype_of?)
+    @expr5 = Expr.new(field: :channel, type: Channel, value: [0, 1], operator: :member?)
+    @expr6 = Expr.new(field: :country, type: Country, value: [0, 1], operator: :member?)
+    @expr7 = Expr.new(field: :categories, type: Category, value: 0, operator: :subtype_of?)
 
     @germany = Country.new(label: "germany").save
+    @india   = Country.new(label: "india").save
+
     @car     = Channel.new(label: "car-example.com").save
+    @food    = Channel.new(label: "food-example.com").save
 
     @c1 = Category.new("automobiles").save
     @c2 = Category.new("cars", 0).save
@@ -24,35 +29,38 @@ class ExprTest < Test::Unit::TestCase
   end
 
   def test_satisfies?
-    r1 = Request.new(channel: "car-example.com", categories: ["cars", "automobiles"], country: "germany")
-    assert_equal true, @expr1.satisfies?(r1)
-    assert_equal true, @expr2.satisfies?(r1)
-    assert_equal true, @expr3.satisfies?(r1)
-    assert_equal true, @expr4.satisfies?(r1)
+    r = Request.new(channel: "car-example.com", categories: ["cars", "automobiles"], country: "germany")
+    assert_equal true, @expr1.satisfies?(r)
+    assert_equal true, @expr2.satisfies?(r)
+    assert_equal true, @expr3.satisfies?(r)
+    assert_equal true, @expr4.satisfies?(r)
 
-    r2 = Request.new(channel: "car-example.com", categories: ["cars"], country: "germany")
-    assert_equal true, @expr5.satisfies?(r2)
+    r = Request.new(channel: "food-example.com", categories: ["cars"], country: "germany")
+    assert_equal true, @expr5.satisfies?(r)
 
-    r3 = Request.new(channel: "car-example.com", categories: ["automobiles"], country: "germany")
-    assert_equal false, @expr5.satisfies?(r3)
+    r = Request.new(channel: "car-example.com", categories: ["cars"], country: "india")
+    assert_equal true, @expr6.satisfies?(r)
 
-    r4 = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
-    assert_equal true, @expr5.satisfies?(r2)
+    r = Request.new(channel: "car-example.com", categories: ["automobiles"], country: "germany")
+    assert_equal false, @expr7.satisfies?(r)
+
+    r = Request.new(channel: "car-example.com", categories: ["bmw"], country: "germany")
+    assert_equal true, @expr7.satisfies?(r)
 
     assert_raises InvalidType do
-      Expr.new(field: :categories, type: Spurious, value: 0, operator: :subtype_of?).satisfies?(r3)
+      Expr.new(field: :categories, type: Spurious, value: 0, operator: :subtype_of?).satisfies?(r)
     end
 
     assert_raises InvalidType do
-      Expr.new(field: :categories, type: Spurious, value: [1, 0], operator: :==).satisfies?(r3)
+      Expr.new(field: :categories, type: Spurious, value: [1, 0], operator: :==).satisfies?(r)
     end
 
     assert_raises InvalidOperator do
-      Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r3)
+      Expr.new(field: :categories, type: Category, value: 0, operator: :isa?).satisfies?(r)
     end
 
     assert_raises InvalidField do
-      Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r3)
+      Expr.new(field: :category, type: Category, value: 0, operator: :==).satisfies?(r)
     end
 
   end

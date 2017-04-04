@@ -45,8 +45,8 @@ class Expr
       rule_val = type.send(:find, value)
     end
 
-    raise InvalidOperator.new, "Invalid operator #{operator} for #{request_val.class}" if not request_val.respond_to?(operator)
-    request_val.send(operator, rule_val)
+    raise InvalidOperator.new, "Invalid operator #{operator} for #{rule_val.class}" if not rule_val.respond_to?(operator)
+    rule_val.send(operator, request_val)
   end
 
 end
