@@ -5,6 +5,7 @@ class RequestTest < Test::Unit::TestCase
   def setup
     @cat1  = Category.new("cars").save
     @ch1   = Channel.new(label: "car-example.com").save
+    @ch1.categories = [@cat1]
     @india = Country.new(label: "india").save
   end
 
@@ -17,6 +18,11 @@ class RequestTest < Test::Unit::TestCase
     assert_equal @ch1,    @r1.channel
     assert_equal @india,  @r1.country
     assert_equal [@cat1], @r1.categories
+
+    @r1 = Request.new(channel: "car-example.com", categories: ["cars"], country: "india")
+    assert_equal @ch1,    @r1.channel
+    assert_equal @india,  @r1.country
+    assert_equal [@cat1], @r1.preferences
 
     assert_raises ChannelNotFound do
       Request.new(channel: "unknown.com", categories: ["cars"], country: "india")

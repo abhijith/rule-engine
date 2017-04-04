@@ -1,7 +1,7 @@
 require_relative 'utils'
 
 class Request
-  attr_accessor :channel, :categories, :country
+  attr_accessor :channel, :categories, :country, :preferences
 
   def initialize(channel: nil, categories: [], country: nil)
     if channel
@@ -15,6 +15,7 @@ class Request
     end
 
     @categories = categories.map {|c| Category.find_by_label(c) }.compact
+    @preferences = @channel.categories
   end
 
 end
