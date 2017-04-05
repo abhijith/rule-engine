@@ -72,9 +72,16 @@ class Advert
     @views = @views + 1
   end
 
+  def limits=(limits)
+    limits.each do |limit|
+      limit.ad_id = self.id
+      @limits << limit
+    end
+  end
+
   def fetch_limit(obj)
     type = obj.class
-    self.limits.select {|l| l.type == type and l.type_id == obj.id }.first
+    self.limits.select {|l| self.id == l.ad_id and l.type == type and l.type_id == obj.id }.first
   end
 
   def fetch_limits(objs)

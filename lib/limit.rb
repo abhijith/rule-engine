@@ -1,5 +1,5 @@
 class Limit
-  attr_accessor :id, :type, :type_id, :limit, :views, :obj
+  attr_accessor :id, :type, :type_id, :limit, :views, :obj, :ad_id
 
   @@coll    = []
   @@counter = 0
