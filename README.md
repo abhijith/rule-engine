@@ -74,6 +74,7 @@
   - Advertisement selector iterates through _live_ and _available_ advertisements.
   - Rule evaluates request against advertisement constraints and returns true|false.
   - An advertisement is returned if one or more advertisements satisfy the constraints (ties are broken arbitrarily).
+  - Views are updated when an advert is selected
 
 * Advert get
   - Lookups the id in the DB and returns an advert with the specified id is found
@@ -120,8 +121,18 @@
 	- Content-type: JSON
 	- Params:{ channel: "example.com",  preferences: ["pref1", "pref2"], country: "country1" }
 
-** Extending the application
-	* Adding new request params
-	* Adding new limits
-	* Adding new operators
-	* Adding new types
+** Extending the rule engine to support new types and operators
+
+	* New types added must implement the following interfaces
+	  - id
+	  - find(id)
+	  - find_by_label
+	  - save
+	  - destroy_all
+
+	* Have to be entered in the FieldToType mapping whitelist in the rule engine
+
+	* New operators
+	  - Should return true | false
+	  - Should be instance methods on each type
+	  - Should take the request entities as argument
