@@ -126,7 +126,7 @@
 	* New types added must implement the following interfaces
 	  - id
 	  - find(id)
-	  - find_by_label
+	  - find_by_label(label)
 	  - save
 	  - destroy_all
 
