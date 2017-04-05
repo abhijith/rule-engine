@@ -46,6 +46,9 @@ class LimitTest < Test::Unit::TestCase
 
   def test_exhausted?
     assert_equal false, @l1.exhausted?
+    @l1.inc_view
+    @l1.inc_view
+    assert_equal true, @l1.exhausted?
   end
 
 end

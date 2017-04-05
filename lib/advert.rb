@@ -92,6 +92,7 @@ class Advert
   def update_limits(objs)
     self.inc_view
     self.fetch_limits(objs).each(&:inc_view)
+    true
   end
 
 end

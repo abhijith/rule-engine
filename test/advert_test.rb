@@ -99,6 +99,20 @@ class AdvertTest < Test::Unit::TestCase
 
   def test_limits
     assert_equal false, @a1.limits_exceeded?([@germany, @food])
+    assert_equal @germany.id, @l1.type_id
+    assert_equal @food.id, @l2.type_id
+    assert_equal @germany.class, @l1.type
+    assert_equal @food.class, @l2.type
+  end
+
+  def test_update_limits
+    @a1.update_limits([@germany, @food])
+    assert_equal true,  @a1.limits_exceeded?([@germany, @food])
+    assert_equal true,  @a1.limits_exceeded?([@food])
+    assert_equal false, @a1.limits_exceeded?([@germany])
+    assert_equal 1, @a1.views
+    assert_equal 1, @l1.views
+    assert_equal 1, @l2.views
   end
 
 end
