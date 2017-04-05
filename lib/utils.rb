@@ -1,5 +1,6 @@
 require 'json'
 require 'pp'
+require 'logger'
 
 require_relative 'request'
 require_relative 'advert'
@@ -19,3 +20,7 @@ class Array
   end
 
 end
+
+log = File.absolute_path(File.dirname(__FILE__)) + "/../pineapple.log"
+RpmLogger = Logger.new(log)
+RpmLogger.level = ENV["LOG_LEVEL"] || Logger::INFO

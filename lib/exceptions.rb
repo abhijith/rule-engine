@@ -1,9 +1,18 @@
-class ChannelNotFound  < StandardError ; end
-class CountryNotFound  < StandardError ; end
-class CategoryNotFound < StandardError ; end
-class AdvertNotFound   < StandardError ; end
-class LimitNotFound    < StandardError ; end
+require_relative 'utils'
 
-class InvalidOperator  < StandardError ; end
-class InvalidField     < StandardError ; end
-class ProtocolError    < StandardError ; end
+class RpmError < StandardError
+  def initialize(x = nil)
+    RpmLogger.error(x) if x
+    RpmLogger.debug(self.backtrace.join("\n"))
+  end
+end
+
+class ChannelNotFound  < RpmError ; end
+class CountryNotFound  < RpmError ; end
+class CategoryNotFound < RpmError ; end
+class AdvertNotFound   < RpmError ; end
+class LimitNotFound    < RpmError ; end
+
+class InvalidOperator  < RpmError ; end
+class InvalidField     < RpmError ; end
+class ProtocolError    < RpmError ; end

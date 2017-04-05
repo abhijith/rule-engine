@@ -18,7 +18,7 @@ class Expr
     if FieldToType.has_key?(field)
       @type = FieldToType[field]
     else
-      raise InvalidField.new, "Invalid field #{field} in rule: #{self.to_h}"
+      raise InvalidField.new "Invalid field #{field} in rule: #{self.to_h}"
     end
   end
 
@@ -50,6 +50,8 @@ class Expr
     end
 
     raise InvalidOperator.new, "Invalid operator #{operator} for #{rule_val.class}: #{self.to_h}" if not rule_val.respond_to?(operator)
+    RpmLogger.debug({ rule_val: rule_val, operator: operator, request_val: request_val })
+
     rule_val.send(operator, request_val)
   end
 
@@ -75,10 +77,8 @@ class ExprGroup
   def satisfies?(request, debug = false)
     res  = self.exprs.map {|rule| { expr: rule.to_h, val: rule.satisfies?(request, debug) } }
     vals = res.map {|x| x[:val] }
-    if debug
-      pp res
-      pp vals
-    end
+    RpmLogger.info(res)
+
     vals.send(self.cond)
   end
 
