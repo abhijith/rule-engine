@@ -50,10 +50,13 @@ class HttpTest < Test::Unit::TestCase
 
   def test_match
     assert_match({ channel: "car-example.com",  preferences: ["cars", "travel"], country: "germany" }, :client_error?)
-    assert_match({  }, :client_error?)
     assert_match({ channel: "food-example.com", preferences: ["cars", "travel"], country: "india"   }, :client_error?)
 
     assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
+    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
+    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
+    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
+
     assert_match({channel: "team-bhp.com",     preferences: ["bmw"],  country: "germany" }, :ok?, { "label" => "bmw-i8"      })
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "india"   }, :ok?, { "label" => "master-chef" })
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "germany" }, :ok?, { "label" => "master-chef" })

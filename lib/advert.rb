@@ -89,4 +89,9 @@ class Advert
     { label: label }
   end
 
+  def update_limits(objs)
+    self.inc_view
+    self.fetch_limits(objs).each(&:inc_view)
+  end
+
 end
