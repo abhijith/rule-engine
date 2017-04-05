@@ -1,1 +1,12 @@
 * ad scoring
+
+
+clean-ups:
+----------
+* exhausted? o tired?
+
+* Rename limits_exceeded? to views_exceeded? or tired?
+
+* satisfies? to satisfied?
+
+* introduce keyword args for expr.new
