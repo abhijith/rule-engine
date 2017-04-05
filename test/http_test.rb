@@ -50,6 +50,7 @@ class HttpTest < Test::Unit::TestCase
 
   def test_match
     assert_match({ channel: "car-example.com",  preferences: ["cars", "travel"], country: "germany" }, :client_error?)
+    assert_match({  }, :client_error?)
     assert_match({ channel: "food-example.com", preferences: ["cars", "travel"], country: "india"   }, :client_error?)
 
     assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })

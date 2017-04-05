@@ -30,29 +30,34 @@
 #### Assumptions
 --
 * Request from a channel contains 3 fields
-  - country (String representation of country)
-  - channel (String representation of channel)
-  - preferences (Array of String representation of Category)
+  - country (String)
+  - channel (String)
+  - preferences (Array of Strings)
 
-* Categories are unique
+* Categories
+  - unique
+  - can be heirarchies
 
-* Channels are unique
+* Channels
+  - unique
+  - may have categories associated with it
 
-* Preferences are unique
+* Adverts
+  - unique
+  - have constraints associated with them.
+  - have a global view limit
+  - have a start and end date
+  - may have country or channel specific limits
 
-* Adverts are unique
+* Rules / Constraints
+  - can be either simple expressions which evaluate to true | false
+  - combined using either conjuctions or disjunctions.
 
-* Adverts have constraints associated with them.
+* API
+  - returns an advertisement or null given a match request
+  - returns an advertisement or given an advertisement id
 
-* Adverts have a global view limit
-
-* Adverts may have country or channel specific limits
-
-* Rules / Constraints can be either simple expressions or compound expressions combined using either conjuctions or disjunctions.
-
-* The application returns an advertisement or null for an advertisement matching request
-
-* The application returns an advertisement for an advertisement id
+* On an average of 40 to 50 advertisements can be live at any point
 
 #### Components
 --
@@ -62,15 +67,16 @@
 
 * Rule engine
 
-#### Flow:
+#### Flow of control:
 --
-* Webserver accepts requests
+* Advert matching
+  - Webserver accepts requests
+  - Advertisement selector iterates through _live_ and _available_ advertisements.
+  - Rule evaluates request against advertisement constraints and returns true|false.
+  - An advertisement is returned if one or more advertisements satisfy the constraints (ties are broken arbitrarily).
 
-* Advertisement selector iterates through _live_ and _available_ advertisements.
-
-* Rule evaluates request against advertisement constraints and returns true|false.
-
-* An advertisement is returned if one or more advertisements satisfy the constraints (ties are broken arbitrarily).
+* Advert get
+  - Lookups the id in the DB and returns an advert with the specified id is found
 
 #### Component descriptions
 
@@ -115,6 +121,7 @@
 	- Params:{ channel: "example.com",  preferences: ["pref1", "pref2"], country: "country1" }
 
 ** Extending the application
+	* Adding new request params
 	* Adding new limits
 	* Adding new operators
 	* Adding new types
