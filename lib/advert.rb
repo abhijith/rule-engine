@@ -74,6 +74,7 @@ class Advert
 
   def limits=(limits)
     limits.each do |limit|
+      RpmLogger.debug("associated limit #{limit.inspect} with #{self.to_h}")
       limit.ad_id = self.id
       @limits << limit
     end
