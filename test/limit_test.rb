@@ -27,6 +27,11 @@ class LimitTest < Test::Unit::TestCase
     @l2.save
     assert_equal [@l1, @l2], Limit.all
     assert_equal 2, Limit.count
+
+    assert_equal @india.class, @l1.type
+    assert_equal @food.class,  @l2.type
+    assert_equal @india.id,    @l1.type_id
+    assert_equal @food.id,     @l2.type_id
   end
 
   def test_destroy_all
@@ -44,11 +49,15 @@ class LimitTest < Test::Unit::TestCase
     assert_equal @l1, Limit.find(1)
   end
 
-  def test_exhausted?
+  def test_inc_view_and_exhausted?
     assert_equal false, @l1.exhausted?
     @l1.inc_view
     @l1.inc_view
     assert_equal true, @l1.exhausted?
+  end
+
+  def test_type_instance
+    assert_equal @india, @l1.type_instance
   end
 
 end

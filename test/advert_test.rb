@@ -89,7 +89,9 @@ class AdvertTest < Test::Unit::TestCase
   end
 
   def test_limits=
-
+    @a1.save
+    @a1.limits = [@l1, @l2]
+    assert_equal [@l1, @l2].map(&:ad_id), @a1.limits.map(&:ad_id)
   end
 
   def test_fetch_limit
