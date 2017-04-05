@@ -5,6 +5,7 @@
 
 #### Cloning and installing the application
 --
+
 	$ git clone ssh://git@bitbucket.org/abhijithg/rpm.git
 	$ bundle install --path vendor/bundle
 
@@ -20,8 +21,6 @@
 	$ cd rpm
 	$ bundle exec ruby rpm.rb # starts the webserver on port localhost:4567
 
-* Making requests via curl
-
 * Tests
 
 	$ cd rpm
@@ -30,34 +29,50 @@
 
 #### Assumptions
 --
-** Request from a channel contains 3 fields
-  * country (String representation of country)
-  * channel (String representation of channel)
-  * preferences (Array of String representation of Category)
+* Request from a channel contains 3 fields
+  - country (String representation of country)
+  - channel (String representation of channel)
+  - preferences (Array of String representation of Category)
 
-** Categories are unique
+* Categories are unique
 
-** Channels are unique
+* Channels are unique
 
-** Preferences are unique
+* Preferences are unique
 
-** Adverts are unique and have constraints associated with them
+* Adverts are unique
 
-** The application returns an advertisement or null for an advert matching request
+* Adverts have constraints associated with them.
 
-** The application returns an advertisement for an advert id
+* Adverts have a global view limit
 
-** Rules / Constraints can be either simple expressions or compound experssions combined using either conjuctions or disjunctions.
+* Adverts may have country or channel specific limits
 
+* Rules / Constraints can be either simple expressions or compound expressions combined using either conjuctions or disjunctions.
+
+* The application returns an advertisement or null for an advertisement matching request
+
+* The application returns an advertisement for an advertisement id
 
 #### Components
 --
-** Request handler / webserver
+* Request handler / webserver
 
-** Advert selector
-	* returns an advertisement (ties are broken arbitrarily) if constraints are satisfied for one or more Advertisements.
+* Advertisement selector
 
-** Rule engine
+* Rule engine
+
+#### Flow:
+--
+* Webserver accepts requests
+
+* Advertisement selector iterates through _live_ and _available_ advertisements.
+
+* Rule evaluates request against advertisement constraints and returns true|false.
+
+* An advertisement is returned if one or more advertisements satisfy the constraints (ties are broken arbitrarily).
+
+#### Component descriptions
 
 ** Types / Classes
 	* Request
@@ -78,7 +93,7 @@
 	* Expr
 	  - attributes:
 
-** URLs
+** URLs exposed via the webserver
 	* /
 	- GET
 	- Params: None
@@ -92,7 +107,7 @@
 	* /ads/<id>
 	- GET
 	- Params: id
-	- Gets the advert matching the id
+	- Gets the advertisement matching the id
 
 	* /match
 	- POST
@@ -100,15 +115,6 @@
 	- Params:{ channel: "example.com",  preferences: ["pref1", "pref2"], country: "country1" }
 
 ** Extending the application
-	* Protocols
-
-
-#### Flow:
---
-* Webserver accepts request
-
-* Gets converted into Request Type
-
-* Advert selector iterates through _live_ advertisements and select an advertisement
-
-* Rule engine returns true|false for each advert evaluated
+	* Adding new limits
+	* Adding new operators
+	* Adding new types
