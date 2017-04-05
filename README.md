@@ -25,7 +25,7 @@
 
 	$ cd rpm
 	$ bundle exec ruby tests/all.rb          # run all tests
-	$ bundle exec ruby tests/test_<file>.rb  # run specific-test
+	$ bundle exec ruby tests/<name>_test.rb  # run specific-test
 
 #### Assumptions
 --
