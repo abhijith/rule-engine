@@ -9,6 +9,7 @@
 	- find(id)
 	- find_by_label(str)
 
+
 * Have to be entered in the FieldToType mapping whitelist in the rule engine
 
 * New operators
