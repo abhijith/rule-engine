@@ -12,6 +12,40 @@
 #### Project Tree:
 --
 
+	├── assumptions.md
+	├── design.md
+	├── extending.md
+	├── Gemfile
+	├── Gemfile.lock
+	├── install.md
+	├── lib
+	│   ├── advert.rb
+	│   ├── category.rb
+	│   ├── channel.rb
+	│   ├── country.rb
+	│   ├── data.rb
+	│   ├── exceptions.rb
+	│   ├── expr.rb
+	│   ├── limit.rb
+	│   ├── request.rb
+	│   ├── rpm.rb
+	│   └── utils.rb
+	├── README.md
+	├── rpm.rb
+	├── SPEC
+	├── test
+	│   ├── advert_test.rb
+	│   ├── all.rb
+	│   ├── category_test.rb
+	│   ├── channel_test.rb
+	│   ├── country_test.rb
+	│   ├── expr_test.rb
+	│   ├── http_test.rb
+	│   ├── limit_test.rb
+	│   ├── request_test.rb
+	│   ├── rpm_test.rb
+	│   └── utils.rb
+	└── TODO
 
 #### Running the code
 --
