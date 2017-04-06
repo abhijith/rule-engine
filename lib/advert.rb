@@ -89,7 +89,7 @@ class Advert
     objs.map {|obj| self.fetch_limit(obj) }.compact
   end
 
-  def limits_exceeded?(objs)
+  def views_exceeded?(objs)
     self.fetch_limits(objs).map(&:exhausted?).any?
   end
 

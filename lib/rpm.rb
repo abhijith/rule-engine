@@ -9,7 +9,7 @@ def main(attrs)
   ads = Advert.live.select do |ad|
     RpmLogger.debug("Examining ad: #{ad.to_h}")
 
-    (not ad.limits_exceeded?([request.country, request.channel])) and ad.constraints.satisfies?(request, debug = false)
+    (not ad.views_exceeded?([request.country, request.channel])) and ad.constraints.satisfied?(request, debug = false)
   end
 
   RpmLogger.debug("Matched ads: #{ads.map(&:to_h)}")

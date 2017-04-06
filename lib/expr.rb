@@ -33,7 +33,7 @@ class Expr
     }
   end
 
-  def satisfies?(request, debug = false)
+  def satisfied?(request, debug = false)
     request_val = request.send(field)
 
     if value.is_a? Array
@@ -74,8 +74,8 @@ class ExprGroup
     }
   end
 
-  def satisfies?(request, debug = false)
-    res  = self.exprs.map {|rule| { expr: rule.to_h, val: rule.satisfies?(request, debug) } }
+  def satisfied?(request, debug = false)
+    res  = self.exprs.map {|rule| { expr: rule.to_h, val: rule.satisfied?(request, debug) } }
     vals = res.map {|x| x[:val] }
     RpmLogger.info(res)
 

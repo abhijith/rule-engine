@@ -111,7 +111,7 @@ class AdvertTest < Test::Unit::TestCase
     @a1.save
     @a1.limits = [@l1, @l2]
 
-    assert_equal false, @a1.limits_exceeded?([@germany, @food])
+    assert_equal false, @a1.views_exceeded?([@germany, @food])
     assert_equal @germany.id,    @l1.type_id
     assert_equal @food.id,       @l2.type_id
     assert_equal @germany.class, @l1.type
@@ -125,24 +125,24 @@ class AdvertTest < Test::Unit::TestCase
     @a1.limits = [@l1, @l2]
     @a2.limits = [@l3]
 
-    assert_equal false, @a1.limits_exceeded?([@germany])
-    assert_equal false, @a2.limits_exceeded?([@germany])
-    assert_equal false, @a1.limits_exceeded?([@food])
+    assert_equal false, @a1.views_exceeded?([@germany])
+    assert_equal false, @a2.views_exceeded?([@germany])
+    assert_equal false, @a1.views_exceeded?([@food])
 
     @a1.update_limits([@germany])
     @a2.update_limits([@germany])
     @a1.update_limits([@food])
 
-    assert_equal false, @a1.limits_exceeded?([@germany])
-    assert_equal false, @a2.limits_exceeded?([@germany])
-    assert_equal true,  @a1.limits_exceeded?([@food])
+    assert_equal false, @a1.views_exceeded?([@germany])
+    assert_equal false, @a2.views_exceeded?([@germany])
+    assert_equal true,  @a1.views_exceeded?([@food])
 
     @a1.update_limits([@germany])
     @a2.update_limits([@germany])
 
-    assert_equal true, @a1.limits_exceeded?([@germany])
-    assert_equal true, @a2.limits_exceeded?([@germany])
-    assert_equal true, @a1.limits_exceeded?([@germany, @food])
+    assert_equal true, @a1.views_exceeded?([@germany])
+    assert_equal true, @a2.views_exceeded?([@germany])
+    assert_equal true, @a1.views_exceeded?([@germany, @food])
 
     assert_equal 3, @a1.views
     assert_equal 2, @l1.views

@@ -36,34 +36,34 @@ class ExprTest < Test::Unit::TestCase
     [Channel, Country, Category, Advert, Limit].each(&:destroy_all)
   end
 
-  def test_satisfies?
+  def test_satisfied?
     r = Request.new(channel: "car-example.com", preferences: ["cars", "automobiles"], country: "germany")
-    assert_equal true, @expr1.satisfies?(r)
-    assert_equal true, @expr2.satisfies?(r)
-    assert_equal true, @expr3.satisfies?(r)
-    assert_equal true, @expr4.satisfies?(r)
+    assert_equal true, @expr1.satisfied?(r)
+    assert_equal true, @expr2.satisfied?(r)
+    assert_equal true, @expr3.satisfied?(r)
+    assert_equal true, @expr4.satisfied?(r)
 
     r = Request.new(channel: "food-example.com", preferences: ["cars"], country: "germany")
-    assert_equal true, @expr5.satisfies?(r)
+    assert_equal true, @expr5.satisfied?(r)
 
     r = Request.new(channel: "car-example.com", preferences: ["cars"], country: "india")
-    assert_equal true, @expr6.satisfies?(r)
+    assert_equal true, @expr6.satisfied?(r)
 
     r = Request.new(channel: "car-example.com", preferences: ["automobiles"], country: "germany")
-    assert_equal false, @expr7.satisfies?(r)
+    assert_equal false, @expr7.satisfied?(r)
 
     r = Request.new(channel: "car-example.com", preferences: ["bmw"], country: "germany")
-    assert_equal true, @expr7.satisfies?(r)
+    assert_equal true, @expr7.satisfied?(r)
 
     r = Request.new(channel: "car-example.com", preferences: ["bmw"], country: "germany")
-    assert_equal true, @expr8.satisfies?(r)
+    assert_equal true, @expr8.satisfied?(r)
 
     assert_raises InvalidField do
-      Expr.new(field: :cat, value: "automobiles", operator: :parent_of?).satisfies?(r)
+      Expr.new(field: :cat, value: "automobiles", operator: :parent_of?).satisfied?(r)
     end
 
     assert_raises InvalidOperator do
-      Expr.new(field: :categories, value: "automobiles", operator: :isa?).satisfies?(r)
+      Expr.new(field: :categories, value: "automobiles", operator: :isa?).satisfied?(r)
     end
 
   end
@@ -72,12 +72,12 @@ end
 
 class ExprGroupTest < ExprTest
 
-  def test_satisfies?
+  def test_satisfied?
     @expr6 = ExprGroup.new(:any?, [@expr1, @expr2])
-    assert_equal true,  @expr6.satisfies?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
+    assert_equal true,  @expr6.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
 
     @expr7 = ExprGroup.new(:all?, [@expr1, @expr2])
-    assert_equal true,  @expr7.satisfies?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
+    assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
   end
 
 end
