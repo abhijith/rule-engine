@@ -1,16 +1,16 @@
 #### Dependencies
---
-	* Ruby
-	* Bundler
+
+* Ruby
+* Bundler
 
 #### Cloning and installing the application
---
+
 
 	$ git clone ssh://git@bitbucket.org/abhijithg/rpm.git
 	$ bundle install --path vendor/bundle
 
 #### Project Tree:
---
+
 
 	├── assumptions.md
 	├── design.md
@@ -48,7 +48,6 @@
 	└── TODO
 
 #### Running the code
---
 
 * Starting the application
 
