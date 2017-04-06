@@ -1,11 +1,12 @@
 #### Extending the rule engine to support new types and operators
 
 * New types added must implement the following interfaces
-  - id
-  - find(id)
-  - find_by_label(label)
   - save
+  - id
+  - all
   - destroy_all
+  - find(id)
+  - find_by_label(str)
 
 * Have to be entered in the FieldToType mapping whitelist in the rule engine
 
