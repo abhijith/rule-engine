@@ -1,6 +1,5 @@
 * ad scoring
 
-
 clean-ups:
 ----------
-* introduce keyword args for expr.new
+* move functionality into base class

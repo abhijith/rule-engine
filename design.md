@@ -10,15 +10,15 @@
 #### Flow of control:
 --
 
-* Advert matching
+* Advertisement matching
   - Webserver accepts requests
   - Advertisement selector iterates through _live_ and _available_ advertisements.
   - Rule evaluates request against advertisement constraints and returns true|false.
   - An advertisement is returned if one or more advertisements satisfy the constraints (ties are broken arbitrarily).
-  - Views are updated when an advert is selected
+  - Views are updated when an Advertisement is selected
 
-* Advert get
-  - Lookups the id in the DB and returns an advert with the specified id is found
+* Advertisement get
+  - Lookups the id in the DB and returns an Advertisement with the specified id is found
 
 #### Component descriptions
 
