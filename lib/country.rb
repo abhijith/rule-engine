@@ -7,4 +7,8 @@ class Country < Base
     @label = label
   end
 
+  def self.find_by_label(l)
+    Country.all.select {|x| x.label == l }.first
+  end
+
 end

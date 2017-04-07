@@ -1,5 +1,5 @@
 class Base
-  @@db = Hash.new {|h,k| h[k] = Collection.new }
+  @@db = Hash.new {|h,k| h[k] = [] }
 
   private
   def self.db
@@ -27,7 +27,7 @@ class Base
   end
 
   def self.destroy_all
-    self.rows = Collection.new
+    self.rows = []
   end
 
   def self.find(id)
@@ -44,12 +44,8 @@ class Base
     self
   end
 
-end
-
-class Collection < Array
-
-  def intersect?(x)
-    not (self & x).empty?
+  def destroy
+    self.class.rows.delete(self)
   end
 
 end
