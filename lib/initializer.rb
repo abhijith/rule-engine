@@ -13,6 +13,7 @@ require_relative 'rpm'
 require_relative 'limit'
 require_relative 'exceptions'
 require_relative 'data'
+require_relative 'utils'
 
 log = File.absolute_path(File.dirname(__FILE__)) + "/../pineapple.log"
 RpmLogger = Logger.new(log)
