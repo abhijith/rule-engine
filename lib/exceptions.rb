@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative 'initializer'
 
 class RpmError < StandardError
   def initialize(x = nil)

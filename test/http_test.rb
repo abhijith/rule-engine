@@ -1,6 +1,6 @@
 ENV['RACK_ENV'] = 'test'
 
-require_relative 'utils'
+require_relative 'initializer'
 require_relative '../rpm'
 require 'rack/test'
 

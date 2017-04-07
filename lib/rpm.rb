@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative 'initializer'
 
 def main(attrs)
   request = Request.new(attrs)

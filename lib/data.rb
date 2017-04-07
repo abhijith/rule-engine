@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative 'initializer'
 
 def flush
   [Advert, Channel, Country, Category, Limit].each(&:destroy_all)

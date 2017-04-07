@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative 'initializer'
 
 class RequestTest < Test::Unit::TestCase
 

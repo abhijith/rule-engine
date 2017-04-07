@@ -1,5 +1,5 @@
 require 'sinatra'
-require_relative 'lib/utils'
+require_relative 'lib/initializer'
 require_relative 'lib/rpm'
 require_relative 'lib/data'
 

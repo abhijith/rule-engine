@@ -1,4 +1,4 @@
-require_relative 'utils'
+require_relative 'initializer'
 
 class Request
   attr_accessor :channel, :categories, :country, :preferences
