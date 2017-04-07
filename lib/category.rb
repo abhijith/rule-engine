@@ -1,35 +1,11 @@
-class Category
-  attr_accessor :id, :label, :parent_id
+require_relative 'base'
 
-  @@coll    = []
-  @@counter = 0
+class Category < Base
+  attr_accessor :id, :label, :parent_id
 
   def initialize(label, parent_id = nil)
     @label     = label
     @parent_id = parent_id
-  end
-
-  def self.count
-    @@counter
-  end
-
-  def save
-    self.id = @@counter
-    @@coll << self
-    @@counter = @@counter + 1
-    self
-  end
-
-  def self.all
-    @@coll
-  end
-
-  def self.find(id)
-    @@coll[id]
-  end
-
-  def self.find_by_label(l)
-    @@coll.select {|x| x.label == l }.first
   end
 
   def parent
@@ -42,11 +18,6 @@ class Category
 
   def children
     Category.all.select {|x| x.parent_id == self.id }
-  end
-
-  def self.destroy_all
-    @@coll    = []
-    @@counter = 0
   end
 
   def add_child(node)

@@ -1,10 +1,7 @@
 require 'date'
 
-class Advert
+class Advert < Base
   attr_accessor :id, :label, :start_date, :end_date, :limit, :views, :constraints, :limits
-
-  @@coll    = []
-  @@counter = 0
 
   def initialize(label: nil, limit: 10, start_date: nil, end_date: nil)
     @label       = label
@@ -14,34 +11,6 @@ class Advert
     @limits      = []
     @start_date  = start_date
     @end_date    = end_date
-  end
-
-  def self.count
-    @@counter
-  end
-
-  def save
-    self.id = @@counter
-    @@coll << self
-    @@counter = @@counter + 1
-    self
-  end
-
-  def self.all
-    @@coll
-  end
-
-  def self.destroy_all
-    @@coll    = []
-    @@counter = 0
-  end
-
-  def self.find(id)
-    @@coll[id]
-  end
-
-  def self.find_by_label(l)
-    @@coll.select {|x| x.label == l }.first
   end
 
   def live?

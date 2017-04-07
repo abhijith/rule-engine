@@ -1,8 +1,7 @@
-class Limit
-  attr_accessor :id, :type, :type_id, :limit, :views, :obj, :ad_id
+require_relative 'base'
 
-  @@coll    = []
-  @@counter = 0
+class Limit < Base
+  attr_accessor :id, :type, :type_id, :limit, :views, :obj, :ad_id
 
   def initialize(obj, value)
     @views   = 0
@@ -12,32 +11,8 @@ class Limit
     @limit   = value
   end
 
-  def self.count
-    @@counter
-  end
-
-  def save
-    self.id = @@counter
-    @@coll << self
-    @@counter = @@counter + 1
-    self
-  end
-
-  def self.all
-    @@coll
-  end
-
-  def self.find(id)
-    @@coll[id]
-  end
-
   def self.find_by(obj)
-    @@coll.select {|x| x.type == obj.class and x.type_id == obj.id }
-  end
-
-  def self.destroy_all
-    @@coll    = []
-    @@counter = 0
+    self.rows.select {|x| x.type == obj.class and x.type_id == obj.id }
   end
 
   def inc_view
