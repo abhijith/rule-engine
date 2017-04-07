@@ -1,4 +1,6 @@
 class Base
+  attr_accessor :id
+
   @@db = Hash.new {|h,k| h[k] = [] }
 
   private

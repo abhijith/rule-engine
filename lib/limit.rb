@@ -1,7 +1,7 @@
 require_relative 'base'
 
 class Limit < Base
-  attr_accessor :id, :type, :type_id, :limit, :views, :obj, :ad_id
+  attr_accessor :type, :type_id, :limit, :views, :obj, :ad_id
 
   def initialize(obj, value)
     @views   = 0

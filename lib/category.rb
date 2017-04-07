@@ -1,7 +1,7 @@
 require_relative 'base'
 
 class Category < Base
-  attr_accessor :id, :label, :parent_id
+  attr_accessor :label, :parent_id
 
   def initialize(label, parent_id = nil)
     @label     = label
