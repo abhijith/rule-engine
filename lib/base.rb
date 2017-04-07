@@ -3,12 +3,9 @@ class Base
 
   @@db = Hash.new {|h,k| h[k] = [] }
 
-  private
   def self.db
     @@db
   end
-
-  public
 
   def self.rows
     self.instance_eval do

@@ -10,13 +10,12 @@ class BaseTest < Test::Unit::TestCase
   end
 
   def test_id
-    p Base.db
-
-    Channel.new(label: "a").save
-    Country.new(label: "b").save
-    Advert.new(label: "c").save
-
-    pp Base.db
+    a = Channel.new(label: "a").save
+    assert_equal 0, a.id
+    b = Country.new(label: "b").save
+    assert_equal 0, b.id
+    c = Advert.new(label: "c").save
+    assert_equal 0, c.id
   end
 
 end
