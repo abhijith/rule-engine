@@ -26,8 +26,6 @@ class AdvertTest < Test::Unit::TestCase
   end
 
   def test_id
-    pp Advert.db
-
     @a1.save
     @a2.save
     assert_equal 0, @a1.id
