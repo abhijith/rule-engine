@@ -77,7 +77,6 @@ Entities:
     - belongs-to advert
     - belongs-to channel
 
-
 ** AdChannelLimit
    * Description:
      - collection of ad-to-channel view limit
@@ -91,7 +90,6 @@ Entities:
    * Associations:
      - belongs-to advert
      - belongs-to channel
-
 
 ** AdCountryLimit
    * Description:
@@ -108,17 +106,14 @@ Entities:
      - belongs-to country
 
 
-Example:
---------
-
-* Request
+** Request
   {
     channel: "reddit.com"
     country: "germany"
     categories: ["food", "travelling"]
   }
 
-* Ad1
+** Ad1
   {
     label: "nike"
     country: "germany"
@@ -128,12 +123,12 @@ Example:
 
   Ad1.satisifies?(request) -> (and true false) => false
 
-* Ad2
+** Ad2
   {
     label: "airbnb"
     country: "germany"
     limit: 1000
     constraint: (and (== country "germany") (member? "travelling" categories))
   }
-  Ad2.satisifies?(request) -> (and true true) => true
+  Ad2.satisfied?(request) -> (and true true) => true
 curl -H "Content-Type: application/json" -X POST -d "{\"channel\":\"car-example.com\",\"country\":\"germany\",\"categories\":[\"cars\",\"gadgets\"]}" http://localhost:4567/match

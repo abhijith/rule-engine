@@ -1,8 +1,12 @@
-* Expr.member? -> helper
+* Better naming
+
+* Re-org directory structure
+
 * Documentation
 
 * Extension
 
 * Add active model serializers
 
-* Read init_data from a file - looks a lot cleaner
+* Read init_data from a file ?
+
