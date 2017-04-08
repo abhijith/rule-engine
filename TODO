@@ -1,5 +1,3 @@
-* optimize Base.count
-
 * expr.new -> keyword args
 
 * Documentation
