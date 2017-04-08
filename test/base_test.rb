@@ -69,7 +69,6 @@ class BaseTest < Test::Unit::TestCase
     }
     assert_equal db, Base.db
 
-
     Country.destroy_all
     assert_equal 0, Country.count
     assert_equal empty_db, Base.db
@@ -85,9 +84,18 @@ class BaseTest < Test::Unit::TestCase
     }
     assert_equal db, Base.db
 
+    Channel.rows = []
+    Country.rows = []
+    assert_equal empty_db, Base.db
+
+    a.save
+    b.save
     a.destroy
     b.destroy
     assert_equal empty_db, Base.db
+
+    Channel.rows = []
+    Country.rows = []
   end
 
 end
