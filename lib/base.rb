@@ -12,21 +12,15 @@ class Base
   end
 
   def self.table
-    self.instance_eval do
-      self.db[self]
-    end
+    self.db[self]
   end
 
   def self.table=(x)
-    self.instance_eval do
-      self.db[self] = x
-    end
+    self.db[self] = x
   end
 
   def self.rows
-    self.instance_eval do
-      self.db[self][:coll]
-    end
+    self.db[self][:coll]
   end
 
   def self.rows=(x)
@@ -38,15 +32,11 @@ class Base
   end
 
   def self.count
-    self.instance_eval do
-      self.db[self][:count]
-    end
+    self.db[self][:count]
   end
 
   def self.count=(x)
-    self.instance_eval do
-      self.db[self][:count] = x
-    end
+    self.db[self][:count] = x
   end
 
   def self.destroy_all
