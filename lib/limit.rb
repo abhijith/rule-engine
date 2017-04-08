@@ -12,7 +12,7 @@ class Limit < Base
   end
 
   def self.find_by(obj)
-    self.rows.select {|x| x.type == obj.class and x.type_id == obj.id }
+    super(type: obj.class, type_id: obj.id)
   end
 
   def inc_view

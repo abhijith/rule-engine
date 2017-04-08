@@ -36,7 +36,8 @@ class Base
   def self.find_by(**kwargs)
     rs = self.rows.select do |x|
       kwargs.map {|attr, val| x.send(attr) == val if x.respond_to?(attr) }.all?
-    end.first
+    end
+    rs.first
   end
 
   def save
