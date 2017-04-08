@@ -3,13 +3,13 @@ require_relative 'initializer'
 class CategoryTest < Test::Unit::TestCase
 
   def setup
-    @root    = Category.new(:root)
-    @cars    = Category.new(:cars)
-    @bmw     = Category.new(:bmw)
-    @audi    = Category.new(:audi)
-    @cuisine = Category.new(:cuisine)
-    @chinese = Category.new(:chinese)
-    @indian  = Category.new(:indian)
+    @root    = Category.new(label: :root)
+    @cars    = Category.new(label: :cars)
+    @bmw     = Category.new(label: :bmw)
+    @audi    = Category.new(label: :audi)
+    @cuisine = Category.new(label: :cuisine)
+    @chinese = Category.new(label: :chinese)
+    @indian  = Category.new(label: :indian)
   end
 
   def teardown

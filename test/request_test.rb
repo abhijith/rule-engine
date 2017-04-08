@@ -3,7 +3,7 @@ require_relative 'initializer'
 class RequestTest < Test::Unit::TestCase
 
   def setup
-    @cat1  = Category.new("cars").save
+    @cat1  = Category.new(label: "cars").save
     @ch1   = Channel.new(label: "car-example.com").save
     @ch1.categories = [@cat1]
     @india = Country.new(label: "india").save

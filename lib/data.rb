@@ -8,13 +8,13 @@ def build_category_tree(h, parent_id = nil)
   case h.class.to_s
   when Hash.to_s
     h.each_pair do |k, v|
-      c = Category.new(k, parent_id).save
+      c = Category.new(label: k, parent_id: parent_id).save
       build_category_tree(v, c.id)
     end
   when Array.to_s
     h.each {|x| build_category_tree(x, parent_id) }
   when String.to_s
-    Category.new(h, parent_id).save
+    Category.new(label: h, parent_id: parent_id).save
   end
 end
 

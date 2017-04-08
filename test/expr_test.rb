@@ -25,9 +25,9 @@ class ExprTest < Test::Unit::TestCase
     @car     = Channel.new(label: "car-example.com").save
     @food    = Channel.new(label: "food-example.com").save
 
-    @c1 = Category.new("automobiles").save
-    @c2 = Category.new("cars", 0).save
-    @c3 = Category.new("bmw", 1).save
+    @c1 = Category.new(label: "automobiles").save
+    @c2 = Category.new(label: "cars", parent_id: 0).save
+    @c3 = Category.new(label: "bmw", parent_id: 1).save
 
     @car.categories = [@c3]
   end
