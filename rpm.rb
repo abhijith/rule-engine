@@ -8,7 +8,7 @@ def rescuing
     content_type :json
     status 200
 
-    res = yield
+    res = yield if block_given?
   rescue StandardError => e
     status 500
     e.message.to_json
