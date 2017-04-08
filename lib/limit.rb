@@ -3,7 +3,7 @@ require_relative 'base'
 class Limit < Base
   include Limited
 
-  attr_accessor :type, :type_id, :limit, :views, :obj, :ad_id
+  attr_accessor :type, :type_id, :obj, :ad_id
 
   def initialize(obj, value)
     @views   = 0

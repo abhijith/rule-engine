@@ -3,7 +3,7 @@ require 'date'
 class Advert < Base
   include Limited
 
-  attr_accessor :label, :start_date, :end_date, :limit, :views, :constraints, :limits
+  attr_accessor :label, :start_date, :end_date, :constraints, :limits
 
   def initialize(label: nil, limit: 10, start_date: nil, end_date: nil)
     @label       = label

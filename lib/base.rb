@@ -53,6 +53,8 @@ class Base
 end
 
 module Limited
+  attr_accessor :limit, :views
+
   def exhausted?
     if self.limit.nil?
       false
