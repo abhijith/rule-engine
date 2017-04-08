@@ -18,6 +18,11 @@ class BaseTest < Test::Unit::TestCase
     Klasses.each(&:destroy_all)
   end
 
+  def test_empty
+    assert_equal({coll: [], count: 0}, Channel.empty)
+    assert_equal({coll: [], count: 0}, Channel.table)
+  end
+
   def test_protocol
     a.save
     b.save
