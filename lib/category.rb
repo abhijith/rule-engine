@@ -3,7 +3,7 @@ require_relative 'base'
 class Category < Base
   attr_accessor :label, :parent_id
 
-  def initialize(label: label, parent_id: nil)
+  def initialize(label: nil, parent_id: nil)
     @label     = label
     @parent_id = parent_id
   end
