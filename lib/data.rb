@@ -30,13 +30,9 @@ def init_data
   countries = ["india", "germany", "sweden"]
   countries.each {|x| Country.new(label: x).save }
 
-  cars     = ["bmw", "volvo"]
-  airlines = ["air-berlin", "air-india"]
-  food     = ["dosa", "meatballs"]
-
   categories = {
-    "cars"     => cars,
-    "travel"   => { "airlines" => airlines, "food" => food }
+    "cars"     => ["bmw", "volvo"],
+    "travel"   => { "airlines" => ["air-berlin", "air-india"], "food" => ["dosa", "meatballs"] }
   }
   build_category_tree(categories)
 
