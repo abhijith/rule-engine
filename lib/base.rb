@@ -51,3 +51,18 @@ class Base
   end
 
 end
+
+module Limited
+  def exhausted?
+    if self.limit.nil?
+      false
+    else
+      self.views >= self.limit
+    end
+  end
+
+  def inc_view
+    @views = @views + 1
+  end
+
+end

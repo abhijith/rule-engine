@@ -1,6 +1,8 @@
 require 'date'
 
 class Advert < Base
+  include Limited
+
   attr_accessor :label, :start_date, :end_date, :limit, :views, :constraints, :limits
 
   def initialize(label: nil, limit: 10, start_date: nil, end_date: nil)
@@ -27,18 +29,6 @@ class Advert < Base
 
   def self.expired
     self.all.select {|x| x.expired? }
-  end
-
-  def exhausted?
-    if self.limit.nil?
-      false
-    else
-      self.views >= self.limit
-    end
-  end
-
-  def inc_view
-    @views = @views + 1
   end
 
   def limits=(limits)

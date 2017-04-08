@@ -1,6 +1,8 @@
 require_relative 'base'
 
 class Limit < Base
+  include Limited
+
   attr_accessor :type, :type_id, :limit, :views, :obj, :ad_id
 
   def initialize(obj, value)
@@ -13,18 +15,6 @@ class Limit < Base
 
   def self.find_by(obj)
     super(type: obj.class, type_id: obj.id)
-  end
-
-  def inc_view
-    @views = @views + 1
-  end
-
-  def exhausted?
-    if self.limit.nil?
-      false
-    else
-      self.views >= self.limit
-    end
   end
 
   def type_instance
