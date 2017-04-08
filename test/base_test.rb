@@ -16,14 +16,13 @@ class BaseTest < Test::Unit::TestCase
     b = Country.new(label: "b").save
     assert_equal [b], Country.all
     assert_equal 0, b.id
-    c = Advert.new(label: "c").save
-    assert_equal [c], Advert.all
-    assert_equal 0, c.id
 
     db = {
-      Channel => [a],
-      Country => [b],
-      Advert  => [c]
+      Channel  => [a],
+      Country  => [b],
+      Limit    => [],
+      Advert   => [],
+      Category => []
     }
     assert_equal db, Base.db
   end
