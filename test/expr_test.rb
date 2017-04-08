@@ -5,18 +5,16 @@ class ExprTest < Test::Unit::TestCase
   class Spurious ; end
 
   def setup
-    @expr1 = Expr.new(field: :channel,     value: "car-example.com",                       operator: :==)
-    @expr2 = Expr.new(field: :country,     value: "germany",                               operator: :==)
-    @expr3 = Expr.new(field: :preferences, value: ["cars", "automobiles"],                 operator: :==)
-    @expr4 = Expr.new(field: :preferences, value: ["automobiles"],                         operator: :intersect?)
-    @expr5 = Expr.new(field: :channel,     value: ["car-example.com", "food-example.com"], operator: :member?)
-    @expr6 = Expr.new(field: :country,     value: ["germany", "india"],                    operator: :member?)
-    @expr7 = Expr.new(field: :preferences, value: "automobiles",                           operator: :parent_of?)
+    @expr1 = Expr.==(:channel, "car-example.com")
+    @expr2 = Expr.==(:country, "germany")
+    @expr3 = Expr.==(:preferences, ["cars", "automobiles"])
+    @expr4 = Expr.intersect?(:preferences, ["automobiles"])
+    @expr5 = Expr.member?(:channel, ["car-example.com", "food-example.com"])
+    @expr6 = Expr.member?(:country, ["germany", "india"])
+    @expr7 = Expr.parent_of?(:preferences, "automobiles")
 
-    @expr8 = ExprGroup.new(:all?, [
-                             Expr.new(field: :channel,    value: "car-example.com", operator: :==),
-                             Expr.new(field: :categories, value: "automobiles",     operator: :parent_of?)
-                           ])
+    @expr8 = ExprGroup.new(:all?, [Expr.==(:channel, "car-example.com"),
+                                   Expr.parent_of?(:categories, "automobiles")])
 
 
     @germany = Country.new(label: "germany").save
@@ -59,11 +57,11 @@ class ExprTest < Test::Unit::TestCase
     assert_equal true, @expr8.satisfied?(r)
 
     assert_raises InvalidField do
-      Expr.new(field: :cat, value: "automobiles", operator: :parent_of?).satisfied?(r)
+      Expr.parent_of?(:cat, "automobiles").satisfied?(r)
     end
 
     assert_raises InvalidOperator do
-      Expr.new(field: :categories, value: "automobiles", operator: :isa?).satisfied?(r)
+      Expr.isa?(:categories, "automobiles").satisfied?(r)
     end
 
   end

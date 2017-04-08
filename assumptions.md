@@ -1,14 +1,14 @@
-#### Assumptions
+#### The assumptions I have made for this project ...
 
 
-* Request from a channel contains 3 fields
+* A request from a channel contains only 3 fields
 	- country (String)
 	- channel (String)
 	- preferences (Array of Strings)
 
-* Categories
-	- unique
-	- can be heirarchies
+* The channel categories:
+	- the categories are unique unique
+	- a category can be a parent of a heirarchy of categories
 
 * Channels
 	- unique

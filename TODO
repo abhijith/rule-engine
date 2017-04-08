@@ -1,3 +1,8 @@
+* Expr.member? -> helper
 * Documentation
 
 * Extension
+
+* Add active model serializers
+
+* Read init_data from a file - looks a lot cleaner

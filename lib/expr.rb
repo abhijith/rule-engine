@@ -55,6 +55,14 @@ class Expr
     rule_val.send(operator, request_val)
   end
 
+  def self.define_operators(*methods)
+    methods.each do |method_name|
+      define_singleton_method(method_name) do |field, value|
+        Expr.new(field: field, value: value, operator: method_name)
+      end
+    end
+  end
+
 end
 
 class ExprGroup
@@ -83,3 +91,5 @@ class ExprGroup
   end
 
 end
+
+Expr.define_operators :==, :intersect?, :member?, :parent_of?, :isa?
