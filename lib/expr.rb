@@ -38,15 +38,15 @@ class Expr
 
     if value.is_a? Array
       value.each do |v|
-        raise ProtocolError.new "#{type} in rule does not implement :find_by_label: #{self.to_h}" if not type.respond_to?(:find_by_label)
+        raise ProtocolError.new "#{type} in rule does not implement :find_by: #{self.to_h}" if not type.respond_to?(:find_by)
       end
 
       rule_val = value.map do |v|
-        type.send(:find_by_label, v)
+        type.find_by(label: v)
       end
     else
-      raise ProtocolError.new "#{type} in rule does not implement :find_by_label: #{self.to_h}" if not type.respond_to?(:find_by_label)
-      rule_val = type.send(:find_by_label, value)
+      raise ProtocolError.new "#{type} in rule does not implement :find_by: #{self.to_h}" if not type.respond_to?(:find_by)
+      rule_val = type.find_by(label: value)
     end
 
     raise InvalidOperator.new "Invalid operator #{operator} for #{rule_val.class}: #{self.to_h}" if not rule_val.respond_to?(operator)

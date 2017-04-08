@@ -50,8 +50,8 @@ class AdvertTest < Test::Unit::TestCase
   def test_find_by_label
     @a2.save
     @a1.save
-    assert_equal @a2, Advert.find_by_label("airbnb")
-    assert_equal @a1, Advert.find_by_label("nokia")
+    assert_equal @a2, Advert.find_by(label: "airbnb")
+    assert_equal @a1, Advert.find_by(label: "nokia")
   end
 
   def test_live_and_expired?

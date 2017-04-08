@@ -8,8 +8,4 @@ class Channel < Base
     @categories = []
   end
 
-  def self.find_by_label(l)
-    Channel.all.select {|x| x.label == l }.first
-  end
-
 end

@@ -33,8 +33,10 @@ class Base
     self.rows[id]
   end
 
-  def self.find_by_label(l)
-    self.rows.select {|x| x.label == l }.first
+  def self.find_by(**kwargs)
+    rs = self.rows.select do |x|
+      kwargs.map {|attr, val| x.send(attr) == val if x.respond_to?(attr) }.all?
+    end.first
   end
 
   def save

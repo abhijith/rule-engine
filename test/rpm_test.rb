@@ -11,7 +11,7 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def assert_ad(attrs, label, status)
-    ad = Advert.find_by_label(label)
+    ad = Advert.find_by(label: label)
     r = Request.new(attrs)
     assert_equal ad, main(attrs)
     assert_equal status, ad.constraints.satisfied?(r) if ad
