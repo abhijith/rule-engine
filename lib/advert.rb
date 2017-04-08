@@ -10,7 +10,6 @@ class Advert < Base
     @views       = 0
     @limit       = limit
     @constraints = nil
-    @limits      = []
     @start_date  = start_date
     @end_date    = end_date
   end
@@ -20,7 +19,7 @@ class Advert < Base
   end
 
   def expired?
-    not live?
+    not self.live?
   end
 
   def self.live
@@ -31,17 +30,19 @@ class Advert < Base
     self.all.select {|x| x.expired? }
   end
 
+  def limits
+    Limit.all.select {|l| l.ad_id == self.id }
+  end
+
   def limits=(limits)
     limits.each do |limit|
       RpmLogger.debug("associated limit #{limit.inspect} with #{self.to_h}")
       limit.ad_id = self.id
-      @limits << limit
     end
   end
 
   def fetch_limit(obj)
-    type = obj.class
-    self.limits.select {|l| self.id == l.ad_id and l.type == type and l.type_id == obj.id }.first
+    self.limits.select {|l| l.type == obj.class and l.type_id == obj.id }.first
   end
 
   def fetch_limits(objs)
