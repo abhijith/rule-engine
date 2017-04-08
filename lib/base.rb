@@ -1,20 +1,36 @@
 class Base
   attr_accessor :id
 
-  @@db = Hash.new {|h,k| h[k] = [] }
+  @@db = Hash.new {|h,k| h[k] = { coll: [], count: 0 } }
 
   def self.db
     @@db
   end
 
-  def self.rows
+  def self.empty
+    { coll: [], count: 0 }
+  end
+
+  def self.table
     self.instance_eval do
       self.db[self]
     end
   end
 
+  def self.table=(x)
+    self.instance_eval do
+      self.db[self] = x
+    end
+  end
+
+  def self.rows
+    self.instance_eval do
+      self.db[self][:coll]
+    end
+  end
+
   def self.rows=(x)
-    self.db[self] = x
+    self.db[self] = { coll: x, count: x.count }
   end
 
   def self.all
@@ -22,11 +38,19 @@ class Base
   end
 
   def self.count
-    self.all.count
+    self.instance_eval do
+      self.db[self][:count]
+    end
+  end
+
+  def self.count=(x)
+    self.instance_eval do
+      self.db[self][:count] = x
+    end
   end
 
   def self.destroy_all
-    self.rows = []
+    self.table = self.empty
   end
 
   def self.find(id)
@@ -41,13 +65,15 @@ class Base
   end
 
   def save
-    self.id = self.class.rows.count
+    self.id = self.class.count
     self.class.rows << self
+    self.class.count = self.class.count + 1
     self
   end
 
   def destroy
     self.class.rows.delete(self)
+    self.class.count = self.class.count - 1
   end
 
 end

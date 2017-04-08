@@ -6,13 +6,7 @@ class BaseTest < Test::Unit::TestCase
   Klasses = [Channel, Country, Category, Advert, Limit]
 
   def empty_db
-    {
-      Channel  => [],
-      Country  => [],
-      Limit    => [],
-      Advert   => [],
-      Category => []
-    }
+    Klasses.map {|klass| { klass => klass.empty } }.reduce(&:merge)
   end
 
   def setup
@@ -49,11 +43,11 @@ class BaseTest < Test::Unit::TestCase
     assert_equal 1, Country.count
 
     db = {
-      Channel  => [a],
-      Country  => [b],
-      Limit    => [],
-      Advert   => [],
-      Category => []
+      Channel  => {coll: [a], count: 1},
+      Country  => {coll: [b], count: 1},
+      Limit    => Limit.empty,
+      Advert   => Advert.empty,
+      Category => Category.empty
     }
     assert_equal db, Base.db
 
@@ -61,11 +55,11 @@ class BaseTest < Test::Unit::TestCase
     assert_equal 0, Channel.count
 
     db = {
-      Channel  => [],
-      Country  => [b],
-      Limit    => [],
-      Advert   => [],
-      Category => []
+      Channel  => Channel.empty,
+      Country  => {coll: [b], count: 1},
+      Limit    => Limit.empty,
+      Advert   => Advert.empty,
+      Category => Category.empty
     }
     assert_equal db, Base.db
 
@@ -76,16 +70,16 @@ class BaseTest < Test::Unit::TestCase
     a.save
     b.save
     db = {
-      Channel  => [a],
-      Country  => [b],
-      Limit    => [],
-      Advert   => [],
-      Category => []
+      Channel  => {coll: [a], count: 1},
+      Country  => {coll: [b], count: 1},
+      Limit    => Limit.empty,
+      Advert   => Advert.empty,
+      Category => Category.empty
     }
     assert_equal db, Base.db
 
-    Channel.rows = []
-    Country.rows = []
+    Channel.table = Channel.empty
+    Country.table = Country.empty
     assert_equal empty_db, Base.db
 
     a.save
@@ -93,9 +87,6 @@ class BaseTest < Test::Unit::TestCase
     a.destroy
     b.destroy
     assert_equal empty_db, Base.db
-
-    Channel.rows = []
-    Country.rows = []
   end
 
 end
