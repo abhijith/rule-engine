@@ -141,5 +141,8 @@ Entities:
     limit: 1000
     constraint: (and (== country "germany") (member? "travelling" categories))
   }
+
   Ad2.satisfied?(request) -> (and true true) => true
-curl -H "Content-Type: application/json" -X POST -d "{\"channel\":\"car-example.com\",\"country\":\"germany\",\"categories\":[\"cars\",\"gadgets\"]}" http://localhost:4567/match
+
+
+	curl -H "Content-Type: application/json" -X POST -d "{\"channel\":\"car-example.com\",\"country\":\"germany\",\"categories\":[\"cars\",\"gadgets\"]}" http://localhost:4567/match
