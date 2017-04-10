@@ -19,7 +19,7 @@
 
 * Advertisement get
 
-	- Lookups the id in the DB and returns an Advertisement with the specified id is found
+	- Looks up the id in the DB and returns an Advertisement if found
 
 #### Types / Classes
 

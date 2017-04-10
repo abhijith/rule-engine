@@ -1,6 +1,7 @@
 Entities:
 ---------
 ** Request
+
    * Description
      - Packet sent when a channel queries for an eligible Ad
 
@@ -10,6 +11,7 @@ Entities:
      - categories
 
 ** Channel
+
    * Description:
      - collection of channels
 
@@ -25,6 +27,7 @@ Entities:
      - has-one language
 
 ** Advert
+
    * Description:
      - collection of Ads
 
@@ -39,6 +42,7 @@ Entities:
      - has-one rule
 
 ** Category
+
    * Description:
      - collection of categories
      - tree structure and hence can represent hierarchies like sub-category
@@ -56,6 +60,7 @@ Entities:
      - has-many-and-belongs-to channel
 
 ** Country
+
    * Description:
      - collection of countries
 
@@ -67,6 +72,7 @@ Entities:
      - belongs-to channel
 
 ** Language
+
    * Description:
      - collection of languages
 
@@ -78,6 +84,7 @@ Entities:
     - belongs-to channel
 
 ** AdChannelLimit
+
    * Description:
      - collection of ad-to-channel view limit
 
@@ -92,6 +99,7 @@ Entities:
      - belongs-to channel
 
 ** AdCountryLimit
+
    * Description:
      - collection of ad-to-country view limit
 
@@ -107,6 +115,7 @@ Entities:
 
 
 ** Request
+
   {
     channel: "reddit.com"
     country: "germany"
@@ -114,6 +123,7 @@ Entities:
   }
 
 ** Ad1
+
   {
     label: "nike"
     country: "germany"
@@ -124,6 +134,7 @@ Entities:
   Ad1.satisifies?(request) -> (and true false) => false
 
 ** Ad2
+
   {
     label: "airbnb"
     country: "germany"
