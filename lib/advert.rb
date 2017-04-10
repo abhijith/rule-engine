@@ -54,7 +54,16 @@ class Advert < Base
   end
 
   def to_h
-    { label: label }
+    {
+      id:    id,
+      label: label,
+      views: views,
+      limit: limit,
+      start_date: start_date,
+      end_date: end_date,
+      constraints: constraints.to_h,
+      limits: limits.map(&:to_h)
+    }
   end
 
   def update_limits(objs)
