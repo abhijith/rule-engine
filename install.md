@@ -1,5 +1,7 @@
 #### Dependencies
 
+Tested with
+
 * Ruby 1.9.2 and greater
 * Bundler 1.14.x
 
@@ -16,14 +18,16 @@
 		$ cd rpm
 		$ bundle exec ruby rpm.rb # starts the webserver on port localhost:4567
 
+
 * Tests
 
 		$ cd rpm
 		$ bundle exec ruby tests/all.rb          # run all tests
 		$ bundle exec ruby tests/<name>_test.rb  # run specific-test
 
+
 * Logging
 
-  * LOG_LEVEL environment variable controls log level
-  * LOG_LEVEL set to INFO by default
-  * log file rpm/pineapple.log
+	* LOG_LEVEL environment variable controls log level
+	* LOG_LEVEL set to INFO by default
+	* log file rpm/pineapple.log

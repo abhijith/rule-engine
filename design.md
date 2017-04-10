@@ -59,13 +59,14 @@
 
 #### Extending
 
-** Adding a new type / class
+* Adding a new type / class
 
 	* New type added should inherit from `Base` type
 
 	* Should support label attribute
 
-** Ad Ranking design
+
+* Ad Ranking design
 
 	* Each comparator / operator is assigned a weightage.
 
