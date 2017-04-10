@@ -55,3 +55,24 @@
 	- POST
 	- Content-type: JSON
 	- Params:{ channel: "example.com",  preferences: ["pref1", "pref2"], country: "country1" }
+
+
+#### Extending
+
+** Adding a new type / class
+
+	* New type added should inherit from `Base` type
+
+	* Should support label attribute
+
+** Ad Ranking design
+
+	* Each comparator / operator is assigned a weightage.
+
+	* Each compound expression returns a score which is an aggregate of scores from simple expressions
+
+	* The above result can be mapped to a `Match` type / class which contains percentage matches.
+
+	* Ads which have higher percentage matches are picked in case more than one ad matches a request.
+
+	* For example, ad1 has 8/10 and ad2 has 9/10. ad2 is selected

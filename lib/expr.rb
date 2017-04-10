@@ -55,6 +55,7 @@ class Expr
     rule_val.send(operator, request_val)
   end
 
+  # Provides syntactic sugar for operators
   def self.define_operators(*methods)
     methods.each do |method_name|
       define_singleton_method(method_name) do |field, value|
