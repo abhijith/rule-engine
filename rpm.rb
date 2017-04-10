@@ -1,7 +1,7 @@
 require 'sinatra'
-require_relative 'lib/initializer'
 require_relative 'lib/rpm'
-require_relative 'lib/data'
+require_relative 'lib/initializer'
+require_relative 'test/data'
 
 def rescuing
   begin
