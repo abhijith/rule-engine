@@ -10,6 +10,7 @@ class Channel < Base
 
   def to_h
     {
+      id:    id,
       label: label,
       categories: categories.map(&:to_h)
     }
