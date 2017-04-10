@@ -7,4 +7,8 @@ class Country < Base
     @label = label
   end
 
+  def to_h
+    { id: id, label: label }
+  end
+
 end

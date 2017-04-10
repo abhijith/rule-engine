@@ -8,6 +8,14 @@ class Category < Base
     @parent_id = parent_id
   end
 
+  def to_h
+    {
+      id: id,
+      label: label,
+      parent_id: parent_id,
+    }
+  end
+
   def parent
     Category.find(self.parent_id) if self.parent_id
   end

@@ -13,6 +13,14 @@ class Limit < Base
     @limit   = value
   end
 
+  def to_h
+    {
+      limit: limit,
+      views: views,
+      obj: type_instance.to_h,
+    }
+  end
+
   def self.find_by(obj)
     super(type: obj.class, type_id: obj.id)
   end

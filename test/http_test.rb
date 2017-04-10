@@ -35,17 +35,21 @@ class HttpTest < Test::Unit::TestCase
     get '/ads/0'
     assert last_response.ok?
     res = JSON.parse(last_response.body)
-    assert_equal({ "label" => "volvo-s40" }, res)
+    assert_ad({ "label" => "volvo-s40" }, res)
 
     get '/ads/10'
     assert last_response.not_found?
     assert_equal "null", last_response.body
   end
 
-  def assert_match(req, status, ad = nil)
+  def assert_ad(expect, got)
+    expect.each_pair {|k, v| assert_equal(v, got[k]) }
+  end
+
+  def assert_match(req, status, expect = nil)
     post '/match', req.to_json
     assert last_response.send(status)
-    assert_equal(ad, JSON.parse(last_response.body)) if ad
+    assert_ad(expect, JSON.parse(last_response.body)) if expect
   end
 
   def test_match

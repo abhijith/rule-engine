@@ -8,4 +8,11 @@ class Channel < Base
     @categories = []
   end
 
+  def to_h
+    {
+      label: label,
+      categories: categories.map(&:to_h)
+    }
+  end
+
 end
