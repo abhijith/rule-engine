@@ -77,3 +77,5 @@
 	* Ads which have higher percentage matches are picked in case more than one ad matches a request.
 
 	* For example, ad1 has 8/10 and ad2 has 9/10. ad2 is selected
+
+* Allow looking up type by other attributes apart from label. Rule should be able to express this by using annotations.
