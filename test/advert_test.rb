@@ -118,7 +118,7 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal @food.class,    @l2.type
   end
 
-  def test_update_limits
+  def test_update_views
     @a1.save
     @a2.save
 
@@ -129,16 +129,16 @@ class AdvertTest < Test::Unit::TestCase
     assert_equal false, @a2.views_exceeded?([@germany])
     assert_equal false, @a1.views_exceeded?([@food])
 
-    @a1.update_limits([@germany])
-    @a2.update_limits([@germany])
-    @a1.update_limits([@food])
+    @a1.update_views([@germany])
+    @a2.update_views([@germany])
+    @a1.update_views([@food])
 
     assert_equal false, @a1.views_exceeded?([@germany])
     assert_equal false, @a2.views_exceeded?([@germany])
     assert_equal true,  @a1.views_exceeded?([@food])
 
-    @a1.update_limits([@germany])
-    @a2.update_limits([@germany])
+    @a1.update_views([@germany])
+    @a2.update_views([@germany])
 
     assert_equal true, @a1.views_exceeded?([@germany])
     assert_equal true, @a2.views_exceeded?([@germany])

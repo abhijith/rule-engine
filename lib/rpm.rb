@@ -17,7 +17,7 @@ def main(attrs)
   ad = ads.first
   if ad
     RpmLogger.debug("Updating limits for: #{ad.to_h}")
-    ad.update_limits(objs)
+    ad.update_views(objs)
     RpmLogger.debug("Limits updated: #{ad.to_h}")
   end
 
