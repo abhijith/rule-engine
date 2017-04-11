@@ -91,15 +91,15 @@ class ExprGroup
     vals.send(self.cond)
   end
 
-  # syntactic sugar
-  def self.any?(exprs)
-    ExprGroup.new(:any?, exprs)
-  end
-
-  def self.all?(exprs)
-    ExprGroup.new(:all?, exprs)
+  def self.define_operators(*methods)
+    methods.each do |method_name|
+      define_singleton_method(method_name) do |exprs|
+        ExprGroup.new(method_name, exprs)
+      end
+    end
   end
 
 end
 
 Expr.define_operators :==, :intersect?, :member?, :parent_of?, :isa?
+ExprGroup.define_operators :all?, :any?
