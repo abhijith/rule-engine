@@ -29,6 +29,7 @@
 * Advert
 * Limit
 * Expr
+* ExprGroup
 
 #### URLs exposed via the webserver
 
