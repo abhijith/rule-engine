@@ -24,6 +24,10 @@ def make_limits(channel: nil, country: nil)
   a + b
 end
 
+def make_ad(label)
+  Advert.new(label: label, start_date: DateTime.now - 1, end_date: DateTime.now + 1).save
+end
+
 def init_data
   countries = ["india", "germany", "sweden"]
   countries.each {|x| Country.new(label: x).save }
@@ -45,29 +49,29 @@ def init_data
     c.save
   end
 
-  volvo = Advert.new(label: "volvo-s40", start_date: DateTime.now - 1, end_date: DateTime.now + 1).save
+  volvo = make_ad("volvo-s40")
   volvo.limits = make_limits(channel: 2, country: 2)
-  volvo.constraints = ExprGroup.new(:all?, [Expr.==(:country, "sweden"),
-                                            Expr.==(:channel,"team-bhp.com"),
-                                            Expr.==(:preferences, ["cars"])])
+  volvo.constraints = ExprGroup.all?([Expr.==(:country, "sweden"),
+                                      Expr.==(:channel,"team-bhp.com"),
+                                      Expr.==(:preferences, ["cars"])])
 
-  bmw = Advert.new(label: "bmw-i8", start_date: DateTime.now - 1, end_date: DateTime.now + 1).save
+  bmw = make_ad("bmw-i8")
   bmw.limits = make_limits(channel: 2, country: 2)
-  bmw.constraints = ExprGroup.new(:all?, [Expr.==(:country, "germany"),
-                                          Expr.==(:channel, "team-bhp.com"),
-                                          Expr.parent_of?(:preferences, "cars")])
+  bmw.constraints = ExprGroup.all?([Expr.==(:country, "germany"),
+                                    Expr.==(:channel, "team-bhp.com"),
+                                    Expr.parent_of?(:preferences, "cars")])
 
-  masterchef = Advert.new(label: "master-chef", start_date: DateTime.now - 1, end_date: DateTime.now + 1).save
+  masterchef = make_ad("master-chef")
   masterchef.limits = make_limits(channel: 3, country: 3)
-  masterchef.constraints = ExprGroup.new(:all?, [Expr.member?(:country, ["germany", "sweden", "india"]),
-                                                 Expr.==(:channel, "trip-advisor.com"),
-                                                 Expr.intersect?(:preferences, ["food", "dosa", "travel"])])
+  masterchef.constraints = ExprGroup.all?([Expr.member?(:country, ["germany", "sweden", "india"]),
+                                           Expr.==(:channel, "trip-advisor.com"),
+                                           Expr.intersect?(:preferences, ["food", "dosa", "travel"])])
 
-  airberlin = Advert.new(label: "air-berlin", start_date: DateTime.now - 1, end_date: DateTime.now + 1).save
+  airberlin = make_ad("air-berlin")
   airberlin.limits = make_limits(channel: 3, country: 3)
-  expr = ExprGroup.new(:any?, [Expr.parent_of?(:preferences, "travel"),
-                               Expr.parent_of?(:categories,  "travel")])
-  airberlin.constraints = ExprGroup.new(:all?, [Expr.member?(:country, ["germany", "sweden"]),
-                                                Expr.==(:channel, "trip-advisor.com"),
-                                                expr])
+  expr = ExprGroup.any?([Expr.parent_of?(:preferences, "travel"),
+                         Expr.parent_of?(:categories,  "travel")])
+  airberlin.constraints = ExprGroup.all?([Expr.member?(:country, ["germany", "sweden"]),
+                                          Expr.==(:channel, "trip-advisor.com"),
+                                          expr])
 end

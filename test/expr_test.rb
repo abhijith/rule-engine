@@ -13,8 +13,8 @@ class ExprTest < Test::Unit::TestCase
     @expr6 = Expr.member?(:country, ["germany", "india"])
     @expr7 = Expr.parent_of?(:preferences, "automobiles")
 
-    @expr8 = ExprGroup.new(:all?, [Expr.==(:channel, "car-example.com"),
-                                   Expr.parent_of?(:categories, "automobiles")])
+    @expr8 = ExprGroup.all?([Expr.==(:channel, "car-example.com"),
+                             Expr.parent_of?(:categories, "automobiles")])
 
 
     @germany = Country.new(label: "germany").save
@@ -71,10 +71,10 @@ end
 class ExprGroupTest < ExprTest
 
   def test_satisfied?
-    @expr6 = ExprGroup.new(:any?, [@expr1, @expr2])
+    @expr6 = ExprGroup.any?([@expr1, @expr2])
     assert_equal true,  @expr6.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
 
-    @expr7 = ExprGroup.new(:all?, [@expr1, @expr2])
+    @expr7 = ExprGroup.all?([@expr1, @expr2])
     assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
   end
 
