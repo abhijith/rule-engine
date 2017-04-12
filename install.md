@@ -1,9 +1,7 @@
 #### Dependencies
 
-Tested with
-
-* Ruby 1.9.2 and greater
-* Bundler 1.14.x
+* Ruby
+* Bundler
 
 #### Cloning and installing the application
 
