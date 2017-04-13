@@ -1,11 +1,11 @@
 #### Dependencies
 
-* Ruby
-* Bundler
+* Ruby (tested with 1.9.x and greater)
+* Bundler (tested with 1.14.6)
 
 #### Cloning and installing the application
 
-	$ git clone ssh://git@bitbucket.org/abhijithg/rpm.git
+	$ git clone https://abhijithg@bitbucket.org/abhijithg/rpm.git
 	$ cd rpm
 	$ bundle install --path vendor/bundle
 
