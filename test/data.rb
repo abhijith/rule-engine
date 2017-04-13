@@ -97,7 +97,14 @@ def init_data
   coke.limit = 5
   coke.constraints = Expr.==(:channel, "reddit.com")
 
-  annoy = make_ad("catch-all-ad")
-  annoy.limit = 20
-  annoy.constraints = ExprGroup.true
+  # no conditions except ad-level limits
+  catch_all = make_ad("catch-all-ad")
+  catch_all.limit = 20
+  catch_all.constraints = ExprGroup.true
+
+  # expired
+  jogurt = make_ad("Jogurt")
+  jogurt.start_date  = DateTime.now - 10
+  jogurt.end_date    = DateTime.now - 1
+  jogurt.constraints = Expr.true
 end

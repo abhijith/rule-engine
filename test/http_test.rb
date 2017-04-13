@@ -31,13 +31,24 @@ class HttpTest < Test::Unit::TestCase
     assert_equal "true", last_response.body
   end
 
-  def test_ad
+  def test_ad_id
     get '/ads/0'
     assert last_response.ok?
     res = JSON.parse(last_response.body)
     assert_ad({ "label" => "volvo-s40" }, res)
 
     get '/ads/10'
+    assert last_response.not_found?
+    assert_equal "null", last_response.body
+  end
+
+  def test_ad_label
+    get '/ads/coke'
+    assert last_response.ok?
+    res = JSON.parse(last_response.body)
+    assert_ad({ "label" => "coke" }, res)
+
+    get '/ads/foo'
     assert last_response.not_found?
     assert_equal "null", last_response.body
   end

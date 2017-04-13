@@ -18,7 +18,7 @@ class RpmTest < Test::Unit::TestCase
   end
 
   def test_main
-    assert_equal 6,  Advert.count
+    assert_equal 7,  Advert.count
     assert_equal 3,  Country.count
     assert_equal 3,  Channel.count
     assert_equal 10, Category.count

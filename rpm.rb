@@ -36,14 +36,31 @@ get '/flush' do
   end
 end
 
-get '/ads/:id' do
+get %r{/ads/([\d]+)} do |id|
   rescuing do
-    RpmLogger.info("Looking for ad: #{params[:id]}")
-    ad = Advert.find(params[:id].to_i)
+    RpmLogger.info("Looking for ad: #{id}")
+    ad = Advert.find(id.to_i)
 
     if ad.nil?
       status 404
-      RpmLogger.info("Did not find ad with id: #{params[:id]}")
+      RpmLogger.info("Did not find ad with id: #{id}")
+      nil
+    else
+      RpmLogger.info("Found ad: #{ad.to_h}")
+      status 200
+      ad.to_h
+    end
+  end
+end
+
+get '/ads/:label' do
+  rescuing do
+    RpmLogger.info("Looking for ad: #{params[:label]}")
+    ad = Advert.find_by(label: params[:label])
+
+    if ad.nil?
+      status 404
+      RpmLogger.info("Did not find ad with label: #{params[:label]}")
       nil
     else
       RpmLogger.info("Found ad: #{ad.to_h}")
@@ -66,7 +83,7 @@ post '/ads/match' do
     rescue CountryNotFound, ChannelNotFound => e
       status 400
       RpmLogger.error(e.message)
-      e.message
+      nil
     end
   end
 end
