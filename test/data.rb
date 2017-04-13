@@ -97,7 +97,7 @@ def init_data
   coke.limit = 5
   coke.constraints = Expr.==(:channel, "reddit.com")
 
-  annoy = make_ad("annoy")
-  annoy.limit = 100
+  annoy = make_ad("catch-all-ad")
+  annoy.limit = 20
   annoy.constraints = ExprGroup.true
 end

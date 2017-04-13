@@ -59,7 +59,7 @@ class HttpTest < Test::Unit::TestCase
     assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
     assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "volvo-s40"   })
     # limit test
-    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "annoy" })
+    assert_match({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "catch-all-ad" })
 
     assert_match({channel: "team-bhp.com",     preferences: ["bmw"],  country: "germany" }, :ok?, { "label" => "bmw-i8"      })
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "india"   }, :ok?, { "label" => "master-chef" })
@@ -70,7 +70,7 @@ class HttpTest < Test::Unit::TestCase
     assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "air-berlin"  })
     assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "germany" }, :ok?, { "label" => "air-berlin"  })
     # limit test
-    assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, :ok?, { "label" => "annoy" })
+    assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, :ok?, { "label" => "catch-all-ad" })
   end
 
 end
