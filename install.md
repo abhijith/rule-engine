@@ -14,8 +14,8 @@
 * Starting the application
 
 		$ cd rpm
-		$ bundle exec ruby rpm.rb # starts the webserver on port localhost:4567
-
+		$ bundle exec ruby rpm.rb    # starts the webserver on port localhost:4567
+		$ curl http://localhost:4567 # initializes sample data
 
 * Tests
 
@@ -29,3 +29,5 @@
 	* LOG_LEVEL environment variable controls log level
 	* LOG_LEVEL set to INFO by default
 	* log file rpm/pineapple.log
+
+* [Design](design.md)

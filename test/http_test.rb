@@ -47,7 +47,7 @@ class HttpTest < Test::Unit::TestCase
   end
 
   def assert_match(req, status, expect = nil)
-    post '/match', req.to_json
+    post '/ads/match', req.to_json
     assert last_response.send(status)
     assert_ad(expect, JSON.parse(last_response.body)) if expect
   end

@@ -53,7 +53,7 @@ get '/ads/:id' do
   end
 end
 
-post '/match' do
+post '/ads/match' do
   rescuing do
 
     req = JSON.parse(request.body.read, symbolize_names: true)
