@@ -29,6 +29,23 @@ def make_ad(label)
 end
 
 def init_data
+  ##
+  #
+  # cars
+  #    |
+  #    `[bmw, volvo]
+  # travel
+  #      |
+  #      `airlines
+  #              |
+  #               `[air-berlin, air-india]
+  #      |
+  #      `food
+  #           |
+  #           `[dosa, meatballs]
+  #
+  ##
+
   countries = ["india", "germany", "sweden"]
   countries.each {|x| Country.new(label: x).save }
 
@@ -41,6 +58,7 @@ def init_data
   channels  = {
     "team-bhp.com"     => ["automobiles", "cars", "bikes"],
     "trip-advisor.com" => ["travel", "airlines", "food"],
+    "reddit.com"       => ["social", "news"],
   }
 
   channels.each_pair do |channel, categories|
@@ -74,4 +92,12 @@ def init_data
   airberlin.constraints = ExprGroup.all?([Expr.member?(:country, ["germany", "sweden"]),
                                           Expr.==(:channel, "trip-advisor.com"),
                                           expr])
+
+  coke = make_ad("coke")
+  coke.limit = 5
+  coke.constraints = Expr.==(:channel, "reddit.com")
+
+  annoy = make_ad("annoy")
+  annoy.limit = 100
+  annoy.constraints = ExprGroup.true
 end

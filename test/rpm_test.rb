@@ -14,13 +14,13 @@ class RpmTest < Test::Unit::TestCase
     ad = Advert.find_by(label: label)
     r = Request.new(attrs)
     assert_equal ad, main(attrs)
-    assert_equal status, ad.constraints.satisfied?(r) if ad
+    assert_equal status, ad.constraints.satisfied?(r)
   end
 
   def test_main
-    assert_equal 4,  Advert.count
+    assert_equal 6,  Advert.count
     assert_equal 3,  Country.count
-    assert_equal 2,  Channel.count
+    assert_equal 3,  Channel.count
     assert_equal 10, Category.count
 
     assert_ad({channel: "team-bhp.com",     preferences: ["cars"], country: "sweden"  }, "volvo-s40",   true)
@@ -30,7 +30,15 @@ class RpmTest < Test::Unit::TestCase
     assert_ad({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"  }, "master-chef", true)
     assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"  }, "air-berlin",  true)
     assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "germany" }, "air-berlin",  true)
-    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, "spurious",    false)
+    assert_ad({channel: "trip-advisor.com", preferences: ["cars"], country: "india"   }, "annoy",       true)
+
+    # 1.upto(5).each do
+    #   assert_ad({ channel: "reddit.com", preferences: [Category.all[rand(9)].label], country: Country.all[rand(2)].label }, "coke", true)
+    # end
+
+    # attrs = { channel: "reddit.com", preferences: [Category.all[rand(9)].label], country: Country.all[rand(2)].label }
+    # assert_equal Advert.all[-1], main(attrs)
+    # assert_equal true, ad.constraints.satisfied?(Request.new(attrs))
   end
 
 end
