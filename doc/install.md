@@ -30,4 +30,4 @@
 	* LOG_LEVEL set to INFO by default
 	* log file rpm/pineapple.log
 
-* [Design](design.md)
+* [Design](doc/design.md)
