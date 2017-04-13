@@ -66,6 +66,17 @@ class ExprTest < Test::Unit::TestCase
 
   end
 
+  def test_empty?
+    assert_equal false, @expr1.empty?
+    assert_equal true, Expr.new.empty?
+  end
+
+  def test_true
+    r = Request.new(channel: "car-example.com", preferences: ["bmw"], country: "germany")
+    assert_equal true, Expr.true.satisfied?(r)
+    assert_equal true, Expr.true.satisfied?(Request.new)
+  end
+
 end
 
 class ExprGroupTest < ExprTest
@@ -76,9 +87,21 @@ class ExprGroupTest < ExprTest
 
     @expr7 = ExprGroup.all?([@expr1, @expr2])
     assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
+    assert_equal false, @expr7.satisfied?(Request.new)
 
-    @expr7 = ExprGroup.all?([])
-    assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: [], country: "germany"))
+    @expr8 = ExprGroup.all?([])
+    assert_equal true,  @expr8.satisfied?(Request.new(channel: "car-example.com", preferences: [], country: "germany"))
+    assert_equal true,  @expr8.satisfied?(Request.new)
+  end
+
+  def test_empty?
+    assert_equal false, @expr6.empty?
+    assert_equal true, ExprGroup.new.empty?
+  end
+
+  def test_true
+    assert_equal true, ExprGroup.true.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
+    assert_equal true, ExprGroup.true.satisfied?(Request.new)
   end
 
 end

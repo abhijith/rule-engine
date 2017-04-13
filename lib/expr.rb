@@ -15,11 +15,19 @@ class Expr
     @operator = operator
     @value    = value
 
-    if FieldToType.has_key?(field)
-      @type = FieldToType[field]
-    else
-      raise InvalidField.new "Invalid field #{field} in rule: #{self.to_h}"
+    return self if self.empty?
+
+    if field
+      if FieldToType.has_key?(field)
+        @type = FieldToType[field]
+      else
+        raise InvalidField.new "Invalid field #{field} in rule: #{self.to_h}"
+      end
     end
+  end
+
+  def empty?
+    [field, operator, value].all? {|x| x.nil? }
   end
 
   def to_h
@@ -34,6 +42,8 @@ class Expr
   end
 
   def satisfied?(request, debug = false)
+    return true if self.empty?
+
     request_val = request.send(field)
 
     if value.is_a? Array
@@ -64,12 +74,16 @@ class Expr
     end
   end
 
+  def self.true
+    Expr.new
+  end
+
 end
 
 class ExprGroup
   attr_accessor :cond, :exprs
 
-  def initialize(c, r = [])
+  def initialize(c = nil, r = [])
     @cond  = c
     @exprs = r
   end
@@ -84,6 +98,8 @@ class ExprGroup
   end
 
   def satisfied?(request, debug = false)
+    return true if self.empty?
+
     res  = self.exprs.map {|rule| { expr: rule.to_h, val: rule.satisfied?(request, debug) } }
     vals = res.map {|x| x[:val] }
     RpmLogger.info(res)
@@ -97,6 +113,14 @@ class ExprGroup
         ExprGroup.new(method_name, exprs)
       end
     end
+  end
+
+  def empty?
+    @exprs.empty?
+  end
+
+  def self.true
+    self.new
   end
 
 end
