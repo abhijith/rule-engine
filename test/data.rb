@@ -59,7 +59,7 @@ def init_data
   bmw.limits = make_limits(channel: 2, country: 2)
   bmw.constraints = ExprGroup.all?([Expr.==(:country, "germany"),
                                     Expr.==(:channel, "team-bhp.com"),
-                                    Expr.parent_of?(:preferences, "cars")])
+                                    Expr.ancestor_to?(:preferences, "cars")])
 
   masterchef = make_ad("master-chef")
   masterchef.limits = make_limits(channel: 3, country: 3)
@@ -69,8 +69,8 @@ def init_data
 
   airberlin = make_ad("air-berlin")
   airberlin.limits = make_limits(channel: 3, country: 3)
-  expr = ExprGroup.any?([Expr.parent_of?(:preferences, "travel"),
-                         Expr.parent_of?(:categories,  "travel")])
+  expr = ExprGroup.any?([Expr.ancestor_to?(:preferences, "travel"),
+                         Expr.ancestor_to?(:categories,  "travel")])
   airberlin.constraints = ExprGroup.all?([Expr.member?(:country, ["germany", "sweden"]),
                                           Expr.==(:channel, "trip-advisor.com"),
                                           expr])

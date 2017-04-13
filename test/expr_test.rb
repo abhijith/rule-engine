@@ -11,10 +11,10 @@ class ExprTest < Test::Unit::TestCase
     @expr4 = Expr.intersect?(:preferences, ["automobiles"])
     @expr5 = Expr.member?(:channel, ["car-example.com", "food-example.com"])
     @expr6 = Expr.member?(:country, ["germany", "india"])
-    @expr7 = Expr.parent_of?(:preferences, "automobiles")
+    @expr7 = Expr.ancestor_to?(:preferences, "automobiles")
 
     @expr8 = ExprGroup.all?([Expr.==(:channel, "car-example.com"),
-                             Expr.parent_of?(:categories, "automobiles")])
+                             Expr.ancestor_to?(:categories, "automobiles")])
 
 
     @germany = Country.new(label: "germany").save
@@ -57,7 +57,7 @@ class ExprTest < Test::Unit::TestCase
     assert_equal true, @expr8.satisfied?(r)
 
     assert_raises InvalidField do
-      Expr.parent_of?(:cat, "automobiles").satisfied?(r)
+      Expr.ancestor_to?(:cat, "automobiles").satisfied?(r)
     end
 
     assert_raises InvalidOperator do
@@ -76,6 +76,9 @@ class ExprGroupTest < ExprTest
 
     @expr7 = ExprGroup.all?([@expr1, @expr2])
     assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: ["cars"], country: "germany"))
+
+    @expr7 = ExprGroup.all?([])
+    assert_equal true,  @expr7.satisfied?(Request.new(channel: "car-example.com", preferences: [], country: "germany"))
   end
 
 end

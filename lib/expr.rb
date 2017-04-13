@@ -101,5 +101,5 @@ class ExprGroup
 
 end
 
-Expr.define_operators :==, :intersect?, :member?, :parent_of?, :isa?
+Expr.define_operators :==, :intersect?, :member?, :ancestor_to?, :isa?
 ExprGroup.define_operators :all?, :any?

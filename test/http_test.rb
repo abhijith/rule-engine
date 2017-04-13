@@ -66,7 +66,7 @@ class HttpTest < Test::Unit::TestCase
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "germany" }, :ok?, { "label" => "master-chef" })
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"  }, :ok?, { "label" => "master-chef" })
     assert_match({channel: "trip-advisor.com", preferences: ["food"], country: "sweden"  }, :ok?, { "label" => "air-berlin" })
-
+    # limit test
     assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "sweden"  }, :ok?, { "label" => "air-berlin"  })
     assert_match({channel: "trip-advisor.com", preferences: ["cars"], country: "germany" }, :ok?, { "label" => "air-berlin"  })
     # limit test

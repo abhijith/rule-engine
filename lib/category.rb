@@ -44,8 +44,8 @@ class Category < Base
     end
   end
 
-  def parent_of?(o)
-    not (self.descendants & o).empty?
+  def ancestor_to?(xs)
+    not (self.descendants & xs).empty?
   end
 
 end

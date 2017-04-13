@@ -59,7 +59,7 @@ class CategoryTest < Test::Unit::TestCase
     assert_equal @cars.children, [@bmw, @audi]
   end
 
-  def test_descendants
+  def setup_descendants
     [@root, @cars, @bmw, @chinese, @audi, @cuisine, @indian].map(&:save)
     assert_equal [], @cars.descendants
 
@@ -71,9 +71,17 @@ class CategoryTest < Test::Unit::TestCase
 
     @cuisine.add_child(@chinese)
     @cuisine.add_child(@indian)
+  end
 
+  def test_descendants
+    setup_descendants
     assert_equal [:bmw, :audi], @cars.descendants.map(&:label)
     assert_equal [:cars, :bmw, :audi, :cuisine, :chinese, :indian], @root.descendants.map(&:label)
+  end
+
+  def test_ancestor_to?
+    setup_descendants
+    assert_equal true, @root.ancestor_to?([@indian])
   end
 
   def test_ancestors
