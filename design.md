@@ -33,11 +33,11 @@
 
 #### URLs exposed via the webserver
 
-|url | type | params | desc |
------|------|--------|----------
-| /       | GET  | None | Initializes sample data
-| /flush  | GET  | None | Clears the sample data
-|/ads/:id | GET  | id   | Gets the advertisement matching the id
+|url      | type | params | desc     |
+|:-------:|:----:|:------:|:--------:|
+| /       | GET  | None   | Initializes sample data
+| /flush  | GET  | None   | Clears the sample data
+|/ads/:id | GET  | id     | Gets the advertisement matching the id
 | /match  | POST | { channel: "example.com",  preferences: ["pref1", "pref2"], country: "country1" } | returns a matching ad (if any)
 
 
